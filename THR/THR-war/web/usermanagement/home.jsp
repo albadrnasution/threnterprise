@@ -7,3 +7,4 @@
 
         <h1>Hello World!</h1>
         <a href="?menu=liststaff">staff</a><br />
+        <a href="?menu=listcustomer">customer</a><br />

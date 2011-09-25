@@ -41,7 +41,7 @@
         c = t.getallCustomer();
         c.size();
         %>
-        <%@include file="ListStaffPage.jsp" %>
+        <%@include file="ListCustomerPage.jsp" %>
         <% } 
         // add staff menu
                else if(request.getParameter("menu").equals("addstaff")) {
@@ -49,6 +49,12 @@
         %>
         <%@include file="staffForm.jsp" %>
         <% }
+        else if(request.getParameter("menu").equals("addcustomer")) {
+               
+        %>
+        <%@include file="customerForm.jsp" %>
+        <% }
+        
         // proses add staff
         else if(request.getParameter("menu").equals("addstaffprocess"))
        {
@@ -68,6 +74,28 @@
             String redirectURL = "UserController.jsp?menu=liststaff";
             response.sendRedirect(redirectURL);
         }
+        
+        else if(request.getParameter("menu").equals("addcustomerprocess"))
+       {
+            
+            EmailHandler em = new EmailHandler();
+            String passmd5 = em.getStringMD5(request.getParameter("password"));
+            Customer customer =new Customer();
+            customer.setFirst_name(request.getParameter("first_name"));
+            customer.setLast_name(request.getParameter("last_name"));
+            customer.setAddress(request.getParameter("address"));
+            customer.setPhone(request.getParameter("phone"));
+            customer.setPassword(passmd5);
+            customer.setEmail(request.getParameter("email"));
+            customer.setPlace_of_birth(request.getParameter("place_of_birth"));
+            customer.setDate_of_birth2(request.getParameter("date_of_birth"));
+            customer.addCustomer();
+            //String res = customer.addCustomer();
+            //out.print(res);
+            String redirectURL = "UserController.jsp?menu=listcustomer";
+            response.sendRedirect(redirectURL);
+        }
+        
         else if(request.getParameter("menu").equals("deletestaff"))
        {
             Staff staff =new Staff();
