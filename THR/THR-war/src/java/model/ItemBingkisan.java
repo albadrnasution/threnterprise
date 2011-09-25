@@ -1,5 +1,9 @@
 package model;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import util.Database;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -55,6 +59,42 @@ public class ItemBingkisan {
     public void setName(String name) {
         this.name = name;
     }
-    
+    public ArrayList<ItemBingkisan> getItemB(String idp){
+        Database db = new Database();
+        ResultSet rs;
+        ArrayList<ItemBingkisan> temp = new ArrayList<ItemBingkisan>();
+        String sql;
+        try{
+            sql="SELECT item_bingkisan.idi, item_bingkisan.name, item_bingkisan.description, "
+                    + "item_bingkisan.basic_price, item_bingkisan.id_tempe, ip_bingkisan.nitem "
+                    + "FROM paket_bingkisan JOIN ip_bingkisan JOIN item_bingkisan ON paket_bingkisan.idp = "+ idp
+                    + " AND item_bingkisan.idi = ip_bingkisan.idi AND ip_bingkisan.idp = paket_bingkisan.idp";
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                ItemBingkisan pb = new ItemBingkisan();
+                pb.setIdi(rs.getInt("idi"));
+                pb.setName(rs.getString("name"));
+                pb.setDescription(rs.getString("description"));
+                pb.setBasic_price(rs.getInt("basic_price"));
+                pb.setId_tempe(rs.getInt("id_tempe"));
+                temp.add(pb);
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return temp ;
+    }
+    public static void main(String[] args) {
+        ItemBingkisan pj = new ItemBingkisan();
+        ArrayList<ItemBingkisan> apj = new ArrayList<ItemBingkisan>();
+        apj = pj.getItemB("2");
+        
+        for(int i=0;i<apj.size();++i){
+            System.out.println(apj.get(i).getName());
+        }
+    }
     
 }

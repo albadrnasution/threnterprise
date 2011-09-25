@@ -11,19 +11,22 @@ package model;
  */
 
 public class Moda {
-    public static final String  BUS = "BUS";
-    public static final String MOBIL = "MOBIL";
-    public static final String KERETA_API = "KERETA API";
-    public static final String KAPAL = "KAPAL";
-    public static final String PESAWAT = "PESAWAT";
+    public static final String  BUS = "bus";
+    public static final String MOBIL = "mobil";
+    public static final String KERETA_API = "kereta api";
+    public static final String KAPAL = "kapal";
+    public static final String PESAWAT = "pesawat";
     private String value;
 
    public Moda(String value){
-        if(value == "BUS" || value == "MOBIL" || value == "KERETA API" || value == "KAPAL" || value =="PESAWAT"){
+        if(value == "bus" || value == "mobil" || value == "kereta api" || value == "kapal" || value =="pesawat"){
             this.value = value;
         }else{
             this.value = "";
         }
+    }
+
+    Moda() {
     }
 
     public String getValue() {

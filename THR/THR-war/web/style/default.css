@@ -1,0 +1,41 @@
+/* 
+    Document   : default
+    Created on : Sep 25, 2011, 10:57:01 PM
+    Author     : Didik
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+    margin-left: 100px;
+}
+
+h1{
+    text-align: center;
+    text-decoration: underline;
+}
+
+.catalog {
+    float: left;
+    width: 500px;
+    font-family: tahoma;
+    margin-top: 50px;
+}
+
+#item{
+    margin-left: 100px;
+}
+
+#atr{
+    margin-top: 5px;
+    font-weight: bold;
+    font-family: fantasy;
+}
+
+
