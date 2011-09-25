@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.Database;
+import util.EmailHandler;
 
 /*
  * To change this template, choose Tools | Templates
@@ -27,6 +28,15 @@ public class Customer {
     private String email;
     private String place_of_birth;
     private Date date_of_birth;
+    private String date_of_birth2;
+
+    public String getDate_of_birth2() {
+        return date_of_birth2;
+    }
+
+    public void setDate_of_birth2(String date_of_birth2) {
+        this.date_of_birth2 = date_of_birth2;
+    }
 
     public String getAddress() {
         return address;
@@ -140,6 +150,8 @@ public class Customer {
                 c.setDate_of_birth(rs.getDate("date_of_birth"));
                 c.setPlace_of_birth(rs.getString("place_of_birth"));
                 c.setPhone(rs.getString("phone"));
+                c.setEmail(rs.getString("email"));
+                c.setPassword(rs.getString("password"));
                 temp.add(c);
             }
         }catch(Exception e){
@@ -156,4 +168,44 @@ public class Customer {
         Database.setConnection();
         Database.updatingQuery(sql);
     }
+    
+    public String addCustomer()
+    {
+        Database db = new Database();
+        EmailHandler em = new EmailHandler();
+        String sql = null;
+        try{
+            sql="INSERT INTO customer (first_name,last_name,address,phone,email,place_of_birth,date_of_birth,password) VALUES "
+                    + "('"+this.getFirst_name()+"','"+this.getLast_name()+"'" + ",'"+this.getAddress()+"','"
+                    + this.getPhone() +"','"+this.getEmail()+"','"+this.getPlace_of_birth()+
+                    "','"+this.getDate_of_birth2()+"','"+this.getPassword()+"')";
+            db.setConnection();
+            db.updatingQuery(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            db.unsetConnection();
+        }
+        return sql;
+    }
+    
+    public String deleteCustomer(String idc)
+    {
+        Database db = new Database();
+        String sql = null;
+        try{
+            sql="DELETE FROM staff WHERE ids="+idc;
+            db.setConnection();
+            db.updatingQuery(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            db.unsetConnection();
+        }
+        return sql;
+    }
+    
+    
 }
