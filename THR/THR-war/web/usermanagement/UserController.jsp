@@ -4,6 +4,7 @@
     Author     : user
 --%>
 
+<%@page import="model.Customer"%>
 <%@page import="util.EmailHandler"%>
 <%@page import="model.Privilege"%>
 <%@page import="java.util.ArrayList"%>
@@ -25,11 +26,20 @@
         // list staff menu
                else if(request.getParameter("menu").equals("liststaff"))
                        {
-        String a = "halo";
         ArrayList<Staff> s =new ArrayList<Staff>();
         Staff t =new Staff();
         s = t.getallStaff();
         s.size();
+        %>
+        <%@include file="ListStaffPage.jsp" %>
+        <% } 
+        // list customer menu
+               else if(request.getParameter("menu").equals("listcustomer"))
+                       {
+        ArrayList<Customer> c =new ArrayList<Customer>();
+        Customer t =new Customer();
+        c = t.getallCustomer();
+        c.size();
         %>
         <%@include file="ListStaffPage.jsp" %>
         <% } 
