@@ -17,7 +17,7 @@ public class Privilege {
     private String value;
 
    public Privilege(String value){
-        if(value == "MANAGER" || value == "ADMIN" || value == "OFFICER"){
+        if(value.equalsIgnoreCase("MANAGER") || value.equalsIgnoreCase("ADMIN") || value.equalsIgnoreCase("OFFICER")){
             this.value = value;
         }else{
             this.value = "";
