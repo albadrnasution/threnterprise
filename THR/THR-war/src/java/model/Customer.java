@@ -2,6 +2,7 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -119,6 +120,35 @@ public class Customer {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return c;
+    }
+    
+    public ArrayList<Customer> getallCustomer(){
+        Database db = new Database();
+        ResultSet rs;
+        ArrayList<Customer> temp =new ArrayList<Customer>();
+        String sql;
+        try{
+            sql="SELECT * FROM customer";
+            db.setConnection();
+            rs = db.executingQuery(sql) ;
+            while (rs.next()) {
+                Customer c = new Customer();
+                c.setIdc(rs.getInt("idc"));
+                c.setFirst_name(rs.getString("first_name"));
+                c.setLast_name(rs.getString("last_name"));
+                c.setAddress(rs.getString("address"));
+                c.setDate_of_birth(rs.getDate("date_of_birth"));
+                c.setPlace_of_birth(rs.getString("place_of_birth"));
+                c.setPhone(rs.getString("phone"));
+                temp.add(c);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            db.unsetConnection();
+        }
+        return temp ;
     }
     
     public static void insertCustomer(String first_name, String last_name, String email, String Password){
