@@ -8,19 +8,37 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@page import="model.City" %>
-        <%
-        City c = new City();
-        out.print(c.getCity().get(0).getName());
-        out.print(c.getCity().get(1).getName());
-        %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Welcome to THR</title>
     </head>
-    <body>
-        <h1>Hello World!</h1>
+    <body style="margin-left: 20px;">
+        <h1>Home</h1>
         <a href="<%= request.getContextPath() %>/MelihatP/PerjalanPage.jsp">Daftar Paket Perjalan</a>
+        <br />
         <a href="<%= request.getContextPath() %>/MelihatB/BingkisanPage.jsp">Daftar Paket Bingkisan</a>
-        <a href="<%= request.getContextPath() %>/Registerasi/registerasi.jsp">Registerasi</a>
+        <form action="../login" method="POST" style="margin-top: 20px;">
+            <table border="0">
+                <tbody>
+                    <tr>
+                        <td colspan="2">Have an account?</td>
+                    </tr>
+                    <tr>
+                        <td>Email </td>
+                        <td> <input type="text" name="email" value="" /> </td>
+                        </tr>
+                    <tr>
+                        <td>Password </td>
+                        <td> <input type="password" name="password" value="" /> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"> <input type="submit" value="Login" name="login" /> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Don't have an account? <a href="<%= request.getContextPath() %>/Registerasi/registerasi.jsp">Register</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </form>
     </body>
 </html>
