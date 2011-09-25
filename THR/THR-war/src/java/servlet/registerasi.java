@@ -6,12 +6,18 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Customer;
+import util.EmailHandler;
 
 /**
  *
@@ -32,16 +38,29 @@ public class registerasi extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            String first_name = request.getParameter("first_name");
+            String last_name = request.getParameter("last_name");
+            String email = request.getParameter("email");
             // TODO output your page here
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet registerasi</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet registerasi at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
+            if (first_name.equals("") || last_name.equals("") || email.equals("")) {
+                response.sendRedirect("Registerasi/registerasi.jsp");
+            } else {
+                EmailHandler eh = new EmailHandler();
+                try {
+                    String pass = eh.sendFirstPassword(email, first_name + " " + last_name);
+                    Customer.insertCustomer(first_name, last_name, email, pass);
+                    out.println("<html>");
+                    out.println("<body>Registeration was sucessful and your password has been sent to your email.</body>");
+                    out.println("</html>");
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(registerasi.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MessagingException ex) {
+                    Logger.getLogger(registerasi.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedEncodingException ex) {
+                    Logger.getLogger(registerasi.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } finally {
             out.close();
         }
     }
