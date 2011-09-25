@@ -1,6 +1,12 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import util.Database;
 
 /*
  * To change this template, choose Tools | Templates
@@ -94,5 +100,26 @@ public class Customer {
         this.place_of_birth = place_of_birth;
     }
    
-   
+    public Customer getCustomer(int idc){
+        Database db = new Database();
+        ResultSet rs;
+        Customer c = new Customer();
+        String Sql;
+        Sql="SELECT * FROM customer WHERE idc='"+idc+"'";
+        db.setConnection();
+        rs = db.executingQuery(Sql);
+        try {
+            while(rs.next()){
+                c.setFirst_name(rs.getString("first_name"));
+                c.setLast_name(rs.getString("last_name"));
+                c.setAddress(rs.getString("address"));
+                c.setDate_of_birth(rs.getDate("date_of_birth"));
+                c.setPlace_of_birth(rs.getString("place_of_birth"));
+                c.setPhone(rs.getString("phone"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return c;
+    }
 }
