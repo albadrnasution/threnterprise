@@ -119,7 +119,7 @@ public class EmailHandler {
                 + "Email : " + recipient + "\n"
                 + "Pasword : " + password + "\n\n";
         postMail(recipient, Subject, message);
-        return password;
+        return getStringMD5(password);
     }
     
     public static void main(String[] args) throws NoSuchAlgorithmException, MessagingException, UnsupportedEncodingException {
