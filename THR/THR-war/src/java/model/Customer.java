@@ -2,7 +2,6 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,13 +100,12 @@ public class Customer {
     }
    
     public Customer getCustomer(int idc){
-        Database db = new Database();
         ResultSet rs;
         Customer c = new Customer();
         String Sql;
         Sql="SELECT * FROM customer WHERE idc='"+idc+"'";
-        db.setConnection();
-        rs = db.executingQuery(Sql);
+        Database.setConnection();
+        rs = Database.executingQuery(Sql);
         try {
             while(rs.next()){
                 c.setFirst_name(rs.getString("first_name"));
@@ -121,5 +119,11 @@ public class Customer {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return c;
+    }
+    
+    public static void insertCustomer(String first_name, String last_name, String email, String Password){
+        String sql = "INSERT INTO customer(`first_name`,`last_name`,`email`,`password`) VALUES('"+first_name+"','"+last_name+"','"+email+"','"+Password+"')";
+        Database.setConnection();
+        Database.updatingQuery(sql);
     }
 }
