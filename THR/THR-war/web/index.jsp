@@ -13,9 +13,8 @@
     </head>
     <body style="margin-left: 20px;">
         <h1>Home</h1>
-        <a href="<%= request.getContextPath() %>/MelihatP/PerjalanPage.jsp">Daftar Paket Perjalan</a>
-        <br />
-        <a href="<%= request.getContextPath() %>/MelihatB/BingkisanPage.jsp">Daftar Paket Bingkisan</a>
+        <a href="<%= request.getContextPath() %>/paketPerjalanan/daftarPaketPerjalanan.jsp">Daftar Paket Perjalan</a>
+        <a href="<%= request.getContextPath() %>/paketBingkisan/daftarPaketBingkisan.jsp">Daftar Paket Bingkisan</a>
         <form action="../login" method="POST" style="margin-top: 20px;">
             <table border="0">
                 <tbody>
