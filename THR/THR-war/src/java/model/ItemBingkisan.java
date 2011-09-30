@@ -59,13 +59,13 @@ public class ItemBingkisan {
     public void setName(String name) {
         this.name = name;
     }
-    public ArrayList<ItemBingkisan> getItemB(String idp){
+    public ArrayList<ItemBingkisan> getItem(String idp){
         Database db = new Database();
         ResultSet rs;
         ArrayList<ItemBingkisan> temp = new ArrayList<ItemBingkisan>();
         String sql;
         try{
-            sql="SELECT item_bingkisan.idi, item_bingkisan.name, item_bingkisan.description, "
+            sql="SELECT distinct item_bingkisan.idi, item_bingkisan.name, item_bingkisan.description, "
                     + "item_bingkisan.basic_price, item_bingkisan.id_tempe, ip_bingkisan.nitem "
                     + "FROM paket_bingkisan JOIN ip_bingkisan JOIN item_bingkisan ON paket_bingkisan.idp = "+ idp
                     + " AND item_bingkisan.idi = ip_bingkisan.idi AND ip_bingkisan.idp = paket_bingkisan.idp";
@@ -90,7 +90,7 @@ public class ItemBingkisan {
     public static void main(String[] args) {
         ItemBingkisan pj = new ItemBingkisan();
         ArrayList<ItemBingkisan> apj = new ArrayList<ItemBingkisan>();
-        apj = pj.getItemB("2");
+        apj = pj.getItem("3");
         
         for(int i=0;i<apj.size();++i){
             System.out.println(apj.get(i).getName());
