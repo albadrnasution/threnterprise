@@ -176,9 +176,13 @@ public class Customer {
         String sql = null;
         try{
             sql="INSERT INTO customer (first_name,last_name,address,phone,email,place_of_birth,date_of_birth,password) VALUES "
-                    + "('"+this.getFirst_name()+"','"+this.getLast_name()+"'" + ",'"+this.getAddress()+"','"
+                    + "('aa','las','add','phon','emil','pla','00-00-0000','asd')";
+                    
+                    
+                    
+                    /*+ "('"+this.getFirst_name()+"','"+this.getLast_name()+"'" + ",'"+this.getAddress()+"','"
                     + this.getPhone() +"','"+this.getEmail()+"','"+this.getPlace_of_birth()+
-                    "','"+this.getDate_of_birth2()+"','"+this.getPassword()+"')";
+                    "','"+this.getDate_of_birth2()+"','"+this.getPassword()+"')";*/
             db.setConnection();
             db.updatingQuery(sql);
         }catch(Exception e){
@@ -195,7 +199,7 @@ public class Customer {
         Database db = new Database();
         String sql = null;
         try{
-            sql="DELETE FROM staff WHERE ids="+idc;
+            sql="DELETE FROM customer WHERE idc="+idc;
             db.setConnection();
             db.updatingQuery(sql);
         }catch(Exception e){
