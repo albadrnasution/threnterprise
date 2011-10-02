@@ -40,6 +40,7 @@
         Customer t =new Customer();
         c = t.getallCustomer();
         c.size();
+        out.print(c.size());
         %>
         <%@include file="ListCustomerPage.jsp" %>
         <% } 
@@ -77,7 +78,7 @@
         
         else if(request.getParameter("menu").equals("addcustomerprocess"))
        {
-            
+            out.print(request.getParameter("menu"));
             EmailHandler em = new EmailHandler();
             String passmd5 = em.getStringMD5(request.getParameter("password"));
             Customer customer =new Customer();
@@ -89,11 +90,11 @@
             customer.setEmail(request.getParameter("email"));
             customer.setPlace_of_birth(request.getParameter("place_of_birth"));
             customer.setDate_of_birth2(request.getParameter("date_of_birth"));
-            customer.addCustomer();
-            //String res = customer.addCustomer();
-            //out.print(res);
-            String redirectURL = "UserController.jsp?menu=listcustomer";
-            response.sendRedirect(redirectURL);
+            //customer.addCustomer();
+            String res = customer.addCustomer();
+            out.print(res);
+            //String redirectURL = "UserController.jsp?menu=listcustomer";
+            //response.sendRedirect(redirectURL);
         }
         
         else if(request.getParameter("menu").equals("deletestaff"))
@@ -102,6 +103,16 @@
             staff.deleteStaff(request.getParameter("ids"));
             String redirectURL = "UserController.jsp?menu=liststaff";
             response.sendRedirect(redirectURL);
+        }
+        
+        else if(request.getParameter("menu").equals("deletecustomer"))
+       {
+            //out.print(request.getParameter("menu"));
+            Customer customer =new Customer();
+            String res = customer.deleteCustomer(request.getParameter("idc"));
+            out.print(res);
+            //String redirectURL = "UserController.jsp?menu=listcustomer";
+            //response.sendRedirect(redirectURL);
         }
         %>
         

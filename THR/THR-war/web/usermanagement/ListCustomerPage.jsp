@@ -33,7 +33,7 @@
             <td><% out.print(customer.getEmail()); %></td>
             <td><% out.print(customer.getPlace_of_birth()); %></td>
             <td><% out.print(customer.getDate_of_birth()); %></td>
-            <td><a href="?menu=deletecustomer&&ids=<% out.print(customer.getIdc());%>">delete</a></td>
+            <td><a href="?menu=deletecustomer&&idc=<% out.print(customer.getIdc());%>">delete</a></td>
             </tr>
             <% } %>
 </table>
