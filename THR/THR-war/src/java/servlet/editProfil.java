@@ -86,7 +86,9 @@ public class editProfil extends HttpServlet {
                 }*/
             }
             db.updatingQuery(sql);
-            response.sendRedirect("editProfile/editProfilPage.jsp?i=1");
+            //String s="success";
+            //request.setAttribute("sa", s);
+            response.sendRedirect("editProfile/editProfilPage.jsp");
             /*out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet editProfil</title>");  
