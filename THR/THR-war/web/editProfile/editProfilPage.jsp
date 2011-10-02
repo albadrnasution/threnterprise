@@ -10,7 +10,7 @@
 <% Customer c = new Customer(); %>
 <% Customer r = new Customer(); %>
 <% r = c.getCustomer(1); %>
-<% out.print(request.getAttribute("sa"));%>
+<% String notif = request.getParameter("n");%>
         
         
 <!DOCTYPE html>
@@ -20,10 +20,10 @@
         <title>Edit Profile Page</title>
         <script type="text/javascript">
             function validate(){
-                pass=document.getElementById("password").val;ue;
+                pass=document.getElementById("password").value;
                 conf=document.getElementById("password_confirm").value;
                 if(pass!=conf){
-                    alert("Passwords not equal!"+pass+" "+conf);
+                    alert("Passwords not equal!");
                 }
                 else{
                     document.forms["editProfil"].submit();
@@ -33,9 +33,16 @@
             function home(){
                 window.location.href="/THR-war/index.jsp";
             }
+            
+            function notif(n){
+                if(n==1){
+                    alert("update successfull");
+                }
+                else{}
+            }
         </script>
     </head>
-    <body>
+    <body onload="notif(<% out.print(notif); %>);">
         
         <h1>Edit Profile Page</h1>
         <form name="editProfil" method="POST" id="editProfil" action="../editProfil">
