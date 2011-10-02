@@ -10,11 +10,7 @@
 <% Customer c = new Customer(); %>
 <% Customer r = new Customer(); %>
 <% r = c.getCustomer(1); %>
-<% String i=request.getParameter("i");
-    if(i=="1"){
-        out.print("<script type='text/javascript'>alert('update success')</script>");
-    }
-%>
+<% out.print(request.getAttribute("sa"));%>
         
         
 <!DOCTYPE html>
@@ -35,7 +31,7 @@
             }
             
             function home(){
-                window.location("/THR-war/index.jsp");
+                window.location.href="/THR-war/index.jsp";
             }
         </script>
     </head>
@@ -82,7 +78,7 @@
                 </td>
             </tr>
             <tr align="center">
-                <td><a href="/THR-war/index.jsp"><button name="cancelEdit" id="cancelEdit" onclick="home()" value="Cancel" >cancel</button></a></td>
+                <td><button name="cancelEdit" id="cancelEdit" onclick="home();return false" value="Cancel" >cancel</button></td>
                 <td><input type="submit" name="submitProfil" id="submitProfil" onclick="validate();return false" /></td>
             </tr>
         </table>
