@@ -45,7 +45,7 @@
     <body onload="notif(<% out.print(notif); %>);">
         
         <h1>Edit Profile Page</h1>
-        <form name="editProfil" method="POST" id="editProfil" action="../editProfil">
+        <form name="editProfil" method="POST" id="editProfil" action="../editProfilController">
         <table>
             <tr>
                 <td>First Name</td>
