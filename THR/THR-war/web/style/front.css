@@ -1,0 +1,88 @@
+/* 
+    Document   : front
+    Created on : Oct 14, 2011, 9:00:37 AM
+    Author     : Albadr
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+#trias-front-panel{
+    height: 390px;
+    position: relative;
+}
+.bucket{
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    -moz-box-shadow: 2px 2px 2px #ccc;
+    -webkit-box-shadow: 2px 2px 2px #ccc;
+    box-shadow: 2px 2px 2px #ccc;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.login-bucket{
+    width: 314px;
+    height: 276px;
+    top: 0px;
+    left: 0px;
+    background-color: whiteSmoke;
+}
+.register-bucket{
+    width: 314px;
+    height: 104px;
+    top: 286px;
+    left: 0px;
+    background-color: whiteSmoke;
+}
+.bingkis-bucket{
+    width: 314px;
+    height: 390px;
+    top: 0px;
+    left: 323px;
+    background-color: whiteSmoke;
+}
+.jalan-bucket{
+    width: 314px;
+    height: 390px;
+    top: 0px;
+    left: 646px;
+    background-color: whiteSmoke;
+}
+
+.paket-button{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 294px;
+    height: 84px;
+    background-color: #6699ff;
+    text-align: center;
+    display: table;
+}
+.paket-button:hover{
+    background: #0000cc url(../images/bg1.png);
+}
+.paket-button a{
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 1.6em;
+    color: white;
+    text-decoration: none;
+}
+.paket-icon{
+    margin-top: 15px;
+    width: 294px;
+    height: 294px;
+    text-align: center;
+    vertical-align: middle;
+}

@@ -16,6 +16,58 @@ root {
     margin-left: 100px;
 }
 
+html{outline:none;overflow-y:scroll}
+body{
+    font-family: "Lucida Grande","Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
+  
+}
+*{
+    margin: 0px;
+}
+
+div{
+    display: block;
+}
+
+#header-wrapper{
+    width: 100%;
+    height: auto;
+}
+
+#header{
+    width: 960px;
+    margin: 0px auto;
+    padding: 10px 0px;
+}
+#content{
+    width: 960px;
+    margin: 0px auto;
+}
+#footer{
+    width: 960px;
+    margin: 0px auto;
+}
+
+#footer-wrapper{
+    background-color: whitesmoke;
+    margin-top: 40px;
+    border-top: 1px solid #E5E5E5;
+    border-bottom: 1px solid #E5E5E5;
+    padding: 10px 0px;
+    width: 100%;
+    height: auto;
+    -moz-box-shadow: 2px 2px 2px #ccc;
+    -webkit-box-shadow: 2px 2px 2px #ccc;
+    box-shadow: 2px 2px 2px #ccc;
+}
+
+.footer-link{
+    width: 100px;
+    display: block;
+    text-align: center;
+    float: right;
+}
+
 h1{
     text-align: center;
     text-decoration: underline;
