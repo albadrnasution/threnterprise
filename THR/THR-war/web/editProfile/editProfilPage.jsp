@@ -7,12 +7,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.Customer" %>
 
-<% Customer c = new Customer(); %>
-<% Customer r = new Customer(); %>
-<% r = c.getCustomer(1); %>
-<% String notif = request.getParameter("n");%>
-        
-        
+<% 
+if(session.getAttribute("user")== null){
+    response.sendRedirect("../index.jsp");
+} else {
+Customer r = (Customer) session.getAttribute("user");
+String notif = request.getParameter("n");
+%>        
 <!DOCTYPE html>
 <html>
     <head>
@@ -92,3 +93,6 @@
         </form>
     </body>
 </html>
+<%
+   }
+%>
