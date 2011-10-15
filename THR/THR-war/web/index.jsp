@@ -24,7 +24,7 @@
             <div id="content">
                 <div id="trias-front-panel">
                     <div class="login-bucket bucket">
-                        <form action="../login" method="POST" style="margin-top: 20px;">
+                        <form action="login" method="POST" style="margin-top: 20px;">
                             <table border="0">
                                 <tbody>
                                     <tr>
@@ -38,6 +38,25 @@
                                         <td>Password </td>
                                         <td> <input type="password" name="password" value="" /> </td>
                                     </tr>
+                                    <%
+                                        //Checking if register is success
+                                        if (request.getParameter("success") != null) {
+                                            if (request.getParameter("success").equals("0")) {
+                                    %>
+                                    <tr>
+                                        <td colspan="2" style="color: red">Wrong Email or Password</td>
+                                    </tr>
+                                    <%                                            }
+                                        } else if (request.getParameter("blank")!=null){
+                                            if (request.getParameter("blank").equals("0")) {
+                                    %>
+                                     <tr>
+                                        <td colspan="2" style="color: red">Email or password is blank</td>
+                                    </tr>
+                                    <%
+                                                                           }
+                                                                                       }
+                                    %>
                                     <tr>
                                         <td colspan="2"> <input type="submit" value="Login" name="login" /> </td>
                                     </tr>

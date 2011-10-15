@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <%
-    if(session.getAttribute("Customer")==null){
+    if(session.getAttribute("user")==null){
         response.sendRedirect("index.jsp");
     }
     %>
@@ -18,5 +18,8 @@
     </head>
     <body>
         <h1>Welcome Home</h1>
+        <div class="paket-button">
+                            <a href="<%= request.getContextPath()%>/editProfile/editProfilPage.jsp">Edit Profile</a>
+                        </div>     
     </body>
 </html>
