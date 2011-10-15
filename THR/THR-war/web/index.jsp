@@ -32,14 +32,14 @@
                                     </tr>
                                     <tr>
                                         <td>Email </td>
-                                        <td> <input type="text" name="email" value=""  style="width: 100%"/> </td>
+                                        <td> <input type="text" name="email" value=""  style="width: 100%;height: 24px"/> </td>
                                     </tr>
                                     <tr>
                                         <td>Password </td>
-                                        <td> <input type="password" name="password" value=""  style="width: 100%"/> </td>
+                                        <td> <input type="password" name="password" value=""  style="width: 100%;height: 24px"/> </td>
                                     </tr>
                                     <tr><td></td>
-                                        <td  style="text-align: right"> <input type="submit" value="Login" name="login" /> </td>
+                                        <td  style="text-align: right;height: auto"> <input type="submit" class="thrbutton"value="Login" name="login" style="width: 120px; height: 40px" /> </td>
                                     </tr>
                                     <%
                                         //Checking if register is success

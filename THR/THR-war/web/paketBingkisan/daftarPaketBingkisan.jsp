@@ -77,7 +77,7 @@
                                     <p style="font-size: 0.8em"><i><%= apb.get(i).getDescription()%></i></p>
                                 </div>
                                 <div class="cat-right">
-                                    <span><%= apb.get(i).getPrice()%></span><br/>
+                                    <span>Rp<%= apb.get(i).getPrice()%></span><br/>
                                     <a class="thrbutton" href="detailPaketBingkisan.jsp?id=<%= apb.get(i).getIdp()%>">Details</a>
                                     <input type="button" value="Buy" name="filter" class="thrbutton"/>
                                 </div>

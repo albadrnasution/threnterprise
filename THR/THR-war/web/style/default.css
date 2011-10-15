@@ -76,9 +76,9 @@ div{
     float: right;
 }
 
-h1{
-    text-align: center;
-    text-decoration: underline;
+h3{
+    text-align: left;
+    
 }
 
 .catalog {
@@ -92,11 +92,7 @@ h1{
 /*    margin-left: 100px;*/
 }
 
-#atr{
-    margin-top: 5px;
-    font-weight: bold;
-    font-family: fantasy;
-}
+
 
 
 .list-sheet{
@@ -199,4 +195,30 @@ table.filter td:first-child{
 #list-bingkisan .li-bingkisan .cat-right{
     width: 160px;
     float: left;
+}
+
+table#list-item{
+    border-collapse: collapse;
+    width: 97.5%;
+    margin-right: 10px;
+}
+table#list-item tr td{
+    padding: 5px;
+    font-size: 0.85em
+}
+table#list-item tbody tr:nth-child(odd){
+    background-color: #ccc
+}
+
+table#detail-paket{
+    border-collapse: collapse;
+    width: 97.5%;
+    font-size: 0.85em
+}
+table#detail-paket td{
+    vertical-align: baseline
+}
+table#detail-paket td:first-child{
+    width: 120px;
+    font-weight: bold
 }
