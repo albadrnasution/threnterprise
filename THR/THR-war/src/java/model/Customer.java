@@ -133,14 +133,13 @@ public class Customer {
     }
     
     public ArrayList<Customer> getallCustomer(){
-        Database db = new Database();
         ResultSet rs;
         ArrayList<Customer> temp =new ArrayList<Customer>();
         String sql;
         try{
             sql="SELECT * FROM customer";
-            db.setConnection();
-            rs = db.executingQuery(sql) ;
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
             while (rs.next()) {
                 Customer c = new Customer();
                 c.setIdc(rs.getInt("idc"));
@@ -155,10 +154,9 @@ public class Customer {
                 temp.add(c);
             }
         }catch(Exception e){
-            e.printStackTrace();
         }
         finally{
-            db.unsetConnection();
+            Database.unsetConnection();
         }
         return temp ;
     }
