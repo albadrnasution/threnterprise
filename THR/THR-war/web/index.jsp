@@ -17,7 +17,7 @@
     <body>
         <div id="header-wrapper">
             <div id="header">
-                <div id="thrlogo"><img src="images/thrlogo.png" style="height: 180px" alt="thrlogo" title="tentative logo"/></div>
+                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="images/thrlogo.png" style="height: 180px" alt="thrlogo" title="tentative logo"/></a></div>
             </div>
         </div>
         <div id="content-wrapper">
@@ -25,18 +25,21 @@
                 <div id="trias-front-panel">
                     <div class="login-bucket bucket">
                         <form action="login" method="POST" style="margin-top: 20px;">
-                            <table border="0">
+                            <table border="0"  style="width: 100%">
                                 <tbody>
                                     <tr>
                                         <td colspan="2">Have an account?</td>
                                     </tr>
                                     <tr>
                                         <td>Email </td>
-                                        <td> <input type="text" name="email" value="" /> </td>
+                                        <td> <input type="text" name="email" value=""  style="width: 100%"/> </td>
                                     </tr>
                                     <tr>
                                         <td>Password </td>
-                                        <td> <input type="password" name="password" value="" /> </td>
+                                        <td> <input type="password" name="password" value=""  style="width: 100%"/> </td>
+                                    </tr>
+                                    <tr><td></td>
+                                        <td  style="text-align: right"> <input type="submit" value="Login" name="login" /> </td>
                                     </tr>
                                     <%
                                         //Checking if register is success
@@ -57,9 +60,7 @@
                                                                            }
                                                                                        }
                                     %>
-                                    <tr>
-                                        <td colspan="2"> <input type="submit" value="Login" name="login" /> </td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </form>
