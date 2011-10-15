@@ -13,60 +13,85 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link type="text/css" rel="stylesheet" href="../style/default.css"/>
-        <title>Paket Bingkisan</title>
+        <script type="text/javascript" src="../script/jquery-1.6.1.js"></script>
+        <title>Daftar Paket Bingkisan</title>
     </head>
     <body>
-        <h1>Paket Bingkisan</h1>
-        <div class="left">
-            <div>
-                <h3>Filter Paket Bingkisan<h3>
+        <div id="header-wrapper">
+            <div id="header">
+                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="../images/thrlogo.png" style="height: 180px" alt="thrlogo" title="tentative logo"/></a></div>
             </div>
-            <form name="filter" action="../BingkisanController" method="POST">
-                <div>
-                    Harga
-                </div>
-                <select name="operator">
-                    <option> > </option>
-                    <option> < </option>
-                </select>
-                <input type="text" name="harga" value="" />
-                <div>
-                    Name
-                </div>
-                <input type="text" name="name" value="" />
-                <div>
-                    Description
-                </div>    
-                <input type="text" name="desc" value="" /><br/>
-                <input type="submit" value="Submit" name="filter" />
-            </form>
         </div>
-        <div class="right">
-        <%
-        BingkisanController bc = new BingkisanController();
-        ArrayList<PaketBingkisan> apb = new ArrayList<PaketBingkisan>();
-        apb = bc.showPaket();
+        <div id="content-wrapper">
+            <div id="content">
+                <div class="list-sheet">
+                    <div style="float: left; width: 164px;">
+                        <div style="width: 100px; height: 100px; text-align: center; padding: 16px; margin: 16px; background-color: #CCC;">
+                            <img src="../images/gift.png" alt="Bingkisan" style="max-height: 100px;" />
+                        </div>
+                    </div>
+                    <div style="float: left; width: 780px; min-height: 140px">
+                        <!--                        <h1>Paket Bingkisan</h1>-->
+                        <div id="filter-bingkisan">
+                            <form name="filter" action="../BingkisanController" method="POST">
+                                <table class="filter" >
+                                    <tr>
+                                        <td>Harga : </td>
+                                        <td><select name="operator" class="filter" style="">
+                                                <option> > </option>
+                                                <option> < </option>
+                                            </select>
+                                            <input type="text" class="filter" name="harga" value="" style="width: 345px;" />
+                                        </td><td></td>
+                                    </tr>
+                                    <tr><td>Name : </td>
+                                        <td><input type="text" class="filter" name="name" value="" /></td><td></td>
+                                    </tr>
+                                    <tr><td>Description : </td>
+                                        <td><input type="text" class="filter" name="desc" value="" /></td>
+                                        <td><input type="submit" value="Filter" name="filter" class="thrbutton"/></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div id="list-bingkisan">
+                            <%
+                                BingkisanController bc = new BingkisanController();
+                                ArrayList<PaketBingkisan> apb = new ArrayList<PaketBingkisan>();
+                                apb = bc.showPaket();
 
-        for(int i=0; i<apb.size();i++){
-        %>
-        <div id="catalog">
-            <div id="item">
-                <div id="atr">Nama Paket</div>
-                <a href="detailPaketBingkisan.jsp?id=<%= apb.get(i).getIdp() %>"><%= apb.get(i).getPaket_name() %></a>
-            </div>
-            <div id="item">
-                <div id="atr">Deskripsi</div>
-                <%= apb.get(i).getDescription() %>
-            </div>
-            <div id="item">
-                <div id="atr">Harga</div>
-                <%= apb.get(i).getPrice() %>
+                                for (int i = 0; i < apb.size(); i++) {
+                            %>
+                            
+                            <div class="li-bingkisan">
+                                <div class="cat-left">
+                                     <img src="../images/gift.png" alt="Bingkisan" style="max-height: 24px;" />
+                                </div>
+                                <div class="cat-middle">
+                                    <a href="detailPaketBingkisan.jsp?id=<%= apb.get(i).getIdp()%>"><%= apb.get(i).getPaket_name()%></a><br/>
+                                    <p style="font-size: 0.8em"><i><%= apb.get(i).getDescription()%></i></p>
+                                </div>
+                                <div class="cat-right">
+                                    <span><%= apb.get(i).getPrice()%></span><br/>
+                                    <input type="button" value="Details" name="filter" class="thrbutton"/>
+                                    <input type="button" value="Buy" name="filter" class="thrbutton"/>
+                                </div>
+                            </div>
+
+                            <%
+                                }
+                            %>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <%
-        }
-        %>
+
+        <div id="footer-wrapper">
+            <div id="footer">
+                &COPY; 2011, Anpau Ltd.
+                <span class="footer-link"><a href="#">About Us</a></span>
+            </div>
         </div>
     </body>
 </html>
