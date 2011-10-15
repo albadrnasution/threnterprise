@@ -73,7 +73,7 @@ public class login extends HttpServlet {
                         found = true;
                     }
                 }
-                if(!found && session.getAttribute("user")==null){
+                if(!found || session.getAttribute("user")==null){
                     response.sendRedirect("index.jsp?success=0");
                 }
             } else {
