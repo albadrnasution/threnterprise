@@ -6,11 +6,19 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Customer;
+import model.Staff;
+import util.EmailHandler;
 
 /**
  *
@@ -27,12 +35,47 @@ public class login extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NoSuchAlgorithmException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            
-        } finally {            
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            util.EmailHandler em = new EmailHandler();
+            String hashPass = em.getStringMD5(password);
+            HttpSession session = request.getSession();
+            if (!email.equals("") && !password.equals("")) {
+                Customer cust = new Customer();
+                Staff staff = new Staff();
+                ArrayList<Staff> liststaff = staff.getallStaff();
+                ArrayList<Customer> listcust = cust.getallCustomer();
+                for (int i = 0; i < listcust.size(); ++i) {
+                    if (listcust.get(i).getPassword().equals(hashPass)) {
+                        cust = listcust.get(i);
+                        session.setAttribute("user", cust);
+                        session.setAttribute("jenisUser", "0");
+                        response.sendRedirect("home.jsp");
+                        break;
+                    }
+                }
+                for (int i = 0; i < liststaff.size(); ++i) {
+                    if (liststaff.get(i).getPassword().equals(hashPass)) {
+                        staff = liststaff.get(i);
+                        session.setAttribute("user", staff);
+                        if (staff.getPrevilage().equals("manager")) {
+                            session.setAttribute("jenisUser", "1");
+                        } else if (staff.getPrevilage().equals("officer")) {
+                            session.setAttribute("jenisUser", "2");
+                        } else if (staff.getPrevilage().equals("admin")) {
+                            session.setAttribute("jenisUser", "3");
+                        }
+                        break;
+                    }
+                }
+            } else {
+                response.sendRedirect("index.jsp");
+            }
+        } finally {
             out.close();
         }
     }
@@ -48,7 +91,11 @@ public class login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
@@ -61,7 +108,11 @@ public class login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
