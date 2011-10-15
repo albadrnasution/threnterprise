@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
@@ -16,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Customer;
 import util.EmailHandler;
 
@@ -46,6 +48,15 @@ public class registerasi extends HttpServlet {
                 response.sendRedirect("Registerasi/registerasi.jsp");
             } else {
                 EmailHandler eh = new EmailHandler();
+                Customer cust = new Customer();
+                ArrayList<Customer> listcustomer = cust.getallCustomer();
+                //Check if exist
+                for(int i=0;i<listcustomer.size();++i){
+                    if(email.equals(listcustomer.get(i).getEmail())){
+                        response.sendRedirect("index.jsp");
+                        break;
+                    }
+                }
                 try {
                     String pass = eh.sendFirstPassword(email, first_name + " " + last_name);
                     Customer.insertCustomer(first_name, last_name, email, pass);
