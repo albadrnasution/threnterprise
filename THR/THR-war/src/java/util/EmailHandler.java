@@ -5,6 +5,7 @@
 package util;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
@@ -21,7 +22,7 @@ import javax.mail.internet.MimeMessage;
  * @author soleman
  */
 public class EmailHandler {
-    
+
     String HOST = "smtp.gmail.com";
     String USER = "anpaultd@gmail.com";
     String PASSWORD = "pisangijo";
@@ -41,7 +42,7 @@ public class EmailHandler {
      * @throws UnsupportedEncodingException 
      */
     public void postMail(String email_recipients, String subject, String messages) throws MessagingException, UnsupportedEncodingException {
-        
+
         Properties props = new Properties();
         String from = "anpaultd@gmail.com";
         props.put("mail.smtp.host", HOST);
@@ -53,7 +54,7 @@ public class EmailHandler {
         props.put("mail.smtp.socketFactory.port", PORT);
         props.put("mail.smtp.socketFactory.class", SOCKET_FACTORY);
         props.put("mail.smtp.socketFactory.fallback", "false");
-        
+
         try {
 
             //Obtain the default mail session
@@ -73,7 +74,7 @@ public class EmailHandler {
             transport.connect(HOST, USER, PASSWORD);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,11 +100,14 @@ public class EmailHandler {
         MessageDigest md5ku = MessageDigest.getInstance("MD5");
         md5ku.reset();
         byte messageDigest[] = md5ku.digest(password.getBytes());
-        StringBuilder hexString = new StringBuilder();
-        for (int i = 0; i < messageDigest.length; i++) {
-            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-        }
-        return hexString.toString();
+//        StringBuilder hexString = new StringBuilder();
+//        for (int i = 0; i < messageDigest.length; i++) {
+//            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+//        }
+//        return hexString.toString();
+
+        BigInteger number = new BigInteger(1, messageDigest);
+        return number.toString(16);
     }
 
     /**
@@ -121,10 +125,10 @@ public class EmailHandler {
         postMail(recipient, Subject, message);
         return getStringMD5(password);
     }
-    
+
     public static void main(String[] args) throws NoSuchAlgorithmException, MessagingException, UnsupportedEncodingException {
         EmailHandler eh = new EmailHandler();
-        System.out.println(eh.getStringMD5("lutan"));
-        eh.sendFirstPassword("sidiksoleman@gmail.com", "Sidik Soleman");
+        System.out.println(eh.getStringMD5("b"));
+        //eh.sendFirstPassword("sidiksoleman@gmail.com", "Sidik Soleman");
     }
 }
