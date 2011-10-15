@@ -32,12 +32,20 @@ div{
 #header-wrapper{
     width: 100%;
     height: auto;
+    background-color: whitesmoke;
+    -moz-box-shadow: 2px 2px 2px #ccc;
+    -webkit-box-shadow: 2px 2px 2px #ccc;
+    box-shadow: 2px 2px 2px #ccc;
 }
 
 #header{
     width: 960px;
     margin: 0px auto;
     padding: 10px 0px;
+}
+#content-wrapper{
+    display: inline-block;
+    width: 100%;
 }
 #content{
     width: 960px;
@@ -50,7 +58,7 @@ div{
 
 #footer-wrapper{
     background-color: whitesmoke;
-    margin-top: 40px;
+    margin: 40px 0 10px 0;
     border-top: 1px solid #E5E5E5;
     border-bottom: 1px solid #E5E5E5;
     padding: 10px 0px;
@@ -81,7 +89,7 @@ h1{
 }
 
 #item{
-    margin-left: 100px;
+/*    margin-left: 100px;*/
 }
 
 #atr{
@@ -91,3 +99,89 @@ h1{
 }
 
 
+.list-sheet{
+    display: inline-block;
+    background-color: whitesmoke;margin-top: 25px;box-shadow: 2px 2px 2px #ccc;position: relative
+}
+
+#filter-bingkisan{
+    text-align: center; 
+    padding: 15px; margin: 16px; 
+/*    background-color: #CCC;*/
+}
+
+input.filter{
+    width: 400px;
+    height: 25px;
+    font-size: 16px;
+}
+
+select.filter{
+    height: 31px;
+    font-size: 16px;
+    width: 50px;
+}
+
+table.filter{
+    width: 100%
+}
+table.filter td{
+    text-align: left;
+    padding: 0px 10px;
+}
+table.filter td:first-child{
+    text-align: right;
+    padding: 0px 10px;
+}
+
+.thrbutton{
+    font-weight: bold;
+    border-radius: 2px 2px 2px ;display: inline-block;
+    min-width: 54px;
+    border: 1px solid gainsboro;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #555;
+    font-size: 11px;
+    font-weight: bold;
+    height: 27px;
+    padding: 0 8px;
+    line-height: 27px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-color: whiteSmoke;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#f5f5f5),to(#f1f1f1));
+    background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background-image: -moz-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background-image: -ms-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background-image: -o-linear-gradient(top,#f5f5f5,#f1f1f1);
+    background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f5f5f5',EndColorStr='#f1f1f1');
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    cursor: default;
+}
+
+#list-bingkisan .li-bingkisan{
+    display: inline-block;
+    width: 760px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+#list-bingkisan .li-bingkisan .cat-left{
+    text-align: center;
+    width: 40px;
+    float: left;
+}
+#list-bingkisan .li-bingkisan .cat-middle{
+    width: 540px;
+    float: left;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+#list-bingkisan .li-bingkisan .cat-right{
+    width: 160px;
+    float: left;
+}

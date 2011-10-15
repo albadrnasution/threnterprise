@@ -18,6 +18,7 @@ root {
 #trias-front-panel{
     height: 390px;
     position: relative;
+    margin-top: 30px;
 }
 .bucket{
     display: block;
