@@ -49,17 +49,18 @@ public class login extends HttpServlet {
                 Staff staff = new Staff();
                 ArrayList<Staff> liststaff = staff.getallStaff();
                 ArrayList<Customer> listcust = cust.getallCustomer();
-                for (int i = 0; i < listcust.size(); ++i) {
-                    if (listcust.get(i).getPassword().equals(hashPass)) {
+                boolean found = false;
+                for (int i = 0; i < listcust.size() && !found; ++i) {
+                    if (listcust.get(i).getPassword().equals(hashPass) && listcust.get(i).getEmail().equals(email)) {
                         cust = listcust.get(i);
                         session.setAttribute("user", cust);
                         session.setAttribute("jenisUser", "0");
                         response.sendRedirect("home.jsp");
-                        break;
+                        found=true;
                     }
                 }
-                for (int i = 0; i < liststaff.size(); ++i) {
-                    if (liststaff.get(i).getPassword().equals(hashPass)) {
+                for (int i = 0; i < liststaff.size() && !found; ++i) {
+                    if (liststaff.get(i).getPassword().equals(hashPass) && liststaff.get(i).getUsername().equals(email)) {
                         staff = liststaff.get(i);
                         session.setAttribute("user", staff);
                         if (staff.getPrevilage().equals("manager")) {
@@ -69,11 +70,14 @@ public class login extends HttpServlet {
                         } else if (staff.getPrevilage().equals("admin")) {
                             session.setAttribute("jenisUser", "3");
                         }
-                        break;
+                        found = true;
                     }
                 }
+                if(!found && session.getAttribute("user")==null){
+                    response.sendRedirect("index.jsp?success=0");
+                }
             } else {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("index.jsp?blank=0");
             }
         } finally {
             out.close();
