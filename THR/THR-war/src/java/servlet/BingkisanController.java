@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.ItemBingkisan;
 import model.PaketBingkisan;
 
@@ -38,6 +39,7 @@ public class BingkisanController extends HttpServlet {
             String name = request.getParameter("name");
             String operator = request.getParameter("operator");
             String desc = request.getParameter("desc");
+            HttpSession session = request.getSession();
             if(harga.equals("") || operator.equals("")){
                 response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp");            
             }else{
@@ -47,24 +49,28 @@ public class BingkisanController extends HttpServlet {
                 if(p.isEmpty()){
                     out.println("Search Return no Result!");
                 }else{
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Search Result</title>");  
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>Daftar Paket Bingkisan</h1>");
-                    
-                    for(int i=0; i<p.size(); ++i){
-                        out.println("<a href=paketBingkisan/detailPaketBingkisan.jsp?id="+p.get(i).getIdp()+">"+p.get(i).getPaket_name()+"</a>");
-                        out.println("<br/>");
-                        out.println(p.get(i).getDescription());
-                        out.println("<br/>");
-                        out.println(p.get(i).getPrice());
-                        out.println("<br/>");
-                        out.println("<br/>");
-                    }                    
-                    out.println("</body>");
-                    out.println("</html>");
+                    session.setAttribute("PaketBingkisan", p);
+                    session.setAttribute("filter", "1");
+                    response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp");
+//                    
+//                    out.println("<html>");
+//                    out.println("<head>");
+//                    out.println("<title>Search Result</title>");  
+//                    out.println("</head>");
+//                    out.println("<body>");
+//                    out.println("<h1>Daftar Paket Bingkisan</h1>");
+//                    
+//                    for(int i=0; i<p.size(); ++i){
+//                        out.println("<a href=paketBingkisan/detailPaketBingkisan.jsp?id="+p.get(i).getIdp()+">"+p.get(i).getPaket_name()+"</a>");
+//                        out.println("<br/>");
+//                        out.println(p.get(i).getDescription());
+//                        out.println("<br/>");
+//                        out.println(p.get(i).getPrice());
+//                        out.println("<br/>");
+//                        out.println("<br/>");
+//                    }                    
+//                    out.println("</body>");
+//                    out.println("</html>");
                     
                 }
             }            

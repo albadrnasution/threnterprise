@@ -135,6 +135,7 @@ table.filter td:first-child{
 }
 
 .thrbutton{
+    text-decoration: none;
     font-weight: bold;
     border-radius: 2px 2px 2px ;display: inline-block;
     min-width: 54px;
@@ -144,9 +145,9 @@ table.filter td:first-child{
     color: #555;
     font-size: 11px;
     font-weight: bold;
-    height: 27px;
+    height: 28px;
     padding: 0 8px;
-    line-height: 27px;
+    line-height: 28px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -161,6 +162,20 @@ table.filter td:first-child{
     -webkit-user-select: none;
     -moz-user-select: none;
     cursor: default;
+    box-sizing: border-box;
+}
+
+.thrbutton:hover{
+    color: white;
+    cursor: pointer;
+    background-color: maroon;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(red),to(maroon));
+    background-image: -webkit-linear-gradient(top,red,maroon);
+    background-image: -moz-linear-gradient(top,red,maroon);
+    background-image: -ms-linear-gradient(top,red,maroon);
+    background-image: -o-linear-gradient(top,red,maroon);
+    background-image: linear-gradient(top,red,maroon);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='red',EndColorStr='maroon');
 }
 
 #list-bingkisan .li-bingkisan{

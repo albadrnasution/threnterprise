@@ -13,7 +13,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link type="text/css" rel="stylesheet" href="../style/default.css"/>
-        <title>Paket Perjalanan</title>
+        <script type="text/javascript" src="../script/jquery-1.6.1.js"></script>
+        <title>Daftar Paket Perjalanan</title>
     </head>
     <body>
         <h1>Daftar Paket Perjalanan</h1>

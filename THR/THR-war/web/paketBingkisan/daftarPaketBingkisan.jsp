@@ -19,7 +19,7 @@
     <body>
         <div id="header-wrapper">
             <div id="header">
-                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="../images/thrlogo.png" style="height: 180px" alt="thrlogo" title="tentative logo"/></a></div>
+                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="../images/thrlogo-long.png" style="height: 80px" alt="thrlogo" title="tentative logo"/></a></div>
             </div>
         </div>
         <div id="content-wrapper">
@@ -30,7 +30,7 @@
                             <img src="../images/gift.png" alt="Bingkisan" style="max-height: 100px;" />
                         </div>
                     </div>
-                    <div style="float: left; width: 780px; min-height: 140px">
+                    <div style="float: left; width: 780px; min-height: 140px; margin-bottom: 40px">
                         <!--                        <h1>Paket Bingkisan</h1>-->
                         <div id="filter-bingkisan">
                             <form name="filter" action="../BingkisanController" method="POST">
@@ -59,7 +59,12 @@
                                 BingkisanController bc = new BingkisanController();
                                 ArrayList<PaketBingkisan> apb = new ArrayList<PaketBingkisan>();
                                 apb = bc.showPaket();
-
+                                if(session.getAttribute("filter")!=null){
+                                    if(session.getAttribute("PaketBingkisan")!=null && session.getAttribute("filter").equals("1")){
+                                        session.setAttribute("filter", "0");
+                                        apb = (ArrayList<PaketBingkisan>) session.getAttribute("PaketBingkisan");
+                                    }
+                                }
                                 for (int i = 0; i < apb.size(); i++) {
                             %>
                             
@@ -73,7 +78,7 @@
                                 </div>
                                 <div class="cat-right">
                                     <span><%= apb.get(i).getPrice()%></span><br/>
-                                    <input type="button" value="Details" name="filter" class="thrbutton"/>
+                                    <a class="thrbutton" href="detailPaketBingkisan.jsp?id=<%= apb.get(i).getIdp()%>">Details</a>
                                     <input type="button" value="Buy" name="filter" class="thrbutton"/>
                                 </div>
                             </div>
