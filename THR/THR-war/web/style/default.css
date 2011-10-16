@@ -115,7 +115,11 @@ input.filter{
 select.filter{
     height: 31px;
     font-size: 16px;
-    width: 50px;
+    min-width: 50px;
+}
+select.filter option{
+    font-size: 16px;
+    height: 30px;
 }
 
 table.filter{
@@ -173,27 +177,42 @@ table.filter td:first-child{
     background-image: linear-gradient(top,red,maroon);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='red',EndColorStr='maroon');
 }
-
-#list-bingkisan .li-bingkisan{
+#list-perjalanan{
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+#list-bingkisan .li-bingkisan, #list-perjalanan .li-perjalanan{
     display: inline-block;
     width: 760px;
     padding: 5px 10px;
     border-bottom: 1px solid #ccc;
     box-sizing: border-box;
 }
-#list-bingkisan .li-bingkisan .cat-left{
+#list-bingkisan .li-bingkisan .cat-left, #list-perjalanan .li-perjalanan .cat-left{
     text-align: center;
     width: 40px;
     float: left;
 }
 #list-bingkisan .li-bingkisan .cat-middle{
-    width: 540px;
+    width: 560px;
     float: left;
     padding-right: 40px;
     box-sizing: border-box;
 }
-#list-bingkisan .li-bingkisan .cat-right{
-    width: 160px;
+#list-bingkisan .li-bingkisan .cat-right, #list-perjalanan .li-perjalanan .cat-right{
+    width: 140px;
+    float: left;
+}
+
+#list-perjalanan .li-perjalanan .cat-middle{
+    width: 420px;
+    float: left;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+#list-perjalanan .li-perjalanan .cat-vault{
+    width: 120px;
     float: left;
 }
 
@@ -221,4 +240,8 @@ table#detail-paket td{
 table#detail-paket td:first-child{
     width: 120px;
     font-weight: bold
+}
+
+img.ico-mini{
+    max-height: 18px;vertical-align: bottom
 }

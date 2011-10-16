@@ -36,7 +36,7 @@
                         <h3>Detail Paket</h3>
                         <div>
                             <table id="detail-paket">
-                                <tr><td>Nama Paket</td><td>:</td><td></td><td rowspan="4">
+                                <tr><td>Nama Paket</td><td>:</td><td>Ini Nama Dummy</td><td rowspan="4">
                                         <button class="thrbutton" style="width: 80px;height: 100px;font-size: 1em">
                                             <img src="../images/Cart.PNG" style="max-height: 48px;margin-top: 6px" /><div style="margin-top: -8px">Buy</div>
                                         </button>
