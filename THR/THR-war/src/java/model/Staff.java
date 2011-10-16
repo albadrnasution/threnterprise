@@ -82,12 +82,12 @@ public class Staff {
         this.username = username;
     }
     
-    public Staff getStaff(int ids){
+    public Staff getStaff(String ids){
         Database db = new Database();
         ResultSet rs;
         Staff s = new Staff();
         String Sql;
-        Sql="SELECT * FROM customer WHERE idc='"+ids+"'";
+        Sql="SELECT * FROM Staff WHERE ids='"+ids+"'";
         db.setConnection();
         rs = db.executingQuery(Sql);
         try {

@@ -110,7 +110,7 @@ public class Customer {
         this.place_of_birth = place_of_birth;
     }
    
-    public Customer getCustomer(int idc){
+    public Customer getCustomer(String idc){
         ResultSet rs;
         Customer c = new Customer();
         String Sql;
@@ -125,6 +125,7 @@ public class Customer {
                 c.setDate_of_birth(rs.getDate("date_of_birth"));
                 c.setPlace_of_birth(rs.getString("place_of_birth"));
                 c.setPhone(rs.getString("phone"));
+                c.setIdc(rs.getInt("idc"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
@@ -152,6 +153,7 @@ public class Customer {
                 c.setEmail(rs.getString("email"));
                 c.setPassword(rs.getString("password"));
                 temp.add(c);
+                System.out.println(c.getIdc());
             }
         }catch(Exception e){
         }
@@ -174,13 +176,13 @@ public class Customer {
         String sql = null;
         try{
             sql="INSERT INTO customer (first_name,last_name,address,phone,email,place_of_birth,date_of_birth,password) VALUES "
-                    + "('aa','las','add','phon','emil','pla','00-00-0000','asd')";
+                   /*+ "('aa','las','add','phon','emil','pla','00-00-0000','asd')";*/
                     
                     
                     
-                    /*+ "('"+this.getFirst_name()+"','"+this.getLast_name()+"'" + ",'"+this.getAddress()+"','"
+                    + "('"+this.getFirst_name()+"','"+this.getLast_name()+"'" + ",'"+this.getAddress()+"','"
                     + this.getPhone() +"','"+this.getEmail()+"','"+this.getPlace_of_birth()+
-                    "','"+this.getDate_of_birth2()+"','"+this.getPassword()+"')";*/
+                    "','"+this.getDate_of_birth2()+"','"+this.getPassword()+"')";
             db.setConnection();
             db.updatingQuery(sql);
         }catch(Exception e){
