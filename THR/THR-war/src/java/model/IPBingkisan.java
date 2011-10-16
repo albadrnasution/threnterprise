@@ -1,5 +1,7 @@
 package model;
 
+import util.Database;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -38,5 +40,18 @@ public class IPBingkisan {
         this.nitem = nitem;
     }
     
+    public void setIPBingkisan(String idi, int idp, String n){
+        Database db = new Database();
+        String sql;
+        try{
+            Database.setConnection();
+            sql = "INSERT INTO ip_bingkisan (`idi`,`idp`,`nitem`) VALUES('"+idi+"','"+idp+"','"+n+"')";
+            Database.updatingQuery(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+    }
     
 }

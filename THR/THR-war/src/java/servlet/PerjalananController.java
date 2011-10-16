@@ -36,6 +36,30 @@ public class PerjalananController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            
+            String n = request.getParameter("s_nama_paket");
+            String d = request.getParameter("s_desc");
+            String h = request.getParameter("s_harga");
+            String[] it = request.getParameterValues("s_item");
+            String na = request.getParameter("s_nadult");
+            String nc = request.getParameter("s_nchild");
+            String t = request.getParameter("s_time");
+            
+            if(n.equals("") && d.equals("") && h.equals("") && na.equals("") && nc.equals("") && t.equals("") ){
+                response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp");   
+            }else{
+                PaketJalan pb = new PaketJalan();
+                pb.setPaket(n, d, h, na, nc, t);
+
+                int i = pb.lastID();
+                IPJalan ipb = new IPJalan();
+                if (it != null && it.length != 0) {
+                    for(int x=0; x<it.length;x++){
+                        ipb.setIPJalan(it[x], i);
+                    }
+                }
+            }
+            
             String harga = request.getParameter("harga");
             String name = request.getParameter("name");
             String operator = request.getParameter("operator");
@@ -131,4 +155,8 @@ public class PerjalananController extends HttpServlet {
         return ij.getItem(id);
     }
 
+        public ArrayList<ItemJalan> getItem(){
+        ItemJalan ij = new ItemJalan();
+        return ij.getItem();
+    }
 }

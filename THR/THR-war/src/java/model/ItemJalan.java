@@ -96,6 +96,36 @@ public class ItemJalan {
         this.origin = origin;
     }
     
+    public ArrayList<ItemJalan> getItem(){
+        Database db = new Database();
+        ResultSet rs;
+        ArrayList<ItemJalan> temp = new ArrayList<ItemJalan>();
+        String sql;
+        try{
+            sql="SELECT * FROM item_jalan";
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                ItemJalan pj = new ItemJalan();
+                pj.setIdi(rs.getInt("idi"));
+                pj.setName(rs.getString("name"));
+                pj.setDescription(rs.getString("description"));
+                pj.setModa(rs.getString("moda"));
+                pj.setOrigin(rs.getInt("origin"));
+                pj.setDest(rs.getInt("dest"));
+                pj.setBprice_child(rs.getInt("bprice_child"));
+                pj.setBprice_adult(rs.getInt("bprice_adult"));
+                pj.setIdmoedik(rs.getInt("idmoedik"));
+                temp.add(pj);
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return temp ;
+    }
+    
     public ArrayList<ItemJalan> getItem(String idp){
         Database db = new Database();
         ResultSet rs;

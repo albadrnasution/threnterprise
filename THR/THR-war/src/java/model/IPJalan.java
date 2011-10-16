@@ -1,5 +1,7 @@
 package model;
 
+import util.Database;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -29,5 +31,18 @@ public class IPJalan {
         this.idp = idp;
     }
     
+    public void setIPJalan(String idi, int idp){
+        Database db = new Database();
+        String sql;
+        try{
+            Database.setConnection();
+            sql = "INSERT INTO ip_jalan (`idi`,`idp`) VALUES('"+idi+"','"+idp+"')";
+            Database.updatingQuery(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+    }
     
 }

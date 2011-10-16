@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.IPBingkisan;
 import model.ItemBingkisan;
 import model.PaketBingkisan;
+import sun.security.krb5.internal.PAEncTSEnc;
 
 /**
  *
@@ -35,6 +37,28 @@ public class BingkisanController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            
+            String n = request.getParameter("s_nama_paket");
+            String d = request.getParameter("s_desc");
+            String h = request.getParameter("s_harga");
+            String[] it= request.getParameterValues("s_item");
+            String[] ni = request.getParameterValues("nitem");
+            
+            if(n.equals("") && d.equals("") && h.equals("")){
+                response.sendRedirect("paketBingkisan/menyusunPBPage.jsp");   
+            }else{
+                PaketBingkisan pb = new PaketBingkisan();
+                pb.setPaket(n, d, h);
+
+                int i = pb.lastID();
+                IPBingkisan ipb = new IPBingkisan();
+                if (it != null && it.length != 0) {
+                    for(int x=0; x<it.length;x++){
+                        ipb.setIPBingkisan(it[x], i, ni[x]);
+                    }
+                }
+            }
+                        
             String harga = request.getParameter("harga");
             String name = request.getParameter("name");
             String operator = request.getParameter("operator");
@@ -52,25 +76,7 @@ public class BingkisanController extends HttpServlet {
                     session.setAttribute("PaketBingkisan", p);
                     session.setAttribute("filter", "1");
                     response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp");
-//                    
-//                    out.println("<html>");
-//                    out.println("<head>");
-//                    out.println("<title>Search Result</title>");  
-//                    out.println("</head>");
-//                    out.println("<body>");
-//                    out.println("<h1>Daftar Paket Bingkisan</h1>");
-//                    
-//                    for(int i=0; i<p.size(); ++i){
-//                        out.println("<a href=paketBingkisan/detailPaketBingkisan.jsp?id="+p.get(i).getIdp()+">"+p.get(i).getPaket_name()+"</a>");
-//                        out.println("<br/>");
-//                        out.println(p.get(i).getDescription());
-//                        out.println("<br/>");
-//                        out.println(p.get(i).getPrice());
-//                        out.println("<br/>");
-//                        out.println("<br/>");
-//                    }                    
-//                    out.println("</body>");
-//                    out.println("</html>");
+
                     
                 }
             }            
@@ -119,9 +125,25 @@ public class BingkisanController extends HttpServlet {
         PaketBingkisan p = new PaketBingkisan();
         return p.getPaket();
     }
+    
+    public ArrayList<PaketBingkisan> showPaket(String id){
+        PaketBingkisan p = new PaketBingkisan();
+        return p.getPaket(id);
+    }
     public ArrayList<ItemBingkisan> showDetail(String id){
         ItemBingkisan ij = new ItemBingkisan();
         return ij.getItem(id);
+    }
+    
+    public ArrayList<ItemBingkisan> getItem(){
+        ItemBingkisan ij = new ItemBingkisan();
+        return ij.getItem();
+    }    
+    
+    public PaketBingkisan deletePaket(String id){
+        PaketBingkisan p = new PaketBingkisan();
+        p.deleteP(id);
+        return p;
     }
     
 }

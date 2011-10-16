@@ -300,6 +300,54 @@ public class PaketJalan {
         return Month;
     }
     
+        public void setPaket(String nama, String desk, String harga, String na, String nc, String t){
+        Database db = new Database();
+        String sql;
+        try{
+            Database.setConnection();
+            sql = "INSERT INTO paket_jalan (`paket_name`,`description`,`total_price`, `nadult`, `nchild`, `time`) VALUES('"+nama+"','"+desk+"','"+harga+"','"+na+"','"+nc+"','"+t+"')";
+            Database.updatingQuery(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+    }
+    
+    public int lastID(){
+        int i = 0;
+        Database db = new Database();
+        String sql;
+        ResultSet rs;
+        try {
+            Database.setConnection();
+            sql = "select idp from paket_jalan order by idp desc limit 1";
+            rs = Database.executingQuery(sql);
+            if(rs.next()){
+                i = rs.getInt(1);
+            }
+        }catch(Exception e){}
+        finally{
+            Database.unsetConnection();
+        }
+        return i;
+    }
+    
+    public void deleteP(String id){
+        Database db = new Database();
+        String sql = null;
+        try{
+            sql="DELETE FROM paket_jalan WHERE idp='"+id+"'";
+            Database.setConnection();
+            Database.updatingQuery(sql);
+            System.out.println(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+    }
+    
     public static void main(String[] args) throws ParseException {
         PaketJalan pj = new PaketJalan();
         ArrayList<PaketJalan> apj = new ArrayList<PaketJalan>();

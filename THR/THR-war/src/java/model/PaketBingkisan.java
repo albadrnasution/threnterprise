@@ -163,6 +163,54 @@ public class PaketBingkisan {
         return temp ;
     }
     
+    public void setPaket(String nama, String desk, String harga){
+        Database db = new Database();
+        String sql;
+        try{
+            Database.setConnection();
+            sql = "INSERT INTO paket_bingkisan (`paket_name`,`description`,`price`) VALUES('"+nama+"','"+desk+"','"+harga+"')";
+            Database.updatingQuery(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+    }
+    
+    public int lastID(){
+        int i = 0;
+        Database db = new Database();
+        String sql;
+        ResultSet rs;
+        try {
+            Database.setConnection();
+            sql = "select idp from paket_bingkisan order by idp desc limit 1";
+            rs = Database.executingQuery(sql);
+            if(rs.next()){
+                i = rs.getInt(1);
+            }
+        }catch(Exception e){}
+        finally{
+            Database.unsetConnection();
+        }
+        return i;
+    }
+    
+    public void deleteP(String id){
+        Database db = new Database();
+        String sql = null;
+        try{
+            sql="DELETE FROM paket_bingkisan WHERE idp='"+id+"'";
+            Database.setConnection();
+            Database.updatingQuery(sql);
+            System.out.println(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+    }
+    
     public static void main(String[] args) {
         PaketBingkisan pj = new PaketBingkisan();
         ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();
