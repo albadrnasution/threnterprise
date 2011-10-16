@@ -29,6 +29,8 @@
                         <div style="width: 100px; height: 100px; text-align: center; padding: 16px; margin: 16px; background-color: #CCC;">
                             <img src="../images/suitcase.png" alt="Bingkisan" style="max-height: 100px;" />
                         </div>
+                        <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
+                    
                     </div>
                     <div style="float: left; width: 780px; min-height: 140px; margin-bottom: 40px">
                         <div id="filter-bingkisan">
@@ -93,9 +95,9 @@
                                         <p style="font-size: 0.8em"><i><%= pp.get(i).getDescription() %></i></p>
                                     </div>
                                     <div class="cat-vault">
-                                        <img src="../images/coin.PNG" alt="Bingkisan" style="max-height: 18px;" /> <span style="font-size: 0.9em">Rp<%= pp.get(i).getTotal_price() %>,-</span><br/>
-                                        <img src="../images/adult.png" alt="Bingkisan" style="max-height: 18px;" /> <span style="font-size: 0.9em">Adult : <%= pp.get(i).getNadult() %></span><br/>
-                                        <img src="../images/child.png" alt="Bingkisan" style="max-height: 18px;" /> <span style="font-size: 0.9em">Child : <%= pp.get(i).getNchild() %></span><br/>
+                                       <span style="font-size: 0.9em"><img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  /> Rp<%= pp.get(i).getTotal_price() %>,-</span><br/>
+                                       <span style="font-size: 0.9em"><img src="../images/adult.png" alt="Bingkisan" class="ico-mini" /> Adult : <%= pp.get(i).getNadult() %></span><br/>
+                                       <span style="font-size: 0.9em"><img src="../images/child.png" alt="Bingkisan" class="ico-mini" /> Child : <%= pp.get(i).getNchild() %></span><br/>
                                     </div>
                                     <div class="cat-right">
                                         <a class="thrbutton" href="detailPaketPerjalanan.jsp?id=<%= pp.get(i).getIdp() %>">Details</a>

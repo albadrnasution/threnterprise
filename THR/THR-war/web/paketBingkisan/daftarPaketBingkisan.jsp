@@ -29,6 +29,8 @@
                         <div style="width: 100px; height: 100px; text-align: center; padding: 16px; margin: 16px; background-color: #CCC;">
                             <img src="../images/gift.png" alt="Bingkisan" style="max-height: 100px;" />
                         </div>
+                        <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
+                    
                     </div>
                     <div style="float: left; width: 780px; min-height: 140px; margin-bottom: 40px">
                         <!--                        <h1>Paket Bingkisan</h1>-->
@@ -77,7 +79,7 @@
                                     <p style="font-size: 0.8em"><i><%= apb.get(i).getDescription()%></i></p>
                                 </div>
                                 <div class="cat-right">
-                                    <img src="../images/coin.PNG" alt="Bingkisan" style="max-height: 18px;" />  <span>Rp<%= apb.get(i).getPrice()%></span><br/>
+                                    <img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  />  <span>Rp<%= apb.get(i).getPrice()%></span><br/>
                                     <a class="thrbutton" href="detailPaketBingkisan.jsp?id=<%= apb.get(i).getIdp()%>">Details</a>
                                     <input type="button" value="Buy" name="filter" class="thrbutton"/>
                                 </div>

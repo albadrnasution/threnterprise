@@ -22,7 +22,17 @@
         </div>
         <div id="content-wrapper">
             <div id="content">
-                <div id="trias-front-panel">
+                <div id="trias-front-panel"><%
+                    if(session.getAttribute("user")!=null){ %>
+                    <div class="profile-bucket bucket">
+                        <div class="paket-icon"><img src="images/person.png" alt="Bingkisan"/></div>
+                        <div class="paket-button">
+                            <a href="<%= request.getContextPath()%>/home.jsp">Profil</a>
+                        </div>  
+                    </div>
+                    <%
+                    }else{
+                    %>
                     <div class="login-bucket bucket">
                         <form action="login" method="POST" style="margin-top: 20px;">
                             <table border="0"  style="width: 100%">
@@ -69,8 +79,10 @@
                         <div class="paket-button" title="Don't have an account?">
                             <a href="<%= request.getContextPath()%>/Registerasi/registerasi.jsp">Register</a>
                         </div>  
-                    </div>
-                    <div class="profile-bucket bucket" style="display: none"></div>
+                    </div> 
+                    <%
+                    }
+                    %>
                     <div class="bingkis-bucket bucket">
                         <div class="paket-icon"><img src="images/gift.png" alt="Bingkisan"/></div>
                         <div class="paket-button">

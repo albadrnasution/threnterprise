@@ -22,10 +22,10 @@
             <div id="content">
                 <div class="list-sheet" style="width: 100%;padding-bottom: 100px">
                     <div style="float: left; width: 204px;">
-                        <div style="width: 128px; height: 128px; text-align: center; margin: 16px;text-align: center">
+                        <div style="width: 128px; height: 128px; text-align: center; margin: 40px;text-align: center">
                             <img src="../images/register.png" alt="Bingkisan" style="max-height: 128px;" />
                         </div>
-                        <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
+                        <a class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
                     </div>
                     <div style="float: left; width: 740px; min-height: 140px; margin-bottom: 40px;padding-top: 15px;">
                         <h1>Register</h1>

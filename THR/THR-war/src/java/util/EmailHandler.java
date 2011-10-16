@@ -128,7 +128,7 @@ public class EmailHandler {
 
     public static void main(String[] args) throws NoSuchAlgorithmException, MessagingException, UnsupportedEncodingException {
         EmailHandler eh = new EmailHandler();
-        System.out.println(eh.getStringMD5("sidik"));
+        System.out.println(eh.getStringMD5("albadr"));
         //eh.sendFirstPassword("sidiksoleman@gmail.com", "Sidik Soleman");
     }
 }
