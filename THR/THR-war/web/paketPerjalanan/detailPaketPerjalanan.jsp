@@ -28,8 +28,8 @@
                         <div style="width: 100px; height: 100px; text-align: center; padding: 16px; margin: 16px; background-color: #CCC;">
                             <img src="../images/suitcase.png" alt="Bingkisan" style="max-height: 100px;" />
                         </div>
-                        <button class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"><< Back</button>
-                        <button class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;">Main Menu</button>
+                        <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>/paketPerjalanan/daftarPaketPerjalanan.jsp"><< Back</a>
+                        <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
                     </div>
                     <div style="float: left; width: 780px; min-height: 140px; margin-bottom: 40px;padding-top: 15px">
                         <h3>Detail Paket</h3>
@@ -44,17 +44,37 @@
                             <tr><td>Tujuan</td><td>:</td><td>Kota Tujuan </td></tr>
                             <tr><td>Paket</td><td>:</td><td><img src="../images/adult.png" alt="Bingkisan" class="ico-mini"  /> Dewasa : 1, <img src="../images/child.png" alt="Bingkisan" class="ico-mini" /> Anak-anak N </td></tr>
                             <tr><td>Harga Paket</td><td>:</td><td><img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  /> Rp12.000.000,-</td></tr>
-                            <tr><td>List Item</td><td>:</td><td></td></tr>
+                            <tr><td>Daftar Perjalanan dalam paket</td><td>:</td><td></td></tr>
                         </table>
                         <table id="list-item">
                             <thead>
                                 <tr>
                                     <td>Nama Item</td>
                                     <td>Deskripsi</td>
-                                    <td>Harga Dasar</td>
+                                    <td>Moda</td>
+                                    <td>Asal</td>
+                                    <td>Tujuan</td>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                            <%
+                            PerjalananController pc = new PerjalananController();
+                            ArrayList<ItemJalan> ij = new ArrayList<ItemJalan>();
+                            ij = pc.showDetail(request.getParameter("id"));
+
+                            for(int i=0; i<ij.size();i++){
+                                       %>
+                               <tr>
+                                   <td> <%= ij.get(i).getName() %></td>
+                                   <td> <%= ij.get(i).getDescription() %></td>
+                                   <td> <%= ij.get(i).getModa() %></td>
+                                   <td> <%= ij.get(i).getOrigin() %></td>
+                                   <td> <%= ij.get(i).getDest() %></td>
+                               </tr>
+                            <%
+                            }
+                            %>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -67,48 +87,5 @@
                 <span class="footer-link"><a href="#">About Us</a></span>
             </div>
         </div>
-        <h1>Detail Paket</h1>
-        <%
-        PerjalananController pc = new PerjalananController();
-        ArrayList<ItemJalan> ij = new ArrayList<ItemJalan>();
-        ij = pc.showDetail(request.getParameter("id"));
-
-        for(int i=0; i<ij.size();i++){
-        %>
-        <div class="catalog">
-            <div id="item">
-                <div id="atr">Nama Paket</div>
-                <%= ij.get(i).getName() %>
-            </div>
-            <div id="item">
-                <div id="atr">Deskripsi</div>
-                <%= ij.get(i).getDescription() %>
-            </div>
-            <div id="item">
-                <div id="atr">Moda</div>
-                <%= ij.get(i).getModa() %>
-            </div>
-            <div id="item">
-                <div id="atr">Asal</div>
-                <%= ij.get(i).getOrigin() %>
-            </div>
-            <div id="item">
-                <div id="atr">Tujuan</div>
-                <%= ij.get(i).getDest() %>
-            </div>
-            <div id="item">
-                <div id="atr">Harga Dewasa</div>
-                <%= ij.get(i).getBprice_adult() %>
-            </div>
-            <div id="item">
-                <div id="atr">Harga Anak-anak</div>
-                <%= ij.get(i).getBprice_child() %>
-            </div>
-        </div>
-        
-        <%
-        }
-        %>
-        
     </body>
 </html>

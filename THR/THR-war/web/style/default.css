@@ -19,7 +19,6 @@ root {
 html{outline:none;overflow-y:scroll}
 body{
     font-family: "Lucida Grande","Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
-  
 }
 *{
     margin: 0px;
@@ -163,6 +162,8 @@ table.filter td:first-child{
     -moz-user-select: none;
     cursor: default;
     box-sizing: border-box;
+    font-family:  Arial;
+    font-family: "Lucida Grande","Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
 }
 
 .thrbutton:hover{

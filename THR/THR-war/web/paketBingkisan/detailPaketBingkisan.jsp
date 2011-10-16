@@ -29,8 +29,8 @@
                         <div style="width: 100px; height: 100px; text-align: center; padding: 16px; margin: 16px; background-color: #CCC;">
                             <img src="../images/gift.png" alt="Bingkisan" style="max-height: 100px;" />
                         </div>
-                        <button class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"><< Back</button>
-                        <button class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;">Main Menu</button>
+                        <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>/paketPerjalanan/daftarPaketPerjalanan.jsp"><< Back</a>
+                        <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
                     </div>
                     <div style="float: left; width: 780px; min-height: 140px; margin-bottom: 40px;padding-top: 15px">
                         <h3>Detail Paket</h3>
