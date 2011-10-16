@@ -29,6 +29,7 @@ div{
 }
 
 #header-wrapper{
+    
     width: 100%;
     height: auto;
     background-color: whitesmoke;
@@ -37,7 +38,7 @@ div{
     box-shadow: 2px 2px 2px #ccc;
 }
 
-#header{
+#header{position: relative;
     width: 960px;
     margin: 0px auto;
     padding: 10px 0px;
@@ -48,7 +49,7 @@ div{
 }
 #content{
     width: 960px;
-    margin: 0px auto;
+    margin: 0px auto;position: relative;
 }
 #footer{
     width: 960px;
@@ -245,4 +246,23 @@ table#detail-paket td:first-child{
 
 img.ico-mini{
     max-height: 18px;vertical-align: bottom
+}
+
+table.tutturu{
+    margin: 10px;
+    width: 98%;
+    box-sizing: border-box;
+    border-collapse: collapse;
+    border: none;
+}
+table.tutturu tr th{
+    font-weight: normal;
+    font-style: italic;
+    text-align: left;
+}
+table.tutturu tr td, table.tutturu tr th{
+    border: none;
+}
+table.tutturu tr:nth-child(even){
+    background-color: #EEE;
 }

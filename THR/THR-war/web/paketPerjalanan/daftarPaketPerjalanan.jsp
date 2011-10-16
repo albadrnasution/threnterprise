@@ -17,11 +17,7 @@
         <title>Daftar Paket Perjalanan</title>
     </head>
     <body>
-        <div id="header-wrapper">
-            <div id="header">
-                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="../images/thrlogo-long.png" style="height: 80px" alt="thrlogo" title="tentative logo"/></a></div>
-            </div>
-        </div>
+        <%@include file="../layout/head.jsp" %>
         <div id="content-wrapper">
             <div id="content">
                 <div class="list-sheet">
@@ -114,12 +110,6 @@
                 </div>
             </div>
         </div>
-
-        <div id="footer-wrapper">
-            <div id="footer">
-                &COPY; 2011, Anpau Ltd.
-                <span class="footer-link"><a href="#">About Us</a></span>
-            </div>
-        </div>
+        <%@include file="../layout/footer.jsp" %>
     </body>
 </html>

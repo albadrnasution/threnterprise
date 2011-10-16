@@ -45,6 +45,28 @@ root {
     left: 0px;
     background-color: whiteSmoke;
 }
+
+.manager-bucket{
+    width: 256px;
+    height: 380px;
+    top: 25px;
+    left: 700px;
+    background-color: whiteSmoke;
+}
+.dualtop-bucket{
+    width: 256px;
+    height: 185px;
+    top: 25px;
+    left: 700px;
+    background-color: whiteSmoke;
+}
+.dualbottom-bucket{
+    width: 256px;
+    height: 180px;
+    top: 225px;
+    left: 700px;
+    background-color: whiteSmoke;
+}
 .profile-bucket{
     width: 314px;
     height: 390px;

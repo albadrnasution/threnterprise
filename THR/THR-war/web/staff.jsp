@@ -1,7 +1,7 @@
 <%-- 
     Document   : home
     Created on : 15-Oct-2011, 04:03:26
-    Author     : soleman
+    Author     : Albadr
 --%>
 
 <%@page import="model.Customer"%>
@@ -34,16 +34,16 @@ String notif = request.getParameter("n");
         <%@include file="layout/bighead.jsp" %>
         <div id="content-wrapper">
             <div id="content">
-                <div class="list-sheet" style="width: 100%;padding-bottom: 40px;">
+                <div class="list-sheet" style="width: 676px; height: 340px;padding-bottom: 40px;float: left;position: relative">
                     <div style="float: left; width: 204px;">
                         <div style="width: 128px; height: 128px; text-align: center; margin: 40px;margin-bottom: 10px;text-align: center">
                             <img src="images/person.png" alt="Bingkisan" style="max-height: 128px;" />
                         </div>
                         <a class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
                         <a  class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;" href="<%= request.getContextPath()%>/editProfile/editProfilPage.jsp">Edit Profile</a>
-                        <a  class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;" href="">Shopping History</a>
+                        
                     </div>
-                    <div style="float: left; width: 740px; min-height: 140px; margin-bottom: 40px;padding-top: 15px;">
+                    <div style="float: left; width: 460px; min-height: 140px; margin-bottom: 40px;padding-top: 15px;">
                         
                         <h2>Welcome Home</h2>
                         <hr/><br/>
@@ -69,18 +69,46 @@ String notif = request.getParameter("n");
                                     <td>Address</td>
                                     <td>: <% if(r.getAddress()!=null)out.print(r.getAddress());else {out.print("-");} %></td>
                                 </tr>
-                                <tr>
-                                    <td>Place of Birth</td>
-                                    <td>: <% if(r.getPlace_of_birth()!=null)out.print(r.getPlace_of_birth());else {out.print("-");} %></td>
-                                </tr>
-                                <tr>
-                                    <td>Date of Birth</td>
-                                    <td>: <% if(r.getDate_of_birth()!=null)out.print(r.getDate_of_birth());else {out.print("-");} %></td>
-                                </tr>
                             </table>
                         </div>   
                     </div>  
                 </div>
+                <%
+                if (session.getAttribute("jenisUser").equals("1")){
+                %>
+                <div class="manager-bucket bucket">
+                    <div style="margin-top: 15px;text-align: center;vertical-align: middle;"><img src="images/stats.png" alt="Bingkisan"/></div>
+                    <div class="paket-button" style="width: 236px">
+                        <a href="^^v">Statistik</a>
+                    </div>        
+                </div>
+                <%
+                }else if (session.getAttribute("jenisUser").equals("3")){
+                %>
+                <div class="manager-bucket bucket">
+                    <div style="margin-top: 15px;text-align: center;vertical-align: middle;"><img src="images/user.png" alt="Bingkisan"/></div>
+                    <div class="paket-button" style="width: 236px; bottom: 104px">
+                        <a href="^^v">Manajemen Kastemer</a>
+                    </div>
+                    <div class="paket-button" style="width: 236px">
+                        <a href="^^v">Manajemen Staff</a>
+                    </div>        
+                </div>
+                <%
+                }else if (session.getAttribute("jenisUser").equals("2")){
+                %>
+                <div class="manager-bucket bucket">
+                    <div style="margin-top: 15px;text-align: center;vertical-align: middle;"><img src="images/container.png" alt="Bingkisan"/></div>
+                    <div class="paket-button" style="width: 236px; bottom: 104px;">
+                        <a href="" style="font-size: 1.3em">Manajemen Paket Bingkisan</a>
+                    </div>
+                    <div class="paket-button" style="width: 236px">
+                        <a href="^^v" style="font-size: 1.3em">Manajemen Paket Perjalanan</a>
+                    </div>        
+                </div>
+                <%
+                }
+                %>
             </div>
         </div>
         <%@include file="layout/footer.jsp" %>

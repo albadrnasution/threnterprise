@@ -15,24 +15,12 @@
         <title>Welcome to THR</title>
     </head>
     <body>
-        <div id="header-wrapper">
-            <div id="header">
-                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="images/thrlogo.png" style="height: 180px" alt="thrlogo" title="tentative logo"/></a></div>
-            </div>
-        </div>
+        
+        <%@include file="layout/bighead.jsp" %>
         <div id="content-wrapper">
             <div id="content">
                 <div id="trias-front-panel"><%
-                    if(session.getAttribute("user")!=null){ %>
-                    <div class="profile-bucket bucket">
-                        <div class="paket-icon"><img src="images/person.png" alt="Bingkisan"/></div>
-                        <div class="paket-button">
-                            <a href="<%= request.getContextPath()%>/home.jsp">Profil</a>
-                        </div>  
-                    </div>
-                    <%
-                    }else{
-                    %>
+                    if(session.getAttribute("user")==null){ %>
                     <div class="login-bucket bucket">
                         <form action="login" method="POST" style="margin-top: 20px;">
                             <table border="0"  style="width: 100%">
@@ -81,6 +69,24 @@
                         </div>  
                     </div> 
                     <%
+                    }else if (session.getAttribute("jenisUser")=="0"){
+                    %>
+                    <div class="profile-bucket bucket">
+                        <div class="paket-icon"><img src="images/person.png" alt="Bingkisan"/></div>
+                        <div class="paket-button">
+                            <a href="<%= request.getContextPath()%>/home.jsp">Profil</a>
+                        </div>  
+                    </div>
+                    <%
+                    }else{
+                    %>
+                    <div class="profile-bucket bucket">
+                        <div class="paket-icon"><img src="images/admin.png" alt="Bingkisan"/></div>
+                        <div class="paket-button">
+                            <a href="<%= request.getContextPath()%>/staff.jsp">Manajemen</a>
+                        </div>  
+                    </div>
+                    <%
                     }
                     %>
                     <div class="bingkis-bucket bucket">
@@ -98,11 +104,6 @@
                 </div>
             </div>
         </div>
-        <div id="footer-wrapper">
-            <div id="footer">
-                &COPY; 2011, Anpau Ltd.
-                <span class="footer-link"><a href="#">About Us</a></span>
-            </div>
-        </div>
+        <%@include file="layout/footer.jsp" %>
     </body>
 </html>
