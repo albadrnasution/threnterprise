@@ -29,8 +29,8 @@
             <td><% out.print(staff.getEmail()); %></td>
             <td><% out.print(staff.getPrevilage()); %></td>
             <td><% out.print(staff.getPassword()); %></td>
-            <td><a href="?menu=deletestaff&&ids=<% out.print(staff.getIds());%>">delete</a></td>
+            <td><a href="?menu=DeleteStaffNotification&&ids=<% out.print(staff.getIds());%>">delete</a></td>
             </tr>
             <% } %>
 </table>
-<a href="?menu=addstaff">tambah petugas</a>
+<a href="?menu=AddStaff">tambah petugas</a>

@@ -24,17 +24,17 @@
             <%
                        }
         // list staff menu
-               else if(request.getParameter("menu").equals("liststaff"))
+               else if(request.getParameter("menu").equals("ListStaff"))
                        {
         ArrayList<Staff> s =new ArrayList<Staff>();
         Staff t =new Staff();
         s = t.getallStaff();
         s.size();
         %>
-        <%@include file="ListStaffPage.jsp" %>
+        <%@include file="ListStaffView.jsp" %>
         <% } 
         // list customer menu
-               else if(request.getParameter("menu").equals("listcustomer"))
+               else if(request.getParameter("menu").equals("ListCustomer"))
                        {
         ArrayList<Customer> c =new ArrayList<Customer>();
         Customer t =new Customer();
@@ -42,22 +42,23 @@
         c.size();
         out.print(c.size());
         %>
-        <%@include file="ListCustomerPage.jsp" %>
+        <%@include file="ListCustomerView.jsp" %>
         <% } 
-        // add staff menu
-               else if(request.getParameter("menu").equals("addstaff")) {
-               
+        // add staff form
+               else if(request.getParameter("menu").equals("AddStaff")) {
+               Staff st = new Staff();
         %>
-        <%@include file="staffForm.jsp" %>
+        <%@include file="StaffFormView.jsp" %>
         <% }
-        else if(request.getParameter("menu").equals("addcustomer")) {
+        //add customer form
+        else if(request.getParameter("menu").equals("AddCustomer")) {
                
         %>
-        <%@include file="customerForm.jsp" %>
+        <%@include file="CustomerFormView.jsp" %>
         <% }
         
         // proses add staff
-        else if(request.getParameter("menu").equals("addstaffprocess"))
+        else if(request.getParameter("menu").equals("prosesAddStaff"))
        {
             
             EmailHandler em = new EmailHandler();
@@ -72,11 +73,13 @@
             staff.addStaff();
             //String res = staff.addStaff();
             //out.print(res);
-            String redirectURL = "UserController.jsp?menu=liststaff";
+            String redirectURL = "UserController.jsp?menu=ListStaff";
             response.sendRedirect(redirectURL);
         }
         
-        else if(request.getParameter("menu").equals("addcustomerprocess"))
+        
+        // proses add customer
+        else if(request.getParameter("menu").equals("prosesAddCustomer"))
        {
             out.print(request.getParameter("menu"));
             EmailHandler em = new EmailHandler();
@@ -93,27 +96,67 @@
             //customer.addCustomer();
             String res = customer.addCustomer();
             out.print(res);
-            //String redirectURL = "UserController.jsp?menu=listcustomer";
-            //response.sendRedirect(redirectURL);
-        }
-        
-        else if(request.getParameter("menu").equals("deletestaff"))
-       {
-            Staff staff =new Staff();
-            staff.deleteStaff(request.getParameter("ids"));
-            String redirectURL = "UserController.jsp?menu=liststaff";
+            String redirectURL = "UserController.jsp?menu=ListCustomer";
             response.sendRedirect(redirectURL);
         }
         
-        else if(request.getParameter("menu").equals("deletecustomer"))
+            // notifikasi delete staff
+        else if(request.getParameter("menu").equals("DeleteStaffNotification"))
+       {
+            Staff t = new Staff();
+            Staff staff = t.getStaff(request.getParameter("ids"));
+        %>
+        <%@include file="DeleteStaffFormView.jsp" %>
+        <%
+               }
+        // notifikasi delete customer
+        else if(request.getParameter("menu").equals("DeleteCustomerNotification"))
+       {
+            Customer c = new Customer();
+            Customer customer = c.getCustomer(request.getParameter("idc"));
+        %>
+        <%@include file="DeleteCustomerFormView.jsp" %>
+        <%
+               }
+        // delete staff
+        else if(request.getParameter("menu").equals("prosesDeleteStaff"))
+       {
+            Staff staff =new Staff();
+            staff.deleteStaff(request.getParameter("ids"));
+            String redirectURL = "UserController.jsp?menu=ListStaff";
+            response.sendRedirect(redirectURL);
+        }
+        
+        // delete customer
+        else if(request.getParameter("menu").equals("prosesDeleteCustomer"))
        {
             //out.print(request.getParameter("menu"));
             Customer customer =new Customer();
             String res = customer.deleteCustomer(request.getParameter("idc"));
-            out.print(res);
-            //String redirectURL = "UserController.jsp?menu=listcustomer";
-            //response.sendRedirect(redirectURL);
+            //out.print(res);
+            String redirectURL = "UserController.jsp?menu=ListCustomer";
+            response.sendRedirect(redirectURL);
         }
+        // edit staff form
+        else if(request.getParameter("menu").equals("EditStaff"))
+       {
+            Staff t = new Staff();
+            Staff st = t.getStaff(request.getParameter("ids"));
+        %>
+        <%@include file="StaffFormView.jsp" %>
+        <%
+               }
+        // edit customer form
+        else if(request.getParameter("menu").equals("EditCustomer"))
+       {
+            Customer c = new Customer();
+            Customer cu = c.getCustomer(request.getParameter("idc"));
+        %>
+        <%@include file="CustomerFormView.jsp" %>
+        <%
+               }
+        
+        
         %>
         
     </body>
