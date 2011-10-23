@@ -128,6 +128,27 @@ public class Staff {
         return sql;
     }
     
+    public String editStaff(String ids)
+    {
+        Database db = new Database();
+        EmailHandler em = new EmailHandler();
+        String sql = null;
+        try{
+            //String passmd5 = em.getStringMD5(this.getPassword());
+            sql="UPDATE staff SET  username =  '"+this.getUsername()+"', first_name = '"+this.getFirst_name()+"', "
+                    + "last_name = '"+this.getLast_name()+"', email = '"+this.getEmail()+"', previlege = '"+this.getPrevilage()+"' WHERE ids ="+ids;
+            
+            db.setConnection();
+            db.updatingQuery(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            db.unsetConnection();
+        }
+        return sql;
+    }
+    
     public String deleteStaff(String ids)
     {
         Database db = new Database();

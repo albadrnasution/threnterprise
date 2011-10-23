@@ -122,6 +122,7 @@ public class Customer {
                 c.setFirst_name(rs.getString("first_name"));
                 c.setLast_name(rs.getString("last_name"));
                 c.setAddress(rs.getString("address"));
+                c.setEmail(rs.getString("email"));
                 c.setDate_of_birth(rs.getDate("date_of_birth"));
                 c.setPlace_of_birth(rs.getString("place_of_birth"));
                 c.setPhone(rs.getString("phone"));
@@ -183,6 +184,27 @@ public class Customer {
                     + "('"+this.getFirst_name()+"','"+this.getLast_name()+"'" + ",'"+this.getAddress()+"','"
                     + this.getPhone() +"','"+this.getEmail()+"','"+this.getPlace_of_birth()+
                     "','"+this.getDate_of_birth2()+"','"+this.getPassword()+"')";
+            db.setConnection();
+            db.updatingQuery(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            db.unsetConnection();
+        }
+        return sql;
+    }
+    
+    public String editCustomer(String idc)
+    {
+        Database db = new Database();
+        EmailHandler em = new EmailHandler();
+        String sql = null;
+        try{
+            //String passmd5 = em.getStringMD5(this.getPassword());
+            sql="UPDATE customer SET first_name = '"+this.getFirst_name()+"', last_name = '"+this.getLast_name()+"', "
+                    + "address = '"+this.getAddress()+"', phone = '"+this.getPhone()+"', email = '"+this.getEmail()+"', "
+                    + "place_of_birth = '"+this.getPlace_of_birth()+"', date_of_birth = '"+this.getDate_of_birth2()+"'  WHERE idc ="+idc;
             db.setConnection();
             db.updatingQuery(sql);
         }catch(Exception e){
