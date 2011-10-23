@@ -45,24 +45,26 @@ public class registerasi extends HttpServlet {
             String email = request.getParameter("email");
             // TODO output your page here
             if (first_name.equals("") || last_name.equals("") || email.equals("")) {
-                response.sendRedirect("Registerasi/registerasi.jsp");
+                response.sendRedirect("Registerasi/registerasi.jsp?email=0");
             } else {
                 EmailHandler eh = new EmailHandler();
                 Customer cust = new Customer();
                 ArrayList<Customer> listcustomer = cust.getallCustomer();
                 //Check if exist
-                for(int i=0;i<listcustomer.size();++i){
-                    if(email.equals(listcustomer.get(i).getEmail())){
-                        response.sendRedirect("index.jsp");
-                        break;
+                boolean found = false;
+                for (int i = 0; i < listcustomer.size() && !found; ++i) {
+                    if (email.equals(listcustomer.get(i).getEmail())) {
+                        found = true;
                     }
                 }
                 try {
-                    String pass = eh.sendFirstPassword(email, first_name + " " + last_name);
-                    Customer.insertCustomer(first_name, last_name, email, pass);
-                    out.println("<html>");
-                    out.println("<body>Registeration was sucessful and your password has been sent to your email.</body>");
-                    out.println("</html>");
+                    if (found) {
+                        response.sendRedirect("Registerasi/registerasi.jsp?email=1");
+                    } else {
+                        String pass = eh.sendFirstPassword(email, first_name + " " + last_name);
+                        Customer.insertCustomer(first_name, last_name, email, pass);
+                        response.sendRedirect("index.jsp?register=1");
+                    }
                 } catch (NoSuchAlgorithmException ex) {
                     Logger.getLogger(registerasi.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MessagingException ex) {
