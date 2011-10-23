@@ -97,6 +97,12 @@
                             %>
                             <div style="color: red">no results</div>
                             <%                                    }
+                                } else if(apb.isEmpty()){
+                                    %>
+                                    <div>
+                                        Tidak ada Paket
+                                    </div>
+                            <%
                                 }
                             %>
                         </div>

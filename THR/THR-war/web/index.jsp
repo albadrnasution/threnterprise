@@ -56,6 +56,15 @@
                                     </tr>
                                     <%
                                                                            }
+                                                                                       }   
+                                        else if (request.getParameter("register")!=null){
+                                            if (request.getParameter("register").equals("1")) {
+                                    %>
+                                     <tr>
+                                        <td colspan="2" style="color: red">Registeration Success, Please Log in</td>
+                                    </tr>
+                                    <%
+                                                                           }
                                                                                        }
                                     %>
                                     
