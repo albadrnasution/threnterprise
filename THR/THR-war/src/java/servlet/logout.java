@@ -17,8 +17,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author soleman
  */
-@WebServlet(name = "index", urlPatterns = {"/index"})
-public class index extends HttpServlet {
+@WebServlet(name = "logout", urlPatterns = {"/logout"})
+public class logout extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,13 +33,8 @@ public class index extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             HttpSession session = request.getSession();
-            if(session.getAttribute("user")==null){
-                response.sendRedirect("index.jsp");
-            } else if(session.getAttribute("user")!=null){
-                if(session.getAttribute("jenisUser").equals("0")){
-                    response.sendRedirect("home.jsp");
-                }
-            }
+            session.invalidate();
+            response.sendRedirect("index.jsp");
         } finally {            
             out.close();
         }
