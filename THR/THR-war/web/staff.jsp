@@ -13,7 +13,6 @@ if(session.getAttribute("user")== null){
     response.sendRedirect("../index.jsp");
 } else {
 Customer r = (Customer) session.getAttribute("user");
-String notif = request.getParameter("n");
 
 %>   
 <!DOCTYPE html>
