@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.*;
 
 /**
@@ -23,7 +24,7 @@ import model.*;
  */
 @WebServlet(name = "PerjalananController", urlPatterns = {"/PerjalananController"})
 public class PerjalananController extends HttpServlet {
-    
+
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -36,75 +37,54 @@ public class PerjalananController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            
-            String n = request.getParameter("s_nama_paket");
-            String d = request.getParameter("s_desc");
-            String h = request.getParameter("s_harga");
-            String[] it = request.getParameterValues("s_item");
-            String na = request.getParameter("s_nadult");
-            String nc = request.getParameter("s_nchild");
-            String t = request.getParameter("s_time");
-            
-            if(n.equals("") && d.equals("") && h.equals("") && na.equals("") && nc.equals("") && t.equals("") ){
-                response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp");   
-            }else{
-                PaketJalan pb = new PaketJalan();
-                pb.setPaket(n, d, h, na, nc, t);
+            if (request.getParameter("mode") != null) {
+                if (request.getParameter("mode").equals("susun")) {
+                    String n = request.getParameter("s_nama_paket");
+                    String d = request.getParameter("s_desc");
+                    String h = request.getParameter("s_harga");
+                    String[] it = request.getParameterValues("s_item");
+                    String na = request.getParameter("s_nadult");
+                    String nc = request.getParameter("s_nchild");
+                    String t = request.getParameter("s_time");
 
-                int i = pb.lastID();
-                IPJalan ipb = new IPJalan();
-                if (it != null && it.length != 0) {
-                    for(int x=0; x<it.length;x++){
-                        ipb.setIPJalan(it[x], i);
+                    if (n.equals("") && d.equals("") && h.equals("") && na.equals("") && nc.equals("") && t.equals("")) {
+                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp");
+                    } else {
+                        PaketJalan pb = new PaketJalan();
+                        pb.setPaket(n, d, h, na, nc, t);
+
+                        int i = pb.lastID();
+                        IPJalan ipb = new IPJalan();
+                        if (it != null && it.length != 0) {
+                            for (int x = 0; x < it.length; x++) {
+                                ipb.setIPJalan(it[x], i);
+                            }
+                        }
+                    }
+                } else if (request.getParameter("mode").equals("cari")) {
+                    String harga = request.getParameter("harga");
+                    String name = request.getParameter("name");
+                    String operator = request.getParameter("operator");
+                    String desc = request.getParameter("desc");
+                    HttpSession session = request.getSession();
+                    if (harga.equals("") || operator.equals("")) {
+                        response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp");
+                    } else {
+                        ArrayList<PaketJalan> p;
+                        PaketJalan pj = new PaketJalan();
+                        p = pj.getSearchResult(harga, operator, name, desc);
+                        if (p.isEmpty()) {
+                            response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
+                        } else {
+                            session.setAttribute("PaketJalan", p);
+                            session.setAttribute("filter", "1");
+                            response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp");
+
+                        }
                     }
                 }
             }
-            
-            String harga = request.getParameter("harga");
-            String name = request.getParameter("name");
-            String operator = request.getParameter("operator");
-            String desc = request.getParameter("desc");
-            if(harga.equals("") || operator.equals("")){
-                response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp");            
-            }else{
-                ArrayList<PaketJalan> p; 
-                PaketJalan pj = new PaketJalan();
-                p = pj.getSearchResult(harga, operator, name, desc);
-                if(p.isEmpty()){
-                    out.println("Search Return no Result!");
-                }else{
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Search Result</title>");  
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>Daftar Paket Perjalanan</h1>");
-                    
-                    for(int i=0; i<p.size(); ++i){
-                        out.println("<a href=paketPerjalanan/detailPaketPerjalanan.jsp?id="+p.get(i).getIdp()+">"+p.get(i).getPaket_nama()+"</a>");
-                        out.println("<br/>");
-                        out.println(p.get(i).getDescription());
-                        out.println("<br/>");
-                        out.println(p.get(i).getTotal_price());
-                        out.println("<br/>");
-                        out.println(p.get(i).getNadult());
-                        out.println("<br/>");
-                        out.println(p.get(i).getNchild());
-                        out.println("<br/>");
-                        try {
-                            out.println(p.get(i).getTime());
-                            out.println("<br/>");
-                        } catch (ParseException ex) {
-                            Logger.getLogger(PerjalananController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        out.println("<br/>");
-                    }                    
-                    out.println("</body>");
-                    out.println("</html>");
-                    
-                }
-            }            
-        } finally {            
+        } finally {
             out.close();
         }
     }
@@ -144,18 +124,18 @@ public class PerjalananController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    public ArrayList<PaketJalan> showPaket(){
+
+    public ArrayList<PaketJalan> showPaket() {
         PaketJalan p = new PaketJalan();
         return p.getPaket();
     }
-    
-    public ArrayList<ItemJalan> showDetail(String id){
+
+    public ArrayList<ItemJalan> showDetail(String id) {
         ItemJalan ij = new ItemJalan();
         return ij.getItem(id);
     }
 
-        public ArrayList<ItemJalan> getItem(){
+    public ArrayList<ItemJalan> getItem() {
         ItemJalan ij = new ItemJalan();
         return ij.getItem();
     }
