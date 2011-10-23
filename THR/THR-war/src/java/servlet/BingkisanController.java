@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import model.IPBingkisan;
 import model.ItemBingkisan;
 import model.PaketBingkisan;
-import sun.security.krb5.internal.PAEncTSEnc;
 
 /**
  *
@@ -37,50 +36,51 @@ public class BingkisanController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            
-            String n = request.getParameter("s_nama_paket");
-            String d = request.getParameter("s_desc");
-            String h = request.getParameter("s_harga");
-            String[] it= request.getParameterValues("s_item");
-            String[] ni = request.getParameterValues("nitem");
-            
-            if(n.equals("") && d.equals("") && h.equals("")){
-                response.sendRedirect("paketBingkisan/menyusunPBPage.jsp");   
-            }else{
-                PaketBingkisan pb = new PaketBingkisan();
-                pb.setPaket(n, d, h);
+            if (request.getParameter("mode") != null) {
+                if (request.getParameter("mode").equals("susun")) {
+                    String n = request.getParameter("s_nama_paket");
+                    String d = request.getParameter("s_desc");
+                    String h = request.getParameter("s_harga");
+                    String[] it = request.getParameterValues("s_item");
+                    String[] ni = request.getParameterValues("nitem");
 
-                int i = pb.lastID();
-                IPBingkisan ipb = new IPBingkisan();
-                if (it != null && it.length != 0) {
-                    for(int x=0; x<it.length;x++){
-                        ipb.setIPBingkisan(it[x], i, ni[x]);
+                    if (n.equals("") && d.equals("") && h.equals("")) {
+                        response.sendRedirect("paketBingkisan/menyusunPBPage.jsp");
+                    } else {
+                        PaketBingkisan pb = new PaketBingkisan();
+                        pb.setPaket(n, d, h);
+
+                        int i = pb.lastID();
+                        IPBingkisan ipb = new IPBingkisan();
+                        if (it != null && it.length != 0) {
+                            for (int x = 0; x < it.length; x++) {
+                                ipb.setIPBingkisan(it[x], i, ni[x]);
+                            }
+                        }
+                    }
+                } else if (request.getParameter("mode").equals("cari")) {
+                    String harga = request.getParameter("harga");
+                    String name = request.getParameter("name");
+                    String operator = request.getParameter("operator");
+                    String desc = request.getParameter("desc");
+                    HttpSession session = request.getSession();
+                    if (harga.equals("") || operator.equals("")) {
+                        response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp");
+                    } else {
+                        ArrayList<PaketBingkisan> p;
+                        PaketBingkisan pj = new PaketBingkisan();
+                        p = pj.getSearchResult(harga, operator, name, desc);
+                        if (p.isEmpty()) {
+                            response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp?empty=1");
+                        } else {
+                            session.setAttribute("PaketBingkisan", p);
+                            session.setAttribute("filter", "1");
+                            response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp");
+                        }
                     }
                 }
             }
-                        
-            String harga = request.getParameter("harga");
-            String name = request.getParameter("name");
-            String operator = request.getParameter("operator");
-            String desc = request.getParameter("desc");
-            HttpSession session = request.getSession();
-            if(harga.equals("") || operator.equals("")){
-                response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp");            
-            }else{
-                ArrayList<PaketBingkisan> p; 
-                PaketBingkisan pj = new PaketBingkisan();
-                p = pj.getSearchResult(harga, operator, name, desc);
-                if(p.isEmpty()){
-                    out.println("Search Return no Result!");
-                }else{
-                    session.setAttribute("PaketBingkisan", p);
-                    session.setAttribute("filter", "1");
-                    response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp");
-
-                    
-                }
-            }            
-        } finally {            
+        } finally {
             out.close();
         }
     }
@@ -121,29 +121,29 @@ public class BingkisanController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public ArrayList<PaketBingkisan> showPaket(){
+    public ArrayList<PaketBingkisan> showPaket() {
         PaketBingkisan p = new PaketBingkisan();
         return p.getPaket();
     }
-    
-    public ArrayList<PaketBingkisan> showPaket(String id){
+
+    public ArrayList<PaketBingkisan> showPaket(String id) {
         PaketBingkisan p = new PaketBingkisan();
         return p.getPaket(id);
     }
-    public ArrayList<ItemBingkisan> showDetail(String id){
+
+    public ArrayList<ItemBingkisan> showDetail(String id) {
         ItemBingkisan ij = new ItemBingkisan();
         return ij.getItem(id);
     }
-    
-    public ArrayList<ItemBingkisan> getItem(){
+
+    public ArrayList<ItemBingkisan> getItem() {
         ItemBingkisan ij = new ItemBingkisan();
         return ij.getItem();
-    }    
-    
-    public PaketBingkisan deletePaket(String id){
+    }
+
+    public PaketBingkisan deletePaket(String id) {
         PaketBingkisan p = new PaketBingkisan();
         p.deleteP(id);
         return p;
     }
-    
 }
