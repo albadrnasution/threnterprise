@@ -30,12 +30,12 @@
                             <img src="../images/gift.png" alt="Bingkisan" style="max-height: 100px;" />
                         </div>
                         <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
-                    
+
                     </div>
                     <div style="float: left; width: 780px; min-height: 140px; margin-bottom: 40px">
                         <!--                        <h1>Paket Bingkisan</h1>-->
                         <div id="filter-bingkisan">
-                            <form name="filter" action="../BingkisanController" method="POST">
+                            <form name="filter" action="../BingkisanController?mode=cari" method="POST">
                                 <table class="filter" >
                                     <tr>
                                         <td>Harga : </td>
@@ -61,18 +61,23 @@
                                 BingkisanController bc = new BingkisanController();
                                 ArrayList<PaketBingkisan> apb = new ArrayList<PaketBingkisan>();
                                 apb = bc.showPaket();
-                                if(session.getAttribute("filter")!=null){
-                                    if(session.getAttribute("PaketBingkisan")!=null && session.getAttribute("filter").equals("1")){
+                                if (session.getAttribute("filter") != null) {
+                                    if (session.getAttribute("PaketBingkisan") != null && session.getAttribute("filter").equals("1")) {
                                         session.setAttribute("filter", "0");
                                         apb = (ArrayList<PaketBingkisan>) session.getAttribute("PaketBingkisan");
                                     }
                                 }
+                                if (request.getParameter("empty") != null) {
+                                    if (request.getParameter("empty").equals("1")) {
+                                        apb = new ArrayList<PaketBingkisan>();
+                                    }
+                                }
                                 for (int i = 0; i < apb.size(); i++) {
                             %>
-                            
+
                             <div class="li-bingkisan">
                                 <div class="cat-left">
-                                     <img src="../images/gift.png" alt="Bingkisan" style="max-height: 24px;" />
+                                    <img src="../images/gift.png" alt="Bingkisan" style="max-height: 24px;" />
                                 </div>
                                 <div class="cat-middle">
                                     <a href="detailPaketBingkisan.jsp?id=<%= apb.get(i).getIdp()%>"><%= apb.get(i).getPaket_name()%></a><br/>
@@ -86,6 +91,12 @@
                             </div>
 
                             <%
+                                }
+                                if (request.getParameter("empty") != null) {
+                                    if (request.getParameter("empty").equals("1")) {
+                            %>
+                            <div style="color: red">no results</div>
+                            <%                                    }
                                 }
                             %>
                         </div>
