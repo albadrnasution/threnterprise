@@ -7,7 +7,7 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,6 +15,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Customer;
+import model.DateFormater;
 import util.Database;
 import util.EmailHandler;
 
@@ -22,7 +25,7 @@ import util.EmailHandler;
  *
  * @author user
  */
-@WebServlet(name = "editProfil", urlPatterns = {"/editProfil"})
+@WebServlet(name = "editProfilController", urlPatterns = {"/editProfilController"})
 public class editProfilController extends HttpServlet {
 
     /** 
@@ -33,73 +36,124 @@ public class editProfilController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             // TODO output your page here
-            String first_name;
-            String last_name;
-            String address;
-            String phone;
-            String place_of_birth;
-            String date_of_birth;
-            String password;
-            String password_confirm;
-            String idc;
+            String first_name = new String();
+            String last_name = new String();
+            String address = new String();
+            String phone = new String();
+            String place_of_birth = new String();
+            String date_of_birth = new String();
+            String password = new String();
+            String password_confirm = new String();
+            String idc = new String();
             int id;
-            
-            Database db = new Database();
-            String sql="";
-            
-            first_name=request.getParameter("first_name");
-            last_name=request.getParameter("last_name");
-            address=request.getParameter("address");
-            phone=request.getParameter("phone");
-            place_of_birth=request.getParameter("place_of_birth");
-            date_of_birth=request.getParameter("date_of_birth");
-            password=request.getParameter("password");
-            password_confirm=request.getParameter("password_confirm");
-            idc=request.getParameter("idc");
-            id=Integer.parseInt(idc);
-            
-            if(password.equals("")){
-                sql="UPDATE customer SET first_name='"+first_name+"', last_name='"+last_name+"', address='"+address+"', phone='"+phone+"', place_of_birth='"+place_of_birth+"', date_of_birth='"+date_of_birth+"' WHERE idc='"+id+"'";
-            }
-            else{
-                if(password.equals(password_confirm)){
-                    EmailHandler e = new EmailHandler();
-                    try {
-                        password = e.getStringMD5(password);
-                    } catch (NoSuchAlgorithmException ex) {
-                        Logger.getLogger(editProfilController.class.getName()).log(Level.SEVERE, null, ex);
+
+            String sql = new String();
+
+            first_name = request.getParameter("first_name");
+            last_name = request.getParameter("last_name");
+            address = request.getParameter("address");
+            phone = request.getParameter("phone");
+            place_of_birth = request.getParameter("place_of_birth");
+            date_of_birth = request.getParameter("date_of_birth");
+            password = request.getParameter("password");
+            password_confirm = request.getParameter("password_confirm");
+            idc = request.getParameter("idc");
+            id = Integer.parseInt(idc);
+
+            HttpSession session = request.getSession();
+            if (session.getAttribute("user") == null) {
+                response.sendRedirect("index.jsp");
+            } else {
+                Customer cust = (Customer) session.getAttribute("user");
+
+                if (password.equals("")) {
+                    cust.setFirst_name(first_name);
+                    cust.setLast_name(last_name);
+                    cust.setAddress(address);
+                    cust.setPhone(phone);
+                    cust.setPlace_of_birth(place_of_birth);
+                    cust.setDate_of_birth(DateFormater.getDateFromViewFormat(date_of_birth));
+                    sql = "UPDATE customer SET first_name='" + first_name + "', last_name='" + last_name + "'";
+                    if (!address.equals("")) {
+                        sql = sql.concat(", address='" + address + "'");
+                    } else {
+                        sql = sql.concat(", address=Null");
                     }
-                    sql="UPDATE customer SET first_name='"+first_name+"', last_name='"+last_name+"', address='"+address+"', phone='"+phone+"', place_of_birth='"+place_of_birth+"', date_of_birth='"+date_of_birth+"', password='"+password+"' WHERE idc='"+id+"'";
+                    if (!phone.equals("")) {
+                        sql = sql.concat(", phone='" + phone + "'");
+                    } else {
+                        sql = sql.concat(", phone=Null");
+                    }
+                    if (!place_of_birth.equals("")) {
+                        sql = sql.concat(", place_of_birth='" + place_of_birth + "'");
+                    } else {
+                        sql = sql.concat(", place_of_birth=Null");
+                    }
+                    if (!date_of_birth.equals("")) {
+                        sql = sql.concat(", date_of_birth='" + DateFormater.formatDateToDBFormat(date_of_birth) + "'");
+                    } else {
+                        sql = sql.concat(", date_of_birth=Null");
+                    }
+                    sql = sql.concat(" WHERE idc='" + id + "'");
+                    System.out.println(sql);
+                    Database.setConnection();
+                    Database.updatingQuery(sql);
+                    response.sendRedirect("editProfile/editProfilPage.jsp?success=1");
+                } else {
+                    if (password.equals(password_confirm)) {
+                        EmailHandler e = new EmailHandler();
+                        cust.setFirst_name(first_name);
+                        cust.setLast_name(last_name);
+                        cust.setAddress(address);
+                        cust.setPhone(phone);
+                        cust.setPlace_of_birth(place_of_birth);
+                        cust.setDate_of_birth(DateFormater.getDateFromViewFormat(date_of_birth));
+                        cust.setPassword(password);
+                        sql = "UPDATE customer SET first_name='" + first_name + "', last_name='" + last_name + "'";
+                        if (!address.equals("")) {
+                            sql = sql.concat(", address='" + address + "'");
+                        } else {
+                            sql = sql.concat(", address=Null");
+                        }
+                        if (!phone.equals("")) {
+                            sql = sql.concat(", phone='" + phone + "'");
+                        } else {
+                            sql = sql.concat(", phone=Null");
+                        }
+                        if (!place_of_birth.equals("")) {
+                            sql = sql.concat(", place_of_birth='" + place_of_birth + "'");
+                        } else {
+                            sql = sql.concat(", place_of_birth=Null");
+                        }
+                        if (!date_of_birth.equals("")) {
+                            sql = sql.concat(", date_of_birth='" + DateFormater.formatDateToDBFormat(date_of_birth) + "'");
+                        } else {
+                            sql = sql.concat(", date_of_birth=Null");
+                        }
+                        try {
+                            password = e.getStringMD5(password);
+                        } catch (NoSuchAlgorithmException ex) {
+                            Logger.getLogger(editProfilController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        if (!password.equals("")) {
+                            sql = sql.concat(", password='" + password + "'");
+                        }
+                        sql = sql.concat(" WHERE idc='" + id + "'");
+                        Database.setConnection();
+                        Database.updatingQuery(sql);
+                        response.sendRedirect("editProfile/editProfilPage.jsp?success=1");
+                    } else {
+                        response.sendRedirect("editProfile/editProfilPage.jsp?success=0");
+                    }
                 }
-                /*else{
-                    String path=request.getRequestURI();
-                    String Script = "<html><head><script type='text/javascript'>"
-                            + "function hoa() {alert('"+path+"'); window.location='"+path+"';}</script></head>"
-                            + "<body onload='hoa();'>asdasdada</body>"
-                            + "</html>";
-                    out.print(Script);
-                }*/
             }
-            db.updatingQuery(sql);
-            //String s="success";
-            //request.setAttribute("sa", s);
-            response.sendRedirect("editProfile/editProfilPage.jsp?n=1");
-            /*out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet editProfil</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet editProfil at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-             */
-             
-        } finally {            
+
+        } finally {
             out.close();
         }
     }
@@ -115,7 +169,11 @@ public class editProfilController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(editProfilController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
@@ -128,7 +186,11 @@ public class editProfilController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(editProfilController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
