@@ -33,10 +33,10 @@
             <td><% out.print(staff.getEmail()); %></td>
             <td><% out.print(staff.getPrevilage()); %></td>
             <td><% out.print(staff.getPassword()); %></td>
-            <td><a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=DeleteStaffNotification&&ids=<% out.print(staff.getIds());%>">delete</a> | 
-            <a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=EditStaff&&ids=<% out.print(staff.getIds());%>">edit</a></td>
+            <td><a href="<% out.print(request.getContextPath()); %>/UserController?menu=DeleteStaffNotification&&ids=<% out.print(staff.getIds());%>">delete</a> | 
+            <a href="<% out.print(request.getContextPath()); %>/UserController?menu=EditStaff&&ids=<% out.print(staff.getIds());%>">edit</a></td>
             </tr>
             <% } %>
 </table>
-<a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=AddStaff">tambah petugas</a> <br />
-<a href="<% out.print(session.getAttribute("base_url")); %>UserController">kembali</a> <br />
+<a href="<% out.print(request.getContextPath()); %>/UserController?menu=AddStaff">tambah petugas</a> <br />
+<a href="<% out.print(request.getContextPath()); %>/UserController">kembali</a> <br />

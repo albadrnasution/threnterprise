@@ -37,10 +37,10 @@
             <td><% out.print(customer.getEmail()); %></td>
             <td><% out.print(customer.getPlace_of_birth()); %></td>
             <td><% out.print(customer.getDate_of_birth()); %></td>
-            <td><a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=DeleteCustomerNotification&&idc=<% out.print(customer.getIdc());%>">delete</a> | 
-                <a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=EditCustomer&&idc=<% out.print(customer.getIdc());%>">edit</a></td>
+            <td><a href="<% out.print(request.getContextPath()); %>/UserController?menu=DeleteCustomerNotification&&idc=<% out.print(customer.getIdc());%>">delete</a> | 
+                <a href="<% out.print(request.getContextPath()); %>/UserController?menu=EditCustomer&&idc=<% out.print(customer.getIdc());%>">edit</a></td>
             </tr>
             <% } %>
 </table>
-<a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=AddCustomer">tambah customer</a><br />
-<a href="<% out.print(session.getAttribute("base_url")); %>UserController">kembali</a> 
+<a href="<% out.print(request.getContextPath()); %>/UserController?menu=AddCustomer">tambah customer</a><br />
+<a href="<% out.print(request.getContextPath()); %>/UserController">kembali</a> 

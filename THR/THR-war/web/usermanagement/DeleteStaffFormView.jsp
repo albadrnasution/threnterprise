@@ -11,5 +11,5 @@
     Staff staff = (Staff)session.getAttribute("staff");
 %>
 <h1>Anda mau delete data <% out.print(staff.getUsername()); %>?</h1><br />
-<h3><a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=prosesDeleteStaff&&ids=<% out.print(staff.getIds()); %>">Ya</a></h3><br />
-<h3><a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=ListStaff">Tidak</a></h3>
+<h3><a href="<% out.print(request.getContextPath()); %>/UserController?menu=prosesDeleteStaff&&ids=<% out.print(staff.getIds()); %>">Ya</a></h3><br />
+<h3><a href="<% out.print(request.getContextPath()); %>/UserController?menu=ListStaff">Tidak</a></h3>

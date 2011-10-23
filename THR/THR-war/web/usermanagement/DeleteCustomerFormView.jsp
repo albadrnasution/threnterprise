@@ -11,5 +11,5 @@
     Customer customer = (Customer)session.getAttribute("customer");
 %>
 <h1>Anda mau delete data <% out.print(customer.getFirst_name()); %>?</h1><br />
-<h3><a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=prosesDeleteCustomer&&idc=<% out.print(customer.getIdc()); %>">Ya</a></h3><br />
-<h3><a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=ListCustomer">Tidak</a></h3>
+<h3><a href="<% out.print(request.getContextPath()); %>/UserController?menu=prosesDeleteCustomer&&idc=<% out.print(customer.getIdc()); %>">Ya</a></h3><br />
+<h3><a href="<% out.print(request.getContextPath()); %>/UserController?menu=ListCustomer">Tidak</a></h3>

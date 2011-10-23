@@ -12,7 +12,7 @@
         <h1><% if(mode.equals("edit")) out.print("Edit Staff");
                        else out.print("Tambah Staff"); %></h1>
         <br />
-        <form action="<% out.print(session.getAttribute("base_url")); %>UserController?menu=<% if(mode.equals("edit")) out.print("prosesEditStaff");
+        <form action="<% out.print(request.getContextPath()); %>/UserController?menu=<% if(mode.equals("edit")) out.print("prosesEditStaff");
                        else out.print("prosesAddStaff"); %>" method="POST">
                        <% if(mode.equals("edit")) out.print("<input type='hidden' name='ids' value='"+st.getIds()+"' />"); %>
             <table>

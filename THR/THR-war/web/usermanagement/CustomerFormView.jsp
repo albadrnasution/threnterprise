@@ -11,7 +11,7 @@
         <h1><% if(mode.equals("edit")) out.print("Edit Customer");
                        else out.print("Tambah Customer"); %></h1>
         <br />
-        <form action="<% out.print(session.getAttribute("base_url")); %>UserController?menu=<% if(mode.equals("edit")) out.print("prosesEditCustomer");
+        <form action="<% out.print(request.getContextPath()); %>/UserController?menu=<% if(mode.equals("edit")) out.print("prosesEditCustomer");
                        else out.print("prosesAddCustomer"); %>" method="POST">
                        <% if(mode.equals("edit")) out.print("<input type='hidden' name='idc' value='"+cu.getIdc()+"' />"); %>
             <table>
