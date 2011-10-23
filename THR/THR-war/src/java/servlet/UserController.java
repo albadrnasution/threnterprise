@@ -51,11 +51,9 @@ public class UserController extends HttpServlet {
             out.println("</html>");
              */
             HttpSession session = request.getSession();
-            String base_url = "http://localhost:8080/THR-war/";
-            session.setAttribute("base_url", base_url);
             if(request.getParameter("menu")==null) {
                 //@include file="home.jsp";
-                response.sendRedirect(base_url+"usermanagement/home.jsp");
+                response.sendRedirect("usermanagement/home.jsp");
             }
             else if(request.getParameter("menu").equals("ListStaff"))
             {
@@ -64,7 +62,7 @@ public class UserController extends HttpServlet {
                 s = t.getallStaff();
                 s.size();
                 session.setAttribute("staff", s);
-                response.sendRedirect(base_url+"usermanagement/ListStaffView.jsp");
+                response.sendRedirect("usermanagement/ListStaffView.jsp");
             }
             else if(request.getParameter("menu").equals("ListCustomer"))
             {
@@ -74,14 +72,14 @@ public class UserController extends HttpServlet {
                 c.size();
                 out.print(c.size());
                 session.setAttribute("customer", c);
-                response.sendRedirect(base_url+"usermanagement/ListCustomerView.jsp");
+                response.sendRedirect("usermanagement/ListCustomerView.jsp");
             }
             else if(request.getParameter("menu").equals("AddStaff")) {
                Staff st = new Staff();
                String mode= "";
                session.setAttribute("staff", st);
                session.setAttribute("mode", mode);
-               response.sendRedirect(base_url+"usermanagement/StaffFormView.jsp");
+               response.sendRedirect("usermanagement/StaffFormView.jsp");
             }
             else if(request.getParameter("menu").equals("AddCustomer"))
             {
@@ -89,7 +87,7 @@ public class UserController extends HttpServlet {
                 String mode= "";
                 session.setAttribute("customer", cu);
                session.setAttribute("mode", mode);
-                response.sendRedirect(base_url+"usermanagement/CustomerFormView.jsp");
+                response.sendRedirect("usermanagement/CustomerFormView.jsp");
             }
             else if(request.getParameter("menu").equals("prosesAddStaff"))
        {
@@ -105,7 +103,7 @@ public class UserController extends HttpServlet {
             staff.addStaff();
             //String res = staff.addStaff();
             //out.print(res);
-            String redirectURL = base_url+"UserController?menu=ListStaff";
+            String redirectURL = "UserController?menu=ListStaff";
             response.sendRedirect(redirectURL);
         }
         else if(request.getParameter("menu").equals("prosesAddCustomer"))
@@ -125,7 +123,7 @@ public class UserController extends HttpServlet {
             //customer.addCustomer();
             String res = customer.addCustomer();
             //out.print(request.getParameter("date_of_birth"));
-            String redirectURL = base_url+"UserController?menu=ListCustomer";
+            String redirectURL = "UserController?menu=ListCustomer";
             response.sendRedirect(redirectURL);
         }
             else if(request.getParameter("menu").equals("DeleteStaffNotification"))
@@ -133,7 +131,7 @@ public class UserController extends HttpServlet {
             Staff t = new Staff();
             Staff staff = t.getStaff(request.getParameter("ids"));
             session.setAttribute("staff", staff);
-            String redirectURL = base_url+"usermanagement/DeleteStaffFormView.jsp";
+            String redirectURL = "usermanagement/DeleteStaffFormView.jsp";
             response.sendRedirect(redirectURL);
        } 
            else if(request.getParameter("menu").equals("DeleteCustomerNotification"))
@@ -141,7 +139,7 @@ public class UserController extends HttpServlet {
             Customer c = new Customer();
             Customer customer = c.getCustomer(request.getParameter("idc"));
             session.setAttribute("customer", customer);
-            String redirectURL = base_url+"usermanagement/DeleteCustomerFormView.jsp";
+            String redirectURL = "usermanagement/DeleteCustomerFormView.jsp";
             response.sendRedirect(redirectURL);
        }
                    
@@ -149,7 +147,7 @@ public class UserController extends HttpServlet {
        {
             Staff staff =new Staff();
             staff.deleteStaff(request.getParameter("ids"));
-            String redirectURL = base_url+"UserController?menu=ListStaff";
+            String redirectURL = "UserController?menu=ListStaff";
             response.sendRedirect(redirectURL);
         }
         
@@ -160,7 +158,7 @@ public class UserController extends HttpServlet {
             Customer customer =new Customer();
             String res = customer.deleteCustomer(request.getParameter("idc"));
             //out.print(res);
-            String redirectURL = base_url+"UserController?menu=ListCustomer";
+            String redirectURL = "UserController?menu=ListCustomer";
             response.sendRedirect(redirectURL);
         }
         
@@ -177,7 +175,7 @@ public class UserController extends HttpServlet {
             staff.editStaff(request.getParameter("ids"));
             //String res = staff.editStaff(request.getParameter("ids"));
             //out.print(res);
-            String redirectURL = base_url+"UserController?menu=ListStaff";
+            String redirectURL = "UserController?menu=ListStaff";
             response.sendRedirect(redirectURL);
         }
         
@@ -197,7 +195,7 @@ public class UserController extends HttpServlet {
             //customer.addCustomer();
             String res =customer.editCustomer(request.getParameter("idc"));
             //out.print(res);
-            String redirectURL = base_url+"UserController?menu=ListCustomer";
+            String redirectURL = "UserController?menu=ListCustomer";
             response.sendRedirect(redirectURL);
         }
         
@@ -208,7 +206,7 @@ public class UserController extends HttpServlet {
             String mode= "edit";
            session.setAttribute("staff", st);
            session.setAttribute("mode", mode);
-           response.sendRedirect(base_url+"usermanagement/StaffFormView.jsp");
+           response.sendRedirect("usermanagement/StaffFormView.jsp");
             //String mode= "edit";
                }
                  
@@ -221,7 +219,7 @@ public class UserController extends HttpServlet {
             String mode= "edit";
            session.setAttribute("customer", customer);
            session.setAttribute("mode", mode);
-           response.sendRedirect(base_url+"usermanagement/CustomerFormView.jsp");
+           response.sendRedirect("usermanagement/CustomerFormView.jsp");
             //String mode= "edit";
                }   
             
