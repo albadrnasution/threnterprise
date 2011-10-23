@@ -27,6 +27,24 @@ import util.EmailHandler;
 @WebServlet(name = "login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
 
+    /**
+     * Checking the login and send to the right page
+     */
+    public void checkLogin(HttpServletRequest request) throws IOException {
+        HttpSession session = request.getSession();
+        HttpServletResponse response = null;
+        if (session.getAttribute("user") == null) {
+            response.sendRedirect("index.jsp");
+        } else {
+            if (session.getAttribute("jenisUser").equals("0")) {
+                response.sendRedirect("index.jsp");
+            } else {
+                response.sendRedirect("staff.jsp");
+            }
+        }
+
+    }
+
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -55,8 +73,9 @@ public class login extends HttpServlet {
                         cust = listcust.get(i);
                         session.setAttribute("user", cust);
                         session.setAttribute("jenisUser", "0");
-                        response.sendRedirect("home.jsp");
-                        found=true;
+                        session.setMaxInactiveInterval(3600);
+                        response.sendRedirect("index.jsp");
+                        found = true;
                     }
                 }
                 for (int i = 0; i < liststaff.size() && !found; ++i) {
@@ -70,10 +89,11 @@ public class login extends HttpServlet {
                         } else if (staff.getPrevilage().equals("admin")) {
                             session.setAttribute("jenisUser", "3");
                         }
+                        response.sendRedirect("staff.jsp");
                         found = true;
                     }
                 }
-                if(!found || session.getAttribute("user")==null){
+                if (!found || session.getAttribute("user") == null) {
                     response.sendRedirect("index.jsp?success=0");
                 }
             } else {
