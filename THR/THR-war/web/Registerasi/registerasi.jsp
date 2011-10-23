@@ -29,6 +29,19 @@
                     </div>
                     <div style="float: left; width: 740px; min-height: 140px; margin-bottom: 40px;padding-top: 15px;">
                         <h1>Register</h1>
+                        <%
+                            if(request.getParameter("email")!=null){
+                                if(request.getParameter("email").equals("1")){
+                        %>
+                        <div style="color: red">Alamat has been registered</div>
+                        <%
+                                                   } else if(request.getParameter("email").equals("0")){
+                                                       %>
+                         <div style="color: red">Form is blank</div>
+                        <%
+                                                   }
+                                                               }
+                        %>
                         <form name="registerasi" action="../registerasi" method="POST">
                             <table border="0">
                                 <tbody>
