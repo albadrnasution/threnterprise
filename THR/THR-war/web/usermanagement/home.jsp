@@ -6,5 +6,5 @@
 
 
         <h1>Hello World!</h1>
-        <a href="?menu=ListStaff">staff</a><br />
-        <a href="?menu=ListCustomer">customer</a><br />
+        <a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=ListStaff">staff</a><br />
+        <a href="<% out.print(session.getAttribute("base_url")); %>UserController?menu=ListCustomer">customer</a><br />
