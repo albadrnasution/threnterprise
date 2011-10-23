@@ -20,15 +20,15 @@ import util.EmailHandler;
  */
 public class Customer {
     private int idc;
-    private String first_name;
-    private String last_name;
-    private String address;
-    private String phone;
-    private String password;
-    private String email;
-    private String place_of_birth;
-    private Date date_of_birth;
-    private String date_of_birth2;
+    private String first_name = new String();
+    private String last_name = new String();
+    private String address = new String();
+    private String phone = new String();
+    private String password = new String();
+    private String email = new String();
+    private String place_of_birth = new String();
+    private Date date_of_birth = new Date();
+    private String date_of_birth2 =new String();
 
     public String getDate_of_birth2() {
         return date_of_birth2;
@@ -154,7 +154,6 @@ public class Customer {
                 c.setEmail(rs.getString("email"));
                 c.setPassword(rs.getString("password"));
                 temp.add(c);
-                System.out.println(c.getIdc());
             }
         }catch(Exception e){
         }
