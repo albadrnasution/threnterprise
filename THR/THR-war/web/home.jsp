@@ -4,6 +4,8 @@
     Author     : soleman
 --%>
 
+<%@page import="model.DateFormater"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="model.Customer"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -13,8 +15,6 @@ if(session.getAttribute("user")== null){
     response.sendRedirect("../index.jsp");
 } else {
 Customer r = (Customer) session.getAttribute("user");
-String notif = request.getParameter("n");
-
 %>   
 <!DOCTYPE html>
 <html>
@@ -75,7 +75,7 @@ String notif = request.getParameter("n");
                                 </tr>
                                 <tr>
                                     <td>Date of Birth</td>
-                                    <td>: <% if(r.getDate_of_birth()!=null)out.print(r.getDate_of_birth());else {out.print("-");} %></td>
+                                    <td>: <% if(r.getDate_of_birth()!=null)out.print(DateFormater.formatDateToCalFormat(r.getDate_of_birth()));else {out.print("-");} %></td>
                                 </tr>
                             </table>
                         </div>   
