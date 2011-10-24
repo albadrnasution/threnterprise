@@ -6,10 +6,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,29 +36,14 @@ public class PerjalananController extends HttpServlet {
         try {
             if (request.getParameter("mode") != null) {
                 if (request.getParameter("mode").equals("susun")) {
-                    String n = request.getParameter("s_nama_paket");
-                    String d = request.getParameter("s_desc");
-                    String h = request.getParameter("s_harga");
-                    String[] it = request.getParameterValues("s_item");
-                    String na = request.getParameter("s_nadult");
-                    String nc = request.getParameter("s_nchild");
-                    String t = request.getParameter("s_time");
-
-                    if (n.equals("") && d.equals("") && h.equals("") && na.equals("") && nc.equals("") && t.equals("")) {
-                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp");
-                    } else {
-                        PaketJalan pb = new PaketJalan();
-                        pb.setPaket(n, d, h, na, nc, t);
-
-                        int i = pb.lastID();
-                        IPJalan ipb = new IPJalan();
-                        if (it != null && it.length != 0) {
-                            for (int x = 0; x < it.length; x++) {
-                                ipb.setIPJalan(it[x], i);
-                            }
-                        }
-                    }
-                } else if (request.getParameter("mode").equals("cari")) {
+                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=susun");
+                } else if(request.getParameter("mode").equals("edit")){
+                    response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=edit&id=" + request.getParameter("id"));
+                }else if (request.getParameter("action").equals("delete")) {
+                        PaketJalan p = new PaketJalan();
+                        String x = p.deleteP(request.getParameter("id"));
+                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                }else if (request.getParameter("mode").equals("cari")) {
                     String harga = request.getParameter("harga");
                     String name = request.getParameter("name");
                     String operator = request.getParameter("operator");
@@ -82,7 +64,30 @@ public class PerjalananController extends HttpServlet {
 
                         }
                     }
-                }
+                }                
+            }else if(request.getParameter("act").equals("addPaket")){
+                    String n = request.getParameter("s_nama_paket");
+                    String d = request.getParameter("s_desc");
+                    String h = request.getParameter("s_harga");
+                    String[] it = request.getParameterValues("s_item");
+                    String na = request.getParameter("s_nadult");
+                    String nc = request.getParameter("s_nchild");
+                    String t = request.getParameter("s_time");
+                    if (n.equals("") && d.equals("") && h.equals("") && na.equals("") && nc.equals("") && t.equals("")) {
+                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?success=0");
+                    } else {
+                        PaketJalan pb = new PaketJalan();
+                        pb.setPaket(n, d, h, na, nc, t);
+
+                        int i = pb.lastID();
+                        IPJalan ipb = new IPJalan();
+                        if (it != null && it.length != 0) {
+                            for (int x = 0; x < it.length; x++) {
+                                ipb.setIPJalan(it[x], i);
+                            }
+                        }
+                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?success=1");
+                    }
             }
         } finally {
             out.close();
@@ -130,6 +135,11 @@ public class PerjalananController extends HttpServlet {
         return p.getPaket();
     }
 
+    public ArrayList<PaketJalan> showPaket(String id) {
+        PaketJalan p = new PaketJalan();
+        return p.getPaket(id);
+    }
+    
     public ArrayList<ItemJalan> showDetail(String id) {
         ItemJalan ij = new ItemJalan();
         return ij.getItem(id);
@@ -138,5 +148,10 @@ public class PerjalananController extends HttpServlet {
     public ArrayList<ItemJalan> getItem() {
         ItemJalan ij = new ItemJalan();
         return ij.getItem();
+    }
+    
+    public ArrayList<ItemJalan> getItem(String id) {
+        ItemJalan ij = new ItemJalan();
+        return ij.getItem(id);
     }
 }

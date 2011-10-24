@@ -333,7 +333,7 @@ public class PaketJalan {
         return i;
     }
     
-    public void deleteP(String id){
+    public String deleteP(String id){
         Database db = new Database();
         String sql = null;
         try{
@@ -346,6 +346,7 @@ public class PaketJalan {
         finally{
             Database.unsetConnection();
         }
+        return sql;
     }
     
     public static void main(String[] args) throws ParseException {
