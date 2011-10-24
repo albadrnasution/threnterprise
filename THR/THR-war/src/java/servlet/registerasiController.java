@@ -17,7 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import model.Customer;
 import util.EmailHandler;
 
@@ -26,7 +25,7 @@ import util.EmailHandler;
  * @author soleman
  */
 @WebServlet(name = "registerasi", urlPatterns = {"/registerasi"})
-public class registerasi extends HttpServlet {
+public class registerasiController extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -66,11 +65,11 @@ public class registerasi extends HttpServlet {
                         response.sendRedirect("index.jsp?register=1");
                     }
                 } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(registerasi.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(registerasiController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (MessagingException ex) {
-                    Logger.getLogger(registerasi.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(registerasiController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (UnsupportedEncodingException ex) {
-                    Logger.getLogger(registerasi.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(registerasiController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } finally {
