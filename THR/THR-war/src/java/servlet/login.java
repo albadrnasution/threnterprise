@@ -34,7 +34,7 @@ public class login extends HttpServlet {
         HttpSession session = request.getSession();
         HttpServletResponse response = null;
         if (session.getAttribute("user") == null) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("index.jsp?register=2");
         } else {
             if (session.getAttribute("jenisUser").equals("0")) {
                 response.sendRedirect("index.jsp");
@@ -89,7 +89,7 @@ public class login extends HttpServlet {
                         } else if (staff.getPrevilage().equals("admin")) {
                             session.setAttribute("jenisUser", "3");
                         }
-                        response.sendRedirect("staff.jsp");
+                        response.sendRedirect("index.jsp");
                         found = true;
                     }
                 }

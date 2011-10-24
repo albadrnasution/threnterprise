@@ -15,12 +15,12 @@
         <title>Welcome to THR</title>
     </head>
     <body>
-        
+
         <%@include file="layout/bighead.jsp" %>
         <div id="content-wrapper">
             <div id="content">
                 <div id="trias-front-panel"><%
-                    if(session.getAttribute("user")==null){ %>
+                    if (session.getAttribute("user") == null) {%>
                     <div class="login-bucket bucket">
                         <form action="login" method="POST" style="margin-top: 20px;">
                             <table border="0"  style="width: 100%">
@@ -48,26 +48,28 @@
                                         <td colspan="2" style="color: red">Wrong Email or Password</td>
                                     </tr>
                                     <%                                            }
-                                        } else if (request.getParameter("blank")!=null){
-                                            if (request.getParameter("blank").equals("0")) {
+                                    } else if (request.getParameter("blank") != null) {
+                                        if (request.getParameter("blank").equals("0")) {
                                     %>
-                                     <tr>
+                                    <tr>
                                         <td colspan="2" style="color: red">Email or password is blank</td>
                                     </tr>
-                                    <%
-                                                                           }
-                                                                                       }   
-                                        else if (request.getParameter("register")!=null){
-                                            if (request.getParameter("register").equals("1")) {
+                                    <%                                        }
+                                    } else if (request.getParameter("register") != null) {
+                                        if (request.getParameter("register").equals("1")) {
                                     %>
-                                     <tr>
+                                    <tr>
                                         <td colspan="2" style="color: red">Registeration Success, Please Log in</td>
                                     </tr>
-                                    <%
-                                                                           }
-                                                                                       }
+                                    <%                                    } else if (request.getParameter("register").equals("2")) {
                                     %>
-                                    
+                                    <tr>
+                                        <td colspan="2" style="color: red">You have been logged out, Please Log in</td>
+                                    </tr>
+                                    <%                                        }
+                                    }
+                                    %>
+
                                 </tbody>
                             </table>
                         </form>
@@ -78,7 +80,7 @@
                         </div>  
                     </div> 
                     <%
-                    }else if (session.getAttribute("jenisUser")=="0"){
+                    } else if (session.getAttribute("jenisUser") == "0") {
                     %>
                     <div class="profile-bucket bucket">
                         <div class="paket-icon"><img src="images/person.png" alt="Bingkisan"/></div>
@@ -87,7 +89,7 @@
                         </div>  
                     </div>
                     <%
-                    }else{
+                    } else {
                     %>
                     <div class="profile-bucket bucket">
                         <div class="paket-icon"><img src="images/admin.png" alt="Bingkisan"/></div>

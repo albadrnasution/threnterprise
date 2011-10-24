@@ -10,18 +10,21 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
-<% 
-if(session.getAttribute("user")== null){
-    response.sendRedirect("../index.jsp");
-} else {
-Customer r = (Customer) session.getAttribute("user");
+<%
+    if (session.getAttribute("user") == null) {
+        response.sendRedirect("index.jsp?register=2");
+    } else {
+        if (!session.getAttribute("jenisUser").equals("0")) {
+            response.sendRedirect("index.jsp?register=2");
+        } else {
+            Customer r = (Customer) session.getAttribute("user");
 %>   
 <!DOCTYPE html>
 <html>
     <%
-    if(session.getAttribute("user")==null){
-        response.sendRedirect("index.jsp");
-    }
+        if (session.getAttribute("user") == null) {
+            response.sendRedirect("index.jsp");
+        }
     %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -44,38 +47,66 @@ Customer r = (Customer) session.getAttribute("user");
                         <a  class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;" href="">Shopping History</a>
                     </div>
                     <div style="float: left; width: 740px; min-height: 140px; margin-bottom: 40px;padding-top: 15px;">
-                        
+
                         <h2>Welcome Home</h2>
                         <hr/><br/>
                         <div>
                             <table>
                                 <tr>
                                     <td>First Name</td>
-                                    <td>: <% if(r.getFirst_name()!=null)out.print(r.getFirst_name());else {out.print("-");} %></td>
+                                    <td>: <% if (r.getFirst_name() != null) {
+                                            out.print(r.getFirst_name());
+                                        } else {
+                                            out.print("-");
+                                        }%></td>
                                 </tr>
                                 <tr>
                                     <td>Last Name</td>
-                                    <td>: <% if(r.getLast_name()!=null)out.print(r.getLast_name());else {out.print("-");} %></td>
+                                    <td>: <% if (r.getLast_name() != null) {
+                                            out.print(r.getLast_name());
+                                        } else {
+                                            out.print("-");
+                                        }%></td>
                                 </tr>
                                 <tr>
                                     <td>Registered Email</td>
-                                    <td>: <% if(r.getFirst_name()!=null)out.print(r.getEmail());else {out.print("-");} %></td>
+                                    <td>: <% if (r.getFirst_name() != null) {
+                                            out.print(r.getEmail());
+                                        } else {
+                                            out.print("-");
+                                        }%></td>
                                 </tr>
                                 <tr>
                                     <td>Phone</td>
-                                    <td>: <% if(r.getPhone()!=null)out.print(r.getPhone());else {out.print("-");} %></td>
+                                    <td>: <% if (r.getPhone() != null) {
+                                            out.print(r.getPhone());
+                                        } else {
+                                            out.print("-");
+                                        }%></td>
                                 </tr>
                                 <tr>
                                     <td>Address</td>
-                                    <td>: <% if(r.getAddress()!=null)out.print(r.getAddress());else {out.print("-");} %></td>
+                                    <td>: <% if (r.getAddress() != null) {
+                                            out.print(r.getAddress());
+                                        } else {
+                                            out.print("-");
+                                        }%></td>
                                 </tr>
                                 <tr>
                                     <td>Place of Birth</td>
-                                    <td>: <% if(r.getPlace_of_birth()!=null)out.print(r.getPlace_of_birth());else {out.print("-");} %></td>
+                                    <td>: <% if (r.getPlace_of_birth() != null) {
+                                            out.print(r.getPlace_of_birth());
+                                        } else {
+                                            out.print("-");
+                                        }%></td>
                                 </tr>
                                 <tr>
                                     <td>Date of Birth</td>
-                                    <td>: <% if(r.getDate_of_birth()!=null)out.print(DateFormater.formatDateToCalFormat(r.getDate_of_birth()));else {out.print("-");} %></td>
+                                    <td>: <% if (r.getDate_of_birth() != null) {
+                                            out.print(DateFormater.formatDateToCalFormat(r.getDate_of_birth()));
+                                        } else {
+                                            out.print("-");
+                                        }%></td>
                                 </tr>
                             </table>
                         </div>   
@@ -86,4 +117,5 @@ Customer r = (Customer) session.getAttribute("user");
         <%@include file="layout/footer.jsp" %>
     </body>
 </html>
-<% } %>
+<% }
+    }%>

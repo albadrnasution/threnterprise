@@ -18,12 +18,12 @@ import util.EmailHandler;
  * @author Didik
  */
 public class Staff {
-    private int ids;
-    private String username;
-    private String first_name;
-    private String last_name;
-    private String email;
-    private String password;
+    private int ids=0;
+    private String username = new String();
+    private String first_name = new String();
+    private String last_name = new String();
+    private String email = new String();
+    private String password = new String();
     private Privilege previlage;
 
     public String getEmail() {

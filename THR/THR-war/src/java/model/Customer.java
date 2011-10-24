@@ -19,7 +19,7 @@ import util.EmailHandler;
  * @author Didik
  */
 public class Customer {
-    private int idc;
+    private int idc = 0 ;
     private String first_name = new String();
     private String last_name = new String();
     private String address = new String();

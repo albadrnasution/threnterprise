@@ -11,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Customer;
+import model.Staff;
 
 /**
  *
@@ -31,17 +33,37 @@ public class userController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            // TODO output your page here
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet userController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet userController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-            
-        } finally {            
+            if (request.getParameter("manage").equals("staff")) {
+                if (request.getParameter("action") != null) {
+                    if (request.getParameter("action").equals("delete")) {
+                        Staff s = new Staff();
+                        s.deleteStaff(request.getParameter("id"));
+                        response.sendRedirect("usermanagement/ListStaffView.jsp?success=1");
+                    } else if (request.getParameter("action").equals("edit")) {
+                        response.sendRedirect("editProfile/editProfilPage.jsp?manage=edit&target=staff&id=" + request.getParameter("id"));
+                    } else if(request.getParameter("action").equals("add")){
+                        response.sendRedirect("editProfile/editProfilPage.jsp?manage=add&target=staff");
+                    }
+                } else {
+                    response.sendRedirect("usermanagement/ListStaffView.jsp");
+                }
+            } else if (request.getParameter("manage").equals("kustomer")) {
+                if (request.getParameter("action") != null) {
+                    if (request.getParameter("action").equals("delete")) {
+                        Customer s = new Customer();
+                        s.deleteCustomer(request.getParameter("id"));
+                        response.sendRedirect("usermanagement/ListCustomerView.jsp?success=1");
+                    } else if (request.getParameter("action").equals("edit")) {
+                        response.sendRedirect("editProfile/editProfilPage.jsp?manage=edit&target=customer&id=" + request.getParameter("id"));
+                    }else if(request.getParameter("action").equals("add")){
+                        response.sendRedirect("editProfile/editProfilPage.jsp?manage=add&target=customer");
+                    }
+                } else {
+                    response.sendRedirect("usermanagement/ListCustomerView.jsp");
+                }
+            }
+
+        } finally {
             out.close();
         }
     }
