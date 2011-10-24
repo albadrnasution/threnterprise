@@ -22,9 +22,9 @@
         
         <% if (request.getParameter("success") != null) {
                 if (request.getParameter("success").equals("1")) {%>
-                    <div style="margin-left: 20px; color: red">Paket has been deleted successfully.</div>
-            <% }else {%>
-                    <div style="margin-left: 20px; color: red">Failed to deleted paket.</div>
+                    <div style="margin-left: 20px; color: red">Success.</div>
+            <% }else if (request.getParameter("success").equals("0")){%>
+                    <div style="margin-left: 20px; color: red">Failed.</div>
             <% } 
         }%>
         

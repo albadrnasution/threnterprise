@@ -81,7 +81,7 @@ public class PaketBingkisan {
         ArrayList<PaketBingkisan> temp = new ArrayList<PaketBingkisan>();
         String sql;
         try{
-            sql="SELECT * FROM paket_bingkisan WHERE idp"+idp;
+            sql="SELECT * FROM paket_bingkisan WHERE idp="+idp;
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
@@ -214,7 +214,8 @@ public class PaketBingkisan {
     public static void main(String[] args) {
         PaketBingkisan pj = new PaketBingkisan();
         ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();
-        apj = pj.getSearchResult("100000", "<", "", "");
+        //apj = pj.getSearchResult("100000", "<", "", "");
+        apj = pj.getPaket("3");
         
         for(int i=0;i<apj.size();++i){
             System.out.println(apj.get(i).getPaket_name());

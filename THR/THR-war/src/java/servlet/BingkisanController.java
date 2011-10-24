@@ -38,27 +38,18 @@ public class BingkisanController extends HttpServlet {
         try {
             if (request.getParameter("mode") != null) {
                 if (request.getParameter("mode").equals("susun")) {
-                    String n = request.getParameter("s_nama_paket");
-                    String d = request.getParameter("s_desc");
-                    String h = request.getParameter("s_harga");
-                    String[] it = request.getParameterValues("s_item");
-                    String[] ni = request.getParameterValues("nitem");
-
-                    if (n.equals("") && d.equals("") && h.equals("")) {
-                        response.sendRedirect("paketBingkisan/menyusunPBPage.jsp");
-                    } else {
-                        PaketBingkisan pb = new PaketBingkisan();
-                        pb.setPaket(n, d, h);
-
-                        int i = pb.lastID();
-                        IPBingkisan ipb = new IPBingkisan();
-                        if (it != null && it.length != 0) {
-                            for (int x = 0; x < it.length; x++) {
-                                ipb.setIPBingkisan(it[x], i, ni[x]);
-                            }
+                    response.sendRedirect("paketBingkisan/menyusunPBPage.jsp?aksi=susun");
+                } else if (request.getParameter("mode").equals("edit")) {
+                    response.sendRedirect("paketBingkisan/menyusunPBPage.jsp?aksi=edit&id=" + request.getParameter("id"));
+                } else if (request.getParameter("mode").equals("delete")) {
+                        PaketBingkisan p = new PaketBingkisan();
+                        p.deleteP(request.getParameter("id"));
+                        if(getItem(request.getParameter("id")).isEmpty()){
+                            response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=1");
+                        }else{
+                            response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=0");
                         }
-                    }
-                } else if (request.getParameter("mode").equals("cari")) {
+                }else if (request.getParameter("mode").equals("cari")) {
                     String harga = request.getParameter("harga");
                     String name = request.getParameter("name");
                     String operator = request.getParameter("operator");
@@ -78,6 +69,32 @@ public class BingkisanController extends HttpServlet {
                             response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp");
                         }
                     }
+                }
+            }else if (request.getParameter("act") != null) {
+                if(request.getParameter("act").equals("addPaket")){
+                    String n = request.getParameter("s_nama_paket");
+                    String d = request.getParameter("s_desc");
+                    String h = request.getParameter("s_harga");
+                    String[] it = request.getParameterValues("s_item");
+                    String[] ni = request.getParameterValues("nitem");
+
+                    if (n.equals("") || d.equals("") || h.equals("")) {
+                        response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=0");
+                    } else {
+                        PaketBingkisan pb = new PaketBingkisan();
+                        pb.setPaket(n, d, h);
+
+                        int i = pb.lastID();
+                        IPBingkisan ipb = new IPBingkisan();
+                        if (it != null && it.length != 0) {
+                            for (int x = 0; x < it.length; x++) {
+                                ipb.setIPBingkisan(it[x], i, ni[x]);
+                            }
+                        }
+                        response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=2");
+                    }
+                }else if(request.getParameter("act").equals("editPaket")){
+                   
                 }
             }
         } finally {
@@ -139,6 +156,11 @@ public class BingkisanController extends HttpServlet {
     public ArrayList<ItemBingkisan> getItem() {
         ItemBingkisan ij = new ItemBingkisan();
         return ij.getItem();
+    }
+    
+    public ArrayList<ItemBingkisan> getItem(String id) {
+        ItemBingkisan ij = new ItemBingkisan();
+        return ij.getItem(id);
     }
 
     public PaketBingkisan deletePaket(String id) {

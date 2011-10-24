@@ -53,7 +53,7 @@
                     </div>
                 <div style="float: left; width: 740px; min-height: 140px; margin-bottom: 40px;padding-top: 15px;">
                     <h1><%= title %></h1>
-            <form name="submit" action="../PerjalananController?act=addPaket" name="editPaket" method="POST" id="editProfil">
+            <form name="submit" action="../PerjalananController?act=addPaket" method="POST" id="editProfil">
                             
                             <%                            
                         if (request.getParameter("success") != null) {

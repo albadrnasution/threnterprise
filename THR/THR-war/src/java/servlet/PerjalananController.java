@@ -39,10 +39,14 @@ public class PerjalananController extends HttpServlet {
                         response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=susun");
                 } else if(request.getParameter("mode").equals("edit")){
                     response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=edit&id=" + request.getParameter("id"));
-                }else if (request.getParameter("action").equals("delete")) {
+                }else if (request.getParameter("mode").equals("delete")) {
                         PaketJalan p = new PaketJalan();
                         String x = p.deleteP(request.getParameter("id"));
-                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                        if(x.isEmpty()){
+                            response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
+                        }else{
+                            response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                        }                        
                 }else if (request.getParameter("mode").equals("cari")) {
                     String harga = request.getParameter("harga");
                     String name = request.getParameter("name");
@@ -73,8 +77,8 @@ public class PerjalananController extends HttpServlet {
                     String na = request.getParameter("s_nadult");
                     String nc = request.getParameter("s_nchild");
                     String t = request.getParameter("s_time");
-                    if (n.equals("") && d.equals("") && h.equals("") && na.equals("") && nc.equals("") && t.equals("")) {
-                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?success=0");
+                    if (n.equals("") || d.equals("") || h.equals("") || na.equals("") || nc.equals("") || t.equals("")) {
+                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
                     } else {
                         PaketJalan pb = new PaketJalan();
                         pb.setPaket(n, d, h, na, nc, t);
@@ -86,7 +90,7 @@ public class PerjalananController extends HttpServlet {
                                 ipb.setIPJalan(it[x], i);
                             }
                         }
-                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?success=1");
+                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
                     }
             }
         } finally {
