@@ -33,7 +33,7 @@
                             if(request.getParameter("email")!=null){
                                 if(request.getParameter("email").equals("1")){
                         %>
-                        <div style="color: red">Alamat has been registered</div>
+                        <div style="color: red">Email has been registered</div>
                         <%
                                                    } else if(request.getParameter("email").equals("0")){
                                                        %>
