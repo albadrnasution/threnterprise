@@ -66,13 +66,18 @@
                         } else {
                             out.print("Edit Web Srevice");
                         }%></h1>
+                        
                     <form  action="../webserviceController?<% if (!managed.equals("")) {
                             out.print("managed=" + managed);
                         }
                         if (add) {
                             out.print("&action=add");
                         }%>  " name="editWS" method="POST" id="editWS">
-                        
+                        <% if(request.getParameter("success")!=null){
+                            if(request.getParameter("success").equals("0")){%>
+                                <div style="color: red">Name and Server should not be blank. </div>
+                            <%}
+                        }%>
                         
                         <table>
                             <tr>

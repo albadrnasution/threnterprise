@@ -74,7 +74,7 @@ public class webUserController extends HttpServlet {
                         response.sendRedirect("manageWS/editWebservicePage.jsp?manage=edit&target=ws&id="+request.getParameter("id"));
                     }
                     else if(request.getParameter("action").equals("add")){
-                        response.sendRedirect("manageWS/editWebservicePage.jsp?manage=add&target=ws");
+                        response.sendRedirect("manageWS/editWebservicePage.jsp?manage=add&target=ws&success=1");
                     }
                 } else {
                     response.sendRedirect("manageWS/webservicePage.jsp");

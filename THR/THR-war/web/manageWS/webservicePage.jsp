@@ -40,11 +40,11 @@
                     <% }
                     } else if (request.getParameter("success") != null) {
                         if (request.getParameter("success").equals("1")) {%>
-                    <div style="margin-left: 20px; color: red">User has been deleted successfully.</div>
+                    <div style="margin-left: 20px; color: red">Web service has been deleted successfully.</div>
                     <% } else if (request.getParameter("success").equals("2")) {%>
-                    <div style="margin-left: 20px; color: red">User has been edited successfully.</div>
+                    <div style="margin-left: 20px; color: red">Web Service has been edited successfully.</div>
                     <% } else if (request.getParameter("success").equals("3")) {%>
-                    <div style="margin-left: 20px; color: red">user has been added successfully.</div>
+                    <div style="margin-left: 20px; color: red">Web Service has been added successfully.</div>
                     <% }
                         }%>
                     <table border="1" class="tutturu">

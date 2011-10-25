@@ -53,74 +53,85 @@ public class webserviceController extends HttpServlet {
                 String ids = new String();
                 String sql = new String();
                 int id = 0;
-
+                
                 nama = request.getParameter("nama");
                 jenis = request.getParameter("jenis");
                 server = request.getParameter("server");
                 port = request.getParameter("port");
                 username = request.getParameter("username");
                 password = request.getParameter("password");
-
+                
+                
+                
                 if (edit){
+                    
                     ids = request.getParameter("idws");
                     id = Integer.parseInt(ids);
+                    if(nama.equals("")||server.equals("")){
+                        response.sendRedirect("manageWS/editWebservicePage.jsp?manage=edit&target=ws&id="+ids+"&success=0");
+                    }else{
+                        sql="UPDATE webservice SET nama='"+nama+"',jenis='"+jenis+"',server='"+server+"'";
+                        if(!port.equals("")){
+                            sql=sql.concat(",port='"+port+"'");
+                        }
+                        else{
+                            sql=sql.concat(",port=Null");
+                        }
+                        if(!username.equals("")){
+                            sql=sql.concat(",username='"+username+"'");
+                        }
+                        else{
+                            sql=sql.concat(",username=Null");
+                        }
+                        if(!password.equals("")){
+                            sql=sql.concat(",password='"+password+"'");
+                        }
+                        else{
+                            sql=sql.concat(",password=Null");
+                        }
+                        sql=sql.concat(" WHERE id='"+ids+"'");
 
-                    sql="UPDATE webservice SET nama='"+nama+"',jenis='"+jenis+"',server='"+server+"'";
-                    if(!port.equals("")){
-                        sql=sql.concat(",port='"+port+"'");
-                    }
-                    else{
-                        sql=sql.concat(",port=Null");
-                    }
-                    if(!username.equals("")){
-                        sql=sql.concat(",username='"+username+"'");
-                    }
-                    else{
-                        sql=sql.concat(",username=Null");
-                    }
-                    if(!password.equals("")){
-                        sql=sql.concat(",password='"+password+"'");
-                    }
-                    else{
-                        sql=sql.concat(",password=Null");
-                    }
-                    sql=sql.concat(" WHERE id='"+ids+"'");
-                    
-                    out.print(sql);
-                    Database.setConnection();
-                    Database.updatingQuery(sql);
-                    //ws.editWebService(ids, nama, jenis, server, port, username, password);
+                        out.print(sql);
+                        Database.setConnection();
+                        Database.updatingQuery(sql);
+                        //ws.editWebService(ids, nama, jenis, server, port, username, password);
 
-                    response.sendRedirect("manageWS/webservicePage.jsp");
+                        response.sendRedirect("manageWS/webservicePage.jsp?success=2");
+                    }
                 }else
                 if(!edit){
-                    sql="INSERT INTO webservice (nama,jenis,server,port,username,password) VALUES ('"+nama+"','"+jenis+"','"+server+"'";
-                    if(!port.equals("")){
-                        sql=sql.concat(",'"+port+"'");
-                    }
-                    else{
-                        sql=sql.concat(",Null");
-                    }
-                    if(!username.equals("")){
-                        sql=sql.concat(",'"+username+"'");
-                    }
-                    else{
-                        sql=sql.concat(",Null");
-                    }
-                    if(!password.equals("")){
-                        sql=sql.concat(",'"+password+"'");
-                    }
-                    else{
-                        sql=sql.concat(",Null");
-                    }
-                    sql=sql.concat(")");
-                    out.print(sql);
-                    Database.setConnection();
-                    Database.updatingQuery(sql);
+                    if(nama.equals("")||server.equals("")){
+                    response.sendRedirect("manageWS/editWebservicePage.jsp?manage=edit&target=ws&success=0");
+                    }else{
+                        sql="INSERT INTO webservice (nama,jenis,server,port,username,password) VALUES ('"+nama+"','"+jenis+"','"+server+"'";
+                        if(!port.equals("")){
+                            sql=sql.concat(",'"+port+"'");
+                        }
+                        else{
+                            sql=sql.concat(",Null");
+                        }
+                        if(!username.equals("")){
+                            sql=sql.concat(",'"+username+"'");
+                        }
+                        else{
+                            sql=sql.concat(",Null");
+                        }
+                        if(!password.equals("")){
+                            sql=sql.concat(",'"+password+"'");
+                        }
+                        else{
+                            sql=sql.concat(",Null");
+                        }
+                        sql=sql.concat(")");
+                        out.print(sql);
+                        Database.setConnection();
+                        Database.updatingQuery(sql);
 
-                    response.sendRedirect("manageWS/webservicePage.jsp");
+                        response.sendRedirect("manageWS/webservicePage.jsp?success=3");
+                    }
+                    
                 }
-
+                
 
             }   
         } finally {            
