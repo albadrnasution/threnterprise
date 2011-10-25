@@ -349,6 +349,28 @@ public class PaketJalan {
         return sql;
     }
     
+    public PaketJalan getPaketbyid(String id){
+        ResultSet rs;
+        PaketJalan pb = new PaketJalan();
+        String Sql;
+        Sql="SELECT * FROM paket_jalan WHERE idp='"+id+"'";
+        Database.setConnection();
+        rs = Database.executingQuery(Sql);
+        try {
+            while(rs.next()){
+                pb.setIdp(rs.getInt("idp"));
+                pb.setPaket_nama(rs.getString("paket_name"));
+                pb.setDescription(rs.getString("description"));
+                pb.setTotal_price(rs.getInt("price"));
+                pb.setNadult(rs.getInt("nadult"));
+                pb.setNchild(rs.getInt("nchild"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pb;
+    }
+    
     public static void main(String[] args) throws ParseException {
         PaketJalan pj = new PaketJalan();
         ArrayList<PaketJalan> apj = new ArrayList<PaketJalan>();

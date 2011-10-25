@@ -1,7 +1,10 @@
 package model;
 
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
+import util.Database;
 
 /*
  * To change this template, choose Tools | Templates
@@ -77,5 +80,57 @@ public class PesanPaket {
         this.pay_status = pay_status;
     }
     
+    public String addPesanPaket()
+    {
+        Database db = new Database();
+        String sql = null;
+        try{
+            sql="INSERT INTO pesan_paket (idp,idc,jumlah_paket,order_date,due_date) VALUES "
+                   /*+ "('aa','las','add','phon','emil','pla','00-00-0000','asd')";*/
+                    
+                    
+                    
+                    + "("+this.getIdp()+","+this.getIdc()+","+this.getJumlah_paket()+","
+                    + "NOW()" +","+"NOW()"+")";
+            db.setConnection();
+            db.updatingQuery(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            db.unsetConnection();
+        }
+        return sql;
+    }
+    
+    public ArrayList<PesanPaket> getPesanPaketbyIdc(String idc){
+        ResultSet rs;
+        ArrayList<PesanPaket> temp =new ArrayList<PesanPaket>();
+        String sql;
+        try{
+            sql="SELECT * FROM pesan_paket WHERE idc="+idc;
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                PesanPaket c = new PesanPaket();
+                c.setIdo(rs.getInt("ido"));
+                c.setIdp(rs.getInt("idp"));
+                c.setIdc(rs.getInt("idc"));
+                c.setJumlah_paket(rs.getInt("jumlah_paket"));
+                c.setOrder_date(rs.getDate("order_date"));
+                c.setDue_date(rs.getDate("due_date"));
+                if (rs.getInt("pay_status")==1)
+                    c.setPay_status(true);
+                else c.setPay_status(false);
+                temp.add(c);
+                System.out.println(c.getIdc());
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return temp ;
+    }
     
 }

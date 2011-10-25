@@ -211,6 +211,26 @@ public class PaketBingkisan {
         }
     }
     
+    public PaketBingkisan getPaketbyid(String id){
+        ResultSet rs;
+        PaketBingkisan pb = new PaketBingkisan();
+        String Sql;
+        Sql="SELECT * FROM paket_bingkisan WHERE idp='"+id+"'";
+        Database.setConnection();
+        rs = Database.executingQuery(Sql);
+        try {
+            while(rs.next()){
+                pb.setIdp(rs.getInt("idp"));
+                pb.setPaket_name(rs.getString("paket_name"));
+                pb.setDescription(rs.getString("description"));
+                pb.setPrice(rs.getInt("price"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pb;
+    }
+    
     public static void main(String[] args) {
         PaketBingkisan pj = new PaketBingkisan();
         ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();

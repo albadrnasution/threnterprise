@@ -1,5 +1,9 @@
 package model;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import util.Database;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -65,5 +69,53 @@ public class PesanKirimBingkisan {
         this.stat_kirim = stat_kirim;
     }
     
+    public String addPesanKirimBingkisan(String ido)
+    {
+        Database db = new Database();
+        String sql = null;
+        try{
+            sql="INSERT INTO pesan_kirim_bing (ido,idp,idc,no_paket,alamat,harga,stat_kirim) VALUES "
+                   /*+ "('aa','las','add','phon','emil','pla','00-00-0000','asd')";*/
+                    
+                    
+                    
+                    + "("+ido+","+this.getIdp()+","+this.getIdc()+","+0+",'"
+                    + this.getAlamat() +"',"+this.getHarga()+","+"'pending')";
+            db.setConnection();
+            db.updatingQuery(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            db.unsetConnection();
+        }
+        return sql;
+    }
+    
+    public ArrayList<PesanKirimBingkisan> getPesanKirimBingkisanbyIdc(String idc){
+        ResultSet rs;
+        ArrayList<PesanKirimBingkisan> temp =new ArrayList<PesanKirimBingkisan>();
+        String sql;
+        try{
+            sql="SELECT * FROM pesan_kirim_bing WHERE idc="+idc;
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                PesanKirimBingkisan c = new PesanKirimBingkisan();
+                c.setIdo(rs.getInt("ido"));
+                c.setIdp(rs.getInt("idp"));
+                c.setIdc(rs.getInt("idc"));
+                c.setAlamat(rs.getString("alamat"));
+                c.setHarga(rs.getInt("harga"));
+                temp.add(c);
+                System.out.println(c.getIdc());
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return temp ;
+    }
     
 }
