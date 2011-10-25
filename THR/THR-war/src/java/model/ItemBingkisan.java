@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import util.Database;
@@ -114,6 +115,16 @@ public class ItemBingkisan {
         }
         return temp ;
     }
+    
+    public String getItems_asJSON(String idp){
+        String json = "";
+        
+        ArrayList<ItemBingkisan> aPB = this.getItem(idp);
+        
+        json = new Gson().toJson(aPB);
+        return json;
+    }
+    
     public static void main(String[] args) {
         ItemBingkisan pj = new ItemBingkisan();
         ArrayList<ItemBingkisan> apj = new ArrayList<ItemBingkisan>();

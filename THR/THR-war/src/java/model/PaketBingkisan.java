@@ -64,6 +64,13 @@ public class PaketBingkisan {
         json = gson.toJson(aPB);
         return json;
     }
+    
+    public String getPaket_asJSON(String idp){
+        String json = "";
+        ArrayList<PaketBingkisan> bingkisan = getPaket(idp);
+        json = new Gson().toJson(bingkisan);
+        return json;
+     }
      
     public ArrayList<PaketBingkisan> getPaket(){
         Database db = new Database();

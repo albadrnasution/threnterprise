@@ -95,6 +95,13 @@ public class PaketJalan {
         return json;
     }
      
+     public String getPaket_asJSON(String idp){
+        String json = "";
+        ArrayList<PaketJalan> arrayJalan = getPaket(idp);
+        json = new Gson().toJson(arrayJalan);
+        return json;
+     }
+     
     public ArrayList<PaketJalan> getPaket(){
         Database db = new Database();
         ResultSet rs;

@@ -11,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.ItemBingkisan;
+import model.ItemJalan;
 import model.PaketBingkisan;
 import model.PaketJalan;
 
@@ -41,6 +43,19 @@ public class PaketMobile extends HttpServlet {
                 }else if (request.getParameter("request").equals("bingkisan")){
                     PaketBingkisan pb = new PaketBingkisan();
                     out.print(pb.getPaket_asJSON());
+                }else if (request.getParameter("request").equals("ijalan") && request.getParameter("idp")!=null){
+                    String idp = request.getParameter("idp");
+                    
+                    ItemJalan ij = new ItemJalan();
+                    PaketJalan pj = new PaketJalan();
+                    out.print(ij.getItems_asJSON(idp));
+                }else if (request.getParameter("request").equals("ibingkisan") && request.getParameter("idp")!=null){
+                    String idp = request.getParameter("idp");
+                    
+                    ItemBingkisan ib = new ItemBingkisan();
+                    PaketBingkisan pb = new PaketBingkisan();
+                    out.print(ib.getItems_asJSON(idp));
+//                    out.print(pb.getPaket_asJSON(idp));
                 }else{
                     out.println("Invalid request.");
                 }
