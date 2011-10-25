@@ -90,21 +90,16 @@
                             <tr>
                                 <td>Type</td>
                                 <td>:  <select name="type" class="filter" style="width: 150px">
-                                        <option value="officer" <% if (!add) {
+                                        <option value="travel" <% if (!add) {
                                                 if (ws.getJenis().equals("travel")) {
                                                     out.print("selected");
                                                 }
-                                            }%>>Officer</option>
-                                        <option value="manager" <% if (!add) {
-                                                if (s.getPrevilage().equals("manager")) {
+                                            }%>>Travel</option>
+                                        <option value="bingkisan" <% if (!add) {
+                                                if (ws.getJenis().equals("bingkisan")) {
                                                     out.print("selected");
                                                 }
-                                            }%>>Manager</option>
-                                        <option value="admin" <% if (!add) {
-                                                if (s.getPrevilage().equals("admin")) {
-                                                    out.print("selected");
-                                                }
-                                            }%>>Admin</option>
+                                            }%>>Bingkisan</option>
                                     </select>
                                 </td>  
                             </tr>
