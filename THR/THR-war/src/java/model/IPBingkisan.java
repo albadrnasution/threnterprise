@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import util.Database;
 
 /*
@@ -54,4 +56,22 @@ public class IPBingkisan {
         }
     }
     
+    public IPBingkisan getIPB(String idi, String idp){
+        IPBingkisan c = new IPBingkisan();
+        ResultSet rs;
+        String sql;
+        try{
+            sql="SELECT * FROM ip_bingkisan where idi='"+idi+"' and idp='"+idp+"'";
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+                c.setIdi(rs.getInt("idi"));
+                c.setIdp(rs.getInt("idp"));
+                c.setNitem(rs.getInt("nitem"));
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return c;
+    }
 }

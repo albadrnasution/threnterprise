@@ -6,7 +6,10 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +33,7 @@ public class PerjalananController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
@@ -81,13 +84,57 @@ public class PerjalananController extends HttpServlet {
                         response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
                     } else {
                         PaketJalan pb = new PaketJalan();
+                        t = DateFormater.formatDateToDBFormat(t);
                         pb.setPaket(n, d, h, na, nc, t);
 
-                        int i = pb.lastID();
+                        String i = pb.lastID() + "";
                         IPJalan ipb = new IPJalan();
                         if (it != null && it.length != 0) {
                             for (int x = 0; x < it.length; x++) {
                                 ipb.setIPJalan(it[x], i);
+                            }
+                        }
+                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                    }
+            }else if(request.getParameter("act").equals("editPaket")){
+                    String idp = request.getParameter("s_id");
+                    String n = request.getParameter("s_nama_paket");
+                    String d = request.getParameter("s_desc");
+                    String h = request.getParameter("s_harga");
+                    String[] it = request.getParameterValues("s_item");
+                    String na = request.getParameter("s_nadult");
+                    String nc = request.getParameter("s_nchild");
+                    String t = request.getParameter("s_time");
+                    out.print(n);
+                    out.print(d);
+                    out.print(na);
+                    out.print(nc);
+                    out.print(t);
+                    if (n.equals("") || d.equals("") || h.equals("") || na.equals("") || nc.equals("") || t.equals("")) {
+                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
+                    } else {
+                        out.print("a");
+                        PaketJalan pb = new PaketJalan();
+                        pb.setPaket_nama(n);
+                        pb.setDescription(d);
+                        pb.setNadult(Integer.parseInt(na));
+                        pb.setNadult(Integer.parseInt(nc));
+                        pb.setTime(DateFormater.getDateFromViewFormat(t));
+                        pb.updatePaket(idp);
+                        String i = idp;
+                        IPJalan ipb = new IPJalan();
+                        if (it != null && it.length != 0) {
+                            for (int x = 0; x < it.length; x++) {
+                                ArrayList<IPJalan> ipj = new ArrayList<IPJalan>();
+                                ipj = ipb.getIPJ();
+                                for(int j=0; j<ipj.size();++j){
+                                    if(ipj.get(j).getIdp() == Integer.parseInt(i) && ipj.get(j).getIdi() == Integer.parseInt(it[x])){
+                                        //sudah ada
+                                        ipb.updateIPJalan(it[x], i);
+                                    }else{
+                                        ipb.setIPJalan(it[x], i);                                    
+                                    }
+                                }
                             }
                         }
                         response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
@@ -109,7 +156,11 @@ public class PerjalananController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(PerjalananController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
@@ -122,7 +173,11 @@ public class PerjalananController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(PerjalananController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 

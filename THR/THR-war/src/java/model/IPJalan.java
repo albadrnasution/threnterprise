@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import util.Database;
 
 /*
@@ -31,12 +33,48 @@ public class IPJalan {
         this.idp = idp;
     }
     
-    public void setIPJalan(String idi, int idp){
+    public ArrayList<IPJalan> getIPJ(){
+        ArrayList<IPJalan> ipj = new ArrayList<IPJalan>();
+        ResultSet rs;
+        String sql;
+        try{
+            sql="SELECT * FROM ip_jalan";
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                IPJalan c = new IPJalan();
+                c.setIdi(rs.getInt("idi"));
+                c.setIdp(rs.getInt("idp"));
+                ipj.add(c);
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return ipj;
+    }
+    
+    public void setIPJalan(String idi, String idp){
         Database db = new Database();
         String sql;
         try{
             Database.setConnection();
             sql = "INSERT INTO ip_jalan (`idi`,`idp`) VALUES('"+idi+"','"+idp+"')";
+            Database.updatingQuery(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+    }
+    
+    public void updateIPJalan(String idi, String idp){
+        Database db = new Database();
+        String sql;
+        try{
+            Database.setConnection();
+            sql = "UPDATE ip_jalan SET (`idi`,`idp`) VALUES('"+idi+"','"+idp+"')";
             Database.updatingQuery(sql);
         }catch(Exception e){
         }

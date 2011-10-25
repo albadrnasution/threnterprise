@@ -19,51 +19,66 @@
     </head>
     <body>
         <%@include file="../layout/head.jsp" %>
-        
+
         <% if (request.getParameter("success") != null) {
                 if (request.getParameter("success").equals("1")) {%>
-                    <div style="margin-left: 20px; color: red">Paket has been deleted successfully.</div>
-            <% }else if (request.getParameter("success").equals("0")) { %>
-                    <div style="margin-left: 20px; color: red">Failed.</div>
-            <% }else if (request.getParameter("success").equals("2")) { %>
-                    <div style="margin-left: 20px; color: red">Succes Add Packet.</div>
-            <% } 
-        }%>
-        
+        <div style="margin-left: 20px; color: red">Paket has been deleted successfully.</div>
+        <% } else if (request.getParameter("success").equals("0")) {%>
+        <div style="margin-left: 20px; color: red">Failed.</div>
+        <% } else if (request.getParameter("success").equals("2")) {%>
+        <div style="margin-left: 20px; color: red">Succes Add Packet.</div>
+        <% }
+                }%>
+
         <div id="content-wrapper">
             <div id="content" style="width: 1080px">
                 <div class="list-sheet" style="width: 100%; padding-top: 20px; min-height: 480px;">
                     <h2 style="margin-left: 10px;">Mengelola Paket Bingkisan</h2><hr/>
-        <a href="<%= request.getContextPath()%>/BingkisanController?mode=susun">Susun Paket Bingkisan</a>
-        <table border="1" class="tutturu">
-                <tr>
-                    <th>Nama Paket</th>
-                    <th>Deskripsi</th>
-                    <th>Harga</th>
-                    <th>Aksi</th>
-                </tr>
-            <tbody>
-                <%
-                    BingkisanController pc = new BingkisanController();
-                    ArrayList<PaketBingkisan> ij = new ArrayList<PaketBingkisan>();
-                    ij = pc.showPaket();
-                
-                for(int i=0; i<ij.size();++i){
-                %>
-                <tr>
-                    <td><% if(ij.get(i).getPaket_name() !=null) out.print(ij.get(i).getPaket_name()); else out.print("-"); %></td>
-                    <td><% if(ij.get(i).getDescription() !=null) out.print(ij.get(i).getDescription()); else out.print("-"); %></td>
-                    <td><% if(ij.get(i).getPrice() !=0) out.print(ij.get(i).getPrice()); else out.print("-"); %></td>
-                    <td  style="width: 120px">
-                    <a class="thrbutton" href="<%= request.getContextPath() %>/BingkisanController?mode=edit&id=<% out.print(ij.get(i).getIdp());%>">Edit</a>
-                    <a class="thrbutton" href="<%= request.getContextPath() %>/BingkisanController?mode=delete&id=<% out.print(ij.get(i).getIdp());%>">Delete</a>
-                </td>
-                </tr>
-                <%
-               }
-                %>
-            </tbody>
-        </table>
+                    <a href="<%= request.getContextPath()%>/BingkisanController?mode=susun">Susun Paket Bingkisan</a>
+                    <table border="1" class="tutturu">
+                        <tr>
+                            <th>Nama Paket</th>
+                            <th>Deskripsi</th>
+                            <th>Harga</th>
+                            <th>Aksi</th>
+                        </tr>
+                        <tbody>
+                            <%
+                                BingkisanController pc = new BingkisanController();
+                                ArrayList<PaketBingkisan> ij = new ArrayList<PaketBingkisan>();
+                                ij = pc.showPaket();
+
+                                for (int i = 0; i < ij.size(); ++i) {
+                            %>
+                            <tr>
+                                <td><% if (ij.get(i).getPaket_name() != null) {
+                            out.print(ij.get(i).getPaket_name());
+                        } else {
+                            out.print("-");
+                        }%></td>
+                                <td><% if (ij.get(i).getDescription() != null) {
+                            out.print(ij.get(i).getDescription());
+                        } else {
+                            out.print("-");
+                        }%></td>
+                                <td><% if (ij.get(i).getPrice() != 0) {
+                            out.print(ij.get(i).getPrice());
+                        } else {
+                            out.print("-");
+                        }%></td>
+                                <td  style="width: 120px">
+                                    <a class="thrbutton" href="<%= request.getContextPath()%>/BingkisanController?mode=edit&id=<% out.print(ij.get(i).getIdp());%>">Edit</a>
+                                    <a class="thrbutton" href="<%= request.getContextPath()%>/BingkisanController?mode=delete&id=<% out.print(ij.get(i).getIdp());%>">Delete</a>
+                                </td>
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <%@include file="../layout/footer.jsp" %>
     </body>
 </html>

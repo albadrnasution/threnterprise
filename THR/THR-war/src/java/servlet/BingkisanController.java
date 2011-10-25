@@ -80,7 +80,7 @@ public class BingkisanController extends HttpServlet {
 
                     if (n.equals("") || d.equals("") || h.equals("")) {
                         response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=0");
-                    } else {
+                    } else if (!n.equals("") && !d.equals("") && !h.equals("") && it != null){
                         PaketBingkisan pb = new PaketBingkisan();
                         pb.setPaket(n, d, h);
 
@@ -92,9 +92,10 @@ public class BingkisanController extends HttpServlet {
                             }
                         }
                         response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=2");
+                    }else{
+                        response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=0");
                     }
                 }else if(request.getParameter("act").equals("editPaket")){
-                   
                 }
             }
         } finally {
@@ -167,5 +168,10 @@ public class BingkisanController extends HttpServlet {
         PaketBingkisan p = new PaketBingkisan();
         p.deleteP(id);
         return p;
+    }
+    
+    public IPBingkisan getIPB(String idi, String idp) {
+        IPBingkisan ij = new IPBingkisan();
+        return ij.getIPB(idi,idp);
     }
 }
