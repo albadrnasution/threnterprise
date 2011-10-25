@@ -303,7 +303,7 @@ public class PaketJalan {
         return Month;
     }
     
-        public void setPaket(String nama, String desk, String harga, String na, String nc, String t){
+    public void setPaket(String nama, String desk, String harga, String na, String nc, String t){
         Database db = new Database();
         String sql;
         try{
@@ -352,6 +352,23 @@ public class PaketJalan {
         return sql;
     }
     
+<<<<<<< .mine
+    public void updatePaket(String idp){
+        Database db = new Database();
+        String sql;
+        try{
+            Database.setConnection();
+            sql = "UPDATE paket_jalan SET (`paket_name`,`description`,`total_price`, `nadult`, `nchild`, `time`) VALUES('"+this.paket_nama+"','"+this.description+"','"+this.total_price+"','"+this.nadult+"','"+this.nchild+"','"+this.time+"') where idp= '"+idp+"'";
+            System.out.println(sql);
+            Database.updatingQuery(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+    }
+    
+=======
     public PaketJalan getPaketbyid(String id){
         ResultSet rs;
         PaketJalan pb = new PaketJalan();
@@ -374,6 +391,7 @@ public class PaketJalan {
         return pb;
     }
     
+>>>>>>> .r115
     public static void main(String[] args) throws ParseException {
         PaketJalan pj = new PaketJalan();
         ArrayList<PaketJalan> apj = new ArrayList<PaketJalan>();
