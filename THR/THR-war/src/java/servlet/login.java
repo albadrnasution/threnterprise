@@ -57,47 +57,74 @@ public class login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            util.EmailHandler em = new EmailHandler();
-            String hashPass = em.getStringMD5(password);
-            HttpSession session = request.getSession();
-            if (!email.equals("") && !password.equals("")) {
-                Customer cust = new Customer();
-                Staff staff = new Staff();
-                ArrayList<Staff> liststaff = staff.getallStaff();
-                ArrayList<Customer> listcust = cust.getallCustomer();
-                boolean found = false;
-                for (int i = 0; i < listcust.size() && !found; ++i) {
-                    if (listcust.get(i).getPassword().equals(hashPass) && listcust.get(i).getEmail().equals(email)) {
-                        cust = listcust.get(i);
-                        session.setAttribute("user", cust);
-                        session.setAttribute("jenisUser", "0");
-                        session.setMaxInactiveInterval(3600);
-                        response.sendRedirect("index.jsp");
-                        found = true;
-                    }
-                }
-                for (int i = 0; i < liststaff.size() && !found; ++i) {
-                    if (liststaff.get(i).getPassword().equals(hashPass) && liststaff.get(i).getUsername().equals(email)) {
-                        staff = liststaff.get(i);
-                        session.setAttribute("user", staff);
-                        if (staff.getPrevilage().equals("manager")) {
-                            session.setAttribute("jenisUser", "1");
-                        } else if (staff.getPrevilage().equals("officer")) {
-                            session.setAttribute("jenisUser", "2");
-                        } else if (staff.getPrevilage().equals("admin")) {
-                            session.setAttribute("jenisUser", "3");
+            //Mobile Login
+            if (request.getParameter("mobile") != null) {
+                int idc = 0;
+                if (request.getParameter("mobile").equals("mobile")) {
+                    String email = request.getParameter("username");
+                    String password = request.getParameter("password");
+                    util.EmailHandler em = new EmailHandler();
+                    String hashPass = em.getStringMD5(password);
+                    if (!email.equals("") && !password.equals("")) {
+                        Customer cust = new Customer();
+                        ArrayList<Customer> listcust = cust.getallCustomer();
+                        boolean found = false;
+                        for (int i = 0; i < listcust.size() && !found; ++i) {
+                            if (listcust.get(i).getPassword().equals(hashPass) && listcust.get(i).getEmail().equals(email)) {
+                                found = true;
+                                idc = listcust.get(i).getIdc();
+                            }
                         }
-                        response.sendRedirect("index.jsp");
-                        found = true;
+                        out.print(idc);
+                    } else {
+                        out.print(idc);
                     }
-                }
-                if (!found || session.getAttribute("user") == null) {
-                    response.sendRedirect("index.jsp?success=0");
+                } else {
+                    out.print(idc);
                 }
             } else {
-                response.sendRedirect("index.jsp?blank=0");
+                String email = request.getParameter("email");
+                String password = request.getParameter("password");
+                util.EmailHandler em = new EmailHandler();
+                String hashPass = em.getStringMD5(password);
+                HttpSession session = request.getSession();
+                if (!email.equals("") && !password.equals("")) {
+                    Customer cust = new Customer();
+                    Staff staff = new Staff();
+                    ArrayList<Staff> liststaff = staff.getallStaff();
+                    ArrayList<Customer> listcust = cust.getallCustomer();
+                    boolean found = false;
+                    for (int i = 0; i < listcust.size() && !found; ++i) {
+                        if (listcust.get(i).getPassword().equals(hashPass) && listcust.get(i).getEmail().equals(email)) {
+                            cust = listcust.get(i);
+                            session.setAttribute("user", cust);
+                            session.setAttribute("jenisUser", "0");
+                            session.setMaxInactiveInterval(3600);
+                            response.sendRedirect("index.jsp");
+                            found = true;
+                        }
+                    }
+                    for (int i = 0; i < liststaff.size() && !found; ++i) {
+                        if (liststaff.get(i).getPassword().equals(hashPass) && liststaff.get(i).getUsername().equals(email)) {
+                            staff = liststaff.get(i);
+                            session.setAttribute("user", staff);
+                            if (staff.getPrevilage().equals("manager")) {
+                                session.setAttribute("jenisUser", "1");
+                            } else if (staff.getPrevilage().equals("officer")) {
+                                session.setAttribute("jenisUser", "2");
+                            } else if (staff.getPrevilage().equals("admin")) {
+                                session.setAttribute("jenisUser", "3");
+                            }
+                            response.sendRedirect("index.jsp");
+                            found = true;
+                        }
+                    }
+                    if (!found || session.getAttribute("user") == null) {
+                        response.sendRedirect("index.jsp?success=0");
+                    }
+                } else {
+                    response.sendRedirect("index.jsp?blank=0");
+                }
             }
         } finally {
             out.close();
