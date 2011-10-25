@@ -352,7 +352,6 @@ public class PaketJalan {
         return sql;
     }
     
-<<<<<<< .mine
     public void updatePaket(String idp){
         Database db = new Database();
         String sql;
@@ -368,7 +367,6 @@ public class PaketJalan {
         }
     }
     
-=======
     public PaketJalan getPaketbyid(String id){
         ResultSet rs;
         PaketJalan pb = new PaketJalan();
@@ -391,7 +389,6 @@ public class PaketJalan {
         return pb;
     }
     
->>>>>>> .r115
     public static void main(String[] args) throws ParseException {
         PaketJalan pj = new PaketJalan();
         ArrayList<PaketJalan> apj = new ArrayList<PaketJalan>();
