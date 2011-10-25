@@ -86,7 +86,7 @@
                                 <div class="cat-right">
                                     <img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  />  <span>Rp<%= apb.get(i).getPrice()%></span><br/>
                                     <a class="thrbutton" href="detailPaketBingkisan.jsp?id=<%= apb.get(i).getIdp()%>">Details</a>
-                                    <input type="button" value="Buy" name="filter" class="thrbutton"/>
+                                    <a href="<%= request.getContextPath() %>/PesanController?menu=buybingkisan&&idp=<%= apb.get(i).getIdp()%>"><input type="button" value="Buy" name="filter" class="thrbutton"/></a>
                                 </div>
                             </div>
 

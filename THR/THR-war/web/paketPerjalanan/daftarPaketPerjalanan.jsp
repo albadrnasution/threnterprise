@@ -123,7 +123,7 @@
                                     </div>
                                     <div class="cat-right">
                                         <a class="thrbutton" href="detailPaketPerjalanan.jsp?id=<%= pp.get(i).getIdp()%>">Details</a>
-                                        <input type="button" value="Buy" name="filter" class="thrbutton"/>
+                                        <a href="<%= request.getContextPath() %>/PesanController?menu=buyperjalanan&&idp=<%= pp.get(i).getIdp() %>"><input type="button" value="Buy" name="filter" class="thrbutton"/></a>
                                     </div>
                                 </div>
 
