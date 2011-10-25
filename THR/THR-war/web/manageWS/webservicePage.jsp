@@ -1,12 +1,13 @@
 <%-- 
-    Document   : ListUserPage
-    Created on : Sep 26, 2011, 2:17:23 AM
+    Document   : webservicePage
+    Created on : Oct 24, 2011, 1:32:36 PM
     Author     : user
 --%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.Staff"%>
+<%@page import="model.Webservice"%>
 <!DOCTYPE html>
 <html>
     <%
@@ -19,7 +20,7 @@
         <link rel="stylesheet" href="../style/default.css" type="text/css" />
         <link rel="stylesheet" href="../style/front.css" type="text/css" />
         <script type="text/javascript" src="script/jquery-1.6.1.js"></script>
-        <title>Staff Management</title>
+        <title>Web Service Management</title>
     </head>
     <body>
         <%@include file="../layout/head.jsp" %>
@@ -49,41 +50,42 @@
                     <table border="1" class="tutturu">
                         <tr>
                             <th>No.</th>
-                            <th>username</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Previlege</th>
-                            <th>Aksi</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Server</th>
+                            <th>Port</th>
+                            <th>Username</th>
+                            <th>Password</th>
                         </tr>
                         <%
-                            Staff a = new Staff();
-                            ArrayList<Staff> s = a.getallStaff();
+                            Webservice a = new Webservice();
+                            ArrayList<Webservice> s = a.getAllWebservice();
                             for (int i = 0; i < s.size(); i++) {
-                                Staff staff = s.get(i);
+                                Webservice ws = s.get(i);
                         %>
                         <tr>
                             <td><% out.print(i + 1);%></td>
-                            <td><% out.print(staff.getUsername());%></td>
-                                <td><% if (staff.getFirst_name() != null) {
-                                    out.print(staff.getFirst_name());
+                            <td><% out.print(ws.getNama());%></td>
+                            <td><% out.print(ws.getJenis());%></td>
+                            <td><% out.print(ws.getServer()); %></td>
+                            <td><% if (ws.getPort() != null) {
+                                    out.print(ws.getPort());
                                 } else {
                                     out.print("-");
                                 }%></td>
-                                <td><% if (staff.getLast_name() != null) {
-                                    out.print(staff.getLast_name());
+                            <td><% if (ws.getUsername() != null) {
+                                    out.print(ws.getUsername());
                                 } else {
                                     out.print("-");
                                 }%></td>
-                                <td><% if (staff.getEmail() != null) {
-                                    out.print(staff.getEmail());
+                            <td><% if (ws.getPassword() != null) {
+                                    out.print(ws.getPassword());
                                 } else {
                                     out.print("-");
                                 }%></td>
-                            <td><% out.print(staff.getPrevilage());%></td>
                             <td style="width: 120px">
-                                <a class="thrbutton" href="<%= request.getContextPath()%>/userController?manage=staff&action=edit&id=<% out.print(staff.getIds());%>">Edit</a>
-                                <a class="thrbutton" href="<%= request.getContextPath()%>/userController?manage=staff&action=delete&id=<% out.print(staff.getIds());%>">Delete</a>
+                                <a class="thrbutton" href="<%= request.getContextPath()%>/webUserController?manage=ws&action=edit&id=<% out.print(ws.getId());%>">Edit</a>
+                                <a class="thrbutton" href="<%= request.getContextPath()%>/webUserController?manage=ws&action=delete&id=<% out.print(ws.getId());%>">Delete</a>
                             </td>
                         </tr>
                         <% }%>
@@ -95,7 +97,7 @@
                                     <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>">Home</a>
                                     <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>/staff.jsp"><< Back</a>
                                 </td>
-                                <td style="text-align: right;padding-right: 40px;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/userController?manage=staff&action=add">Add Staff</a></td>
+                                <td style="text-align: right;padding-right: 40px;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/webUserController?manage=staff&action=add">Add Web Service</a></td>
                             </tr>
                         </table>
                     </div>
