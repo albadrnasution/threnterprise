@@ -89,7 +89,7 @@
                             </tr>
                             <tr>
                                 <td>Type</td>
-                                <td>:  <select name="type" class="filter" style="width: 150px">
+                                <td>:  <select name="jenis" class="filter" style="width: 150px">
                                         <option value="travel" <% if (!add) {
                                                 if (ws.getJenis().equals("travel")) {
                                                     out.print("selected");
@@ -155,31 +155,21 @@
                             
                             <tr>
                                 <td>
-                                    <input type="hidden" name="idc" value="<%                                        
+                                    <input type="hidden" name="idws" value="<%                                        
                                         if (!add) {
-                                            if (!jenisUser.equals("0")) {
-                                                if (s.getIds() != 0) {
-                                                    out.print(s.getIds());
+                                            
+                                                if (ws.getId() != 0) {
+                                                    out.print(ws.getId());
                                                 }
-                                            } else {
-                                                if (r.getIdc() != 0) {
-                                                    out.print(r.getIdc());
-                                                }
-                                            }
+                                            
                                         }
                                            %>" />
                                 </td>
                             </tr>
                             <tr align="center">
-                                <td style="text-align: right" colspan="2"><a href="<% if (managed.equals("staff")) {
-                                        out.print(request.getContextPath() + "/usermanagement/ListStaffView.jsp");
-                                    } else if (managed.equals("customer")) {
-                                        out.print(request.getContextPath() + "/usermanagement/ListCustomerView.jsp");
-                                    } else if (jenisUser.equals("0")) {
-                                        out.print(request.getContextPath() + "/home.jsp");
-                                    } else if (!jenisUser.equals("0")) {
-                                        out.print(request.getContextPath() + "/staff.jsp");
-                                    }%>"><button class="thrbutton" name="cancelEdit" id="cancelEdit" style="width: 150px;height: 40px;" >Cancel</button></a>
+                                <td style="text-align: right" colspan="2"><a href="<% if (managed.equals("ws")) {
+                                        out.print(request.getContextPath() + "/manageWS/webservicePage.jsp"); }%>">
+                                    <button class="thrbutton" name="cancelEdit" id="cancelEdit" style="width: 150px;height: 40px;" >Cancel</button></a>
                                     <input  class="thrbutton" type="submit" name="submitProfil" id="submitProfil" style="width: 150px;height: 40px;"  /></td>
                             </tr>
                         </table>

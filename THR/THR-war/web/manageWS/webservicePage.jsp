@@ -27,7 +27,7 @@
         <div id="content-wrapper">
             <div id="content" style="width: 1080px">
                 <div class="list-sheet" style="width: 100%; padding-top: 20px; min-height: 480px;">
-                    <h2 style="margin-left: 10px;">List Staff</h2><hr/>
+                    <h2 style="margin-left: 10px;">Web Services</h2><hr/>
                     <% if (request.getParameter("error") != null) {
                             if (request.getParameter("error").equals("1")) {%>
                     <div style="margin-left: 20px; color: red">Adding new user Failed, Password is incorrect.</div>
@@ -97,7 +97,7 @@
                                     <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>">Home</a>
                                     <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>/staff.jsp"><< Back</a>
                                 </td>
-                                <td style="text-align: right;padding-right: 40px;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/webUserController?manage=staff&action=add">Add Web Service</a></td>
+                                <td style="text-align: right;padding-right: 40px;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/webUserController?manage=ws&action=add">Add Web Service</a></td>
                             </tr>
                         </table>
                     </div>
