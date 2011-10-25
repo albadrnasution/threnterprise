@@ -1,6 +1,7 @@
 package model;
 
 
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -87,7 +88,13 @@ public class PaketJalan {
         this.total_price = total_price;
     }
  
-    
+     public String getPaket_asJSON(){
+        String json = "";
+        ArrayList<PaketJalan> arrayJalan = getPaket();
+        json = new Gson().toJson(arrayJalan);
+        return json;
+    }
+     
     public ArrayList<PaketJalan> getPaket(){
         Database db = new Database();
         ResultSet rs;

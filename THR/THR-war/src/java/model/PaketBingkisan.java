@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -52,6 +53,16 @@ public class PaketBingkisan {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+    
+    public String getPaket_asJSON(){
+        String json = "";
+        
+        ArrayList<PaketBingkisan> aPB = getPaket();
+        
+        Gson gson = new Gson();
+        json = gson.toJson(aPB);
+        return json;
     }
      
     public ArrayList<PaketBingkisan> getPaket(){
@@ -235,14 +246,17 @@ public class PaketBingkisan {
     }
     
     public static void main(String[] args) {
-        PaketBingkisan pj = new PaketBingkisan();
-        ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();
-        //apj = pj.getSearchResult("100000", "<", "", "");
-        apj = pj.getPaket("3");
-        
-        for(int i=0;i<apj.size();++i){
-            System.out.println(apj.get(i).getPaket_name());
-        }
+//        PaketBingkisan pj = new PaketBingkisan();
+//        ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();
+//        //apj = pj.getSearchResult("100000", "<", "", "");
+//        apj = pj.getPaket("3");
+//        
+//        for(int i=0;i<apj.size();++i){
+//            System.out.println(apj.get(i).getPaket_name());
+//        }
+        PaketBingkisan pb = new PaketBingkisan();
+        String json = pb.getPaket_asJSON();
+        System.out.println(json);
     }
     
 }
