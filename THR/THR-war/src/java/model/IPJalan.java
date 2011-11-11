@@ -69,13 +69,14 @@ public class IPJalan {
         }
     }
     
-    public void updateIPJalan(String idi, String idp){
+    public void deleteIP(String idp){
         Database db = new Database();
-        String sql;
+        String sql = null;
         try{
+            sql="DELETE FROM ip_jalan WHERE idp="+idp;
             Database.setConnection();
-            sql = "UPDATE ip_jalan SET (`idi`,`idp`) VALUES('"+idi+"','"+idp+"')";
             Database.updatingQuery(sql);
+            System.out.println(sql);
         }catch(Exception e){
         }
         finally{

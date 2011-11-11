@@ -16,11 +16,8 @@
         <title>Detail Paket</title>
     </head>
     <body>
-        <div id="header-wrapper">
-            <div id="header">
-                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="../images/thrlogo-long.png" style="height: 80px" alt="thrlogo" title="tentative logo"/></a></div>
-            </div>
-        </div>
+        <%@include file="../layout/head.jsp" %>
+        
         <div id="content-wrapper">
             <div id="content">
                 
@@ -51,7 +48,6 @@
                                 <tr>
                                     <td>Nama Item</td>
                                     <td>Deskripsi</td>
-                                    <td>Harga Dasar</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,7 +61,6 @@
                                 <tr>
                                     <td><%= pp.get(i).getName() %></td>
                                     <td> <%= pp.get(i).getDescription() %></td>
-                                    <td><%= pp.get(i).getBasic_price() %></td>
                                 </tr>
 
                         <%

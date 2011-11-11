@@ -105,39 +105,33 @@ public class PerjalananController extends HttpServlet {
                     String na = request.getParameter("s_nadult");
                     String nc = request.getParameter("s_nchild");
                     String t = request.getParameter("s_time");
-                    out.print(n);
-                    out.print(d);
-                    out.print(na);
-                    out.print(nc);
-                    out.print(t);
-                    if (n.equals("") || d.equals("") || h.equals("") || na.equals("") || nc.equals("") || t.equals("")) {
+
+                    if (n.equals("") || d.equals("") || h.equals("") || na.equals("") || nc.equals("") || t.equals("") || it == null) {
                         response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
-                    } else {
-                        out.print("a");
+                    } else if (!n.equals("") && !d.equals("") && !h.equals("") && !na.equals("") & !nc.equals("") && !t.equals("")){// && it != null) {
+                        String res = null;
                         PaketJalan pb = new PaketJalan();
-                        pb.setPaket_nama(n);
-                        pb.setDescription(d);
-                        pb.setNadult(Integer.parseInt(na));
-                        pb.setNadult(Integer.parseInt(nc));
-                        pb.setTime(DateFormater.getDateFromViewFormat(t));
-                        pb.updatePaket(idp);
+                        
+                        out.print(n);
+                        out.print(d);
+                        out.print(h);
+                        out.print(na);
+                        out.print(nc);
+                        out.print(t);
+                        
+                        res = pb.updatePaket(idp, n, d, h, na, nc, DateFormater.formatDateToDBFormat(t));
+                        
                         String i = idp;
-                        IPJalan ipb = new IPJalan();
+                        IPJalan ipb = new IPJalan();                     
                         if (it != null && it.length != 0) {
+                            ipb.deleteIP(idp);
                             for (int x = 0; x < it.length; x++) {
-                                ArrayList<IPJalan> ipj = new ArrayList<IPJalan>();
-                                ipj = ipb.getIPJ();
-                                for(int j=0; j<ipj.size();++j){
-                                    if(ipj.get(j).getIdp() == Integer.parseInt(i) && ipj.get(j).getIdi() == Integer.parseInt(it[x])){
-                                        //sudah ada
-                                        ipb.updateIPJalan(it[x], i);
-                                    }else{
-                                        ipb.setIPJalan(it[x], i);                                    
-                                    }
-                                }
+                                ipb.setIPJalan(it[x], i);
                             }
                         }
                         response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                    }else{
+                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
                     }
             }
         } finally {
@@ -213,4 +207,10 @@ public class PerjalananController extends HttpServlet {
         ItemJalan ij = new ItemJalan();
         return ij.getItem(id);
     }
+    
+    public City showCity(int id){
+        City c = new City();
+        return c.getCity(id);
+    }
+    
 }

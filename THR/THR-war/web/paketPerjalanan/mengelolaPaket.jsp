@@ -32,7 +32,6 @@
             <div id="content" style="width: 1080px">
                 <div class="list-sheet" style="width: 100%; padding-top: 20px; min-height: 480px;">
                     <h2 style="margin-left: 10px;">Mengelola Paket Perjalanan</h2><hr/>
-                    <a href="<%= request.getContextPath()%>/PerjalananController?mode=susun">Susun Paket Perjalanan</a>
                     <table border="1" class="tutturu">
                         <tr>
                             <th>Nama Paket</th>
@@ -90,9 +89,20 @@
                             }
                         %>
                     </table>
+                    <div style="width: 100%;margin-top: 25px;border-top: 1px solid #CCC;position: absolute;bottom:0px">
+                    <table style="width: 100%">
+                        <tr style="height: 40px;">
+                            <td style="padding-left: 40px;">
+                                <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>">Home</a>
+                                <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>/.jsp"><< Back</a>
+                            </td>
+                            <td style="text-align: right;padding-right: 40px;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/PerjalananController?mode=susun">Create Packet</a></td>
+                        </tr>
+                    </table>
+                </div>
                 </div>
             </div>
-        </div>
+        </div>      
         <%@include file="../layout/footer.jsp" %>
     </body>
 </html>

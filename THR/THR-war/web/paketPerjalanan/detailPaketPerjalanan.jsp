@@ -68,8 +68,8 @@
                                    <td> <%= ij.get(i).getName() %></td>
                                    <td> <%= ij.get(i).getDescription() %></td>
                                    <td> <%= ij.get(i).getModa() %></td>
-                                   <td> <%= ij.get(i).getOrigin() %></td>
-                                   <td> <%= ij.get(i).getDest() %></td>
+                                   <td> <%= pc.showCity(ij.get(i).getOrigin()).getName() %></td>
+                                   <td> <%= pc.showCity(ij.get(i).getDest()).getName() %></td>
                                </tr>
                             <%
                             }

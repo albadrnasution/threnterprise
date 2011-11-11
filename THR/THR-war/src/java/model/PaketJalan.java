@@ -30,6 +30,7 @@ public class PaketJalan {
     private int nadult;
     private int nchild;
     private Date time;
+    private String time2;
 
     public String getDescription() {
         return description;
@@ -71,13 +72,20 @@ public class PaketJalan {
         this.paket_nama = paket_nama;
     }
 
-    public String getTime() throws ParseException {
-        String s = formatDateToView(time.toString());
-        return s;
+    public Date getTime() {
+        return time;
     }
-
+    
+    public String getTime2() {
+        return time2;
+    }
+    
     public void setTime(Date time) {
         this.time = time;
+    }
+    
+    public void setTime(String time) {
+            this.time2 = time2;
     }
 
     public int getTotal_price() {
@@ -366,12 +374,14 @@ public class PaketJalan {
         return sql;
     }
     
-    public void updatePaket(String idp){
+    public String updatePaket(String idp, String n, String d, String h, String na, String nc, String t){
         Database db = new Database();
-        String sql;
+        String sql = null;
         try{
             Database.setConnection();
-            sql = "UPDATE paket_jalan SET (`paket_name`,`description`,`total_price`, `nadult`, `nchild`, `time`) VALUES('"+this.paket_nama+"','"+this.description+"','"+this.total_price+"','"+this.nadult+"','"+this.nchild+"','"+this.time+"') where idp= '"+idp+"'";
+            sql = "UPDATE paket_jalan SET  paket_name =  '"+ n +"', description = '"+ d +"', "
+                    + "total_price = '"+ h +"', nadult =  '"+ na +"', nchild = '"+ nc +"', "
+                    + "time = '"+ t +"' WHERE idp = "+idp;
             System.out.println(sql);
             Database.updatingQuery(sql);
         }catch(Exception e){
@@ -379,6 +389,7 @@ public class PaketJalan {
         finally{
             Database.unsetConnection();
         }
+        return sql;
     }
     
     public PaketJalan getPaketbyid(String id){
@@ -409,9 +420,12 @@ public class PaketJalan {
         //apj = pj.getSearchResult("", "", "", "tiket");
         apj = pj.getPaket("3");
         
-        for(int i=0;i<apj.size();++i){
-            System.out.println(apj.get(i).getPaket_nama());
-        }
+        String res = null;
+        res = pj.updatePaket("10", "Abab", "adasdsadsad", "5555", "5", "5", DateFormater.formatDateToDBFormat("5/5/2000"));
+        
+//        for(int i=0;i<apj.size();++i){
+//            System.out.println(apj.get(i).getPaket_nama());
+//        }
     }
     
     

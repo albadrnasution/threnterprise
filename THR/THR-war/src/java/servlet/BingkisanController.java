@@ -96,6 +96,36 @@ public class BingkisanController extends HttpServlet {
                         response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=0");
                     }
                 }else if(request.getParameter("act").equals("editPaket")){
+                    String idp = request.getParameter("idp");
+                    String n = request.getParameter("s_nama_paket");
+                    String d = request.getParameter("s_desc");
+                    String h = request.getParameter("s_harga");
+                    String[] it = request.getParameterValues("s_item");
+                    String[] ni = request.getParameterValues("nitem");
+
+                    if (n.equals("") || d.equals("") || h.equals("")) {
+                        response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=0");
+                    } else if (!n.equals("") && !d.equals("") && !h.equals("") && it != null && ni != null){
+                        out.println(idp);
+                        out.println(n);
+                        out.println(d);
+                        out.println(h);
+                        String res = null;
+                        PaketBingkisan pb = new PaketBingkisan();
+                        res = pb.updatePaket(idp, n, d, h);
+                        
+                        int i = Integer.parseInt(idp);
+                        IPBingkisan ipb = new IPBingkisan();                        
+                        if (it != null && it.length != 0) {
+                            ipb.deleteIPB(idp);
+                            for (int x = 0; x < it.length; x++) {
+                                ipb.setIPBingkisan(it[x], i, ni[x]);
+                            }
+                        }
+                        response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=2");
+                    }else{
+                        response.sendRedirect("paketBingkisan/mengelolaPaket.jsp?success=0");
+                    }
                 }
             }
         } finally {

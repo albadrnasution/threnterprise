@@ -17,11 +17,7 @@
         <title>Daftar Paket Bingkisan</title>
     </head>
     <body>
-        <div id="header-wrapper">
-            <div id="header">
-                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="../images/thrlogo-long.png" style="height: 80px" alt="thrlogo" title="tentative logo"/></a></div>
-            </div>
-        </div>
+        <%@include file="../layout/head.jsp" %>
         <div id="content-wrapper">
             <div id="content">
                 <div class="list-sheet">

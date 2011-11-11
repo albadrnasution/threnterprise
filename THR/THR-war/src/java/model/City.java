@@ -38,8 +38,8 @@ public class City {
         String sql;
         try{
             sql="SELECT * FROM city";
-            db.setConnection();
-            rs = db.executingQuery(sql) ;
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
             while (rs.next()) {
                 City c = new City();
                 c.setIdcity(rs.getInt("idcity"));
@@ -47,12 +47,32 @@ public class City {
                 temp.add(c);
             }
         }catch(Exception e){
-            e.printStackTrace();
         }
         finally{
-            db.unsetConnection();
+            Database.unsetConnection();
         }
         return temp ;
+    }
+    
+    public City getCity(int idcity){
+        Database db = new Database();
+        ResultSet rs;
+        City c = new City();
+        String sql;
+        try{
+            sql="SELECT * FROM city where idcity="+idcity;
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                c.setIdcity(rs.getInt("idcity"));
+                c.setName(rs.getString("name"));
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return c;
     }
     
     public static void main(String[] args) {

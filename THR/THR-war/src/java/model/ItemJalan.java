@@ -133,10 +133,9 @@ public class ItemJalan {
         ArrayList<ItemJalan> temp = new ArrayList<ItemJalan>();
         String sql;
         try{
-            sql="SELECT distinct item_jalan.idi, item_jalan.name, item_jalan.description, "
-                    + "item_jalan.moda, item_jalan.origin, item_jalan.dest, item_jalan.bprice_adult, item_jalan.bprice_child, "
-                    + "item_jalan.idmoedik FROM paket_jalan JOIN ip_jalan JOIN item_jalan ON paket_jalan.idp = " + idp
-                    + " AND item_jalan.idi = ip_jalan.idi AND ip_jalan.idp = paket_jalan.idp";
+            sql="select idi, name, description, moda, origin, dest, bprice_child, bprice_adult, idmoedik  "
+                    + "from item_jalan where idi in (select ip_jalan.idi from ip_jalan where ip_jalan.idp = '"+ idp +"')";
+            System.out.println(sql);
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
@@ -171,7 +170,7 @@ public class ItemJalan {
     public static void main(String[] args) {
         ItemJalan ij = new ItemJalan();
         ArrayList<ItemJalan> aij = new ArrayList<ItemJalan>();
-        aij = ij.getItem("2");
+        aij = ij.getItem("10");
         
         for(int i=0;i<aij.size();++i){
             System.out.println(aij.get(i).getName());

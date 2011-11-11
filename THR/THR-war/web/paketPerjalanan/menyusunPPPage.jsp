@@ -38,11 +38,8 @@
         <title><%= title%></title>
     </head>
     <body>
-        <div id="header-wrapper">
-            <div id="header">
-                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="../images/thrlogo.png" style="height: 180px" alt="thrlogo" title="tentative logo"/></a></div>
-            </div>
-        </div>
+        <%@include file="../layout/head.jsp" %>
+        
         <div id="content-wrapper">
             <div id="content">
                 <div class="list-sheet" style="width: 100%;padding-bottom: 40px;">
@@ -114,7 +111,7 @@
                                                     out.print("checked");
                                                 }
 
-                                            }%>/><% out.print(i + 1);%>.<% out.print(ij.get(i).getName());%> <br/>
+                                           }%>/><% out.print(i + 1);%>.<% out.print(ij.get(i).getName());%> <br/>
                                             <div><% out.print(ij.get(i).getDescription());%></div>
                                             <%
                                                 }
@@ -157,7 +154,7 @@
                                         <td>Waktu Keberangkatan</td>
                                         <td>:<input class="filter" type="text" name="s_time" value="<%
                                                         if (!susun) {
-                                                            out.print(pj.get(0).getTime());
+                                                            out.print(DateFormater.formatDateToCalFormat(pj.get(0).getTime()));
                                                         }
                                                     %>" /></td>
                                     </tr>

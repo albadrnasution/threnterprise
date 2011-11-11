@@ -252,6 +252,23 @@ public class PaketBingkisan {
         return pb;
     }
     
+    public String updatePaket(String idp, String name, String desc, String price)
+    {
+        Database db = new Database();
+        String sql = null;
+        try{
+            sql="UPDATE paket_bingkisan SET  paket_name =  '"+ name +"', description = '"+ desc +"', "
+                    + "price = '"+ price +"' WHERE idp ="+idp;
+            Database.setConnection();
+            Database.updatingQuery(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return sql;
+    }
+    
     public static void main(String[] args) {
 //        PaketBingkisan pj = new PaketBingkisan();
 //        ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();
@@ -261,7 +278,11 @@ public class PaketBingkisan {
 //        for(int i=0;i<apj.size();++i){
 //            System.out.println(apj.get(i).getPaket_name());
 //        }
+        String res = null;
+        
         PaketBingkisan pb = new PaketBingkisan();
+        res = pb.updatePaket("35","AAAA","asdsadsad","50000");
+        
         String json = pb.getPaket_asJSON();
         System.out.println(json);
     }

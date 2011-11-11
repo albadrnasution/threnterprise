@@ -27,7 +27,7 @@
                 title = "Menyusun Paket Bingkisan";
                 susun = true;
             } else if (request.getParameter("aksi").equals("edit")) {
-                //ij = pc.getItem();
+                ij = pc.getItem();
                 pj = pc.showPaket(request.getParameter("id"));
                 pij = pc.getItem(request.getParameter("id"));
                 title = "Mengubah Paket Bingkisan";
@@ -43,11 +43,8 @@
         <title><%= title%></title>
     </head>
     <body>
-        <div id="header-wrapper">
-            <div id="header">
-                <div id="thrlogo"><a href="<%= request.getContextPath()%>"><img src="../images/thrlogo.png" style="height: 180px" alt="thrlogo" title="tentative logo"/></a></div>
-            </div>
-        </div>
+        <%@include file="../layout/head.jsp" %>
+        
         <div id="content-wrapper">
             <div id="content">
                 <div class="list-sheet" style="width: 100%;padding-bottom: 40px;">
@@ -67,15 +64,6 @@
                             }
                               %>
                               ">
-                            <%
-                                if (request.getParameter("success") != null) {
-                                    if (request.getParameter("success").equals("1")) {%>
-                            <div style="color: red">Success. </div>
-                            <%} else {%>
-                            <div style="color: red">Failed. </div>
-                            <%}
-                                }
-                            %>
                             <table>
                                 <tr>
                                     <td>Nama Paket</td>
@@ -103,7 +91,7 @@
                                     <td>Item Paket</td>
                                     <td>:<br/>
                                             <%
-                                                if (susun) {
+                                                if (susun || pij.size() == 0) {
                                                     for (int i = 0; i < ij.size(); ++i) {
                                             %>
                                             <input type="checkbox" name="s_item" value="<%= ij.get(i).getIdi()%>" /><%= ij.get(i).getName()%> 
@@ -114,33 +102,38 @@
                                             
                                             <%
                                                 }
-                                            } else {String idiii = null;
+                                            } else {
+                                                String idiii = null;
                                                 ij = pc.getItem();
-                                                for (int i = 0; i < ij.size(); ++i) {
-                                                    for (int j = 0; j < pij.size(); ++j) {
-                                            %>
-                                            <input type="checkbox" name="s_item" value="<%= ij.get(i).getIdi()%>" <%
-                                                if (ij.get(i).getIdi() == pij.get(j).getIdi()) {
-                                                    idiii = pij.get(j).getIdi() +"";
-                                                    out.print("checked");
-                                                }}
                                                 
-                                            %>/><%= ij.get(i).getName()%> 
+                                                for (int i = 0; i < ij.size(); ++i) {
+                                                      int ni = 0;
+                                                    for (int j = 0; j < pij.size(); ++j) {
+                                                      
+                                            %>
+                                            <input type="checkbox" name="s_item" value="<% if(ij.get(i).getIdi()!=0){ out.print(ij.get(i).getIdi());} %>" <% 
+                                            
+                                                if (ij.get(i).getIdi() == pij.get(j).getIdi()) {
+                                                    out.print("checked");
+                                                    String idp = pj.get(0).getIdp() +"";
+                                                    idiii = pij.get(j).getIdi() +"";
+                                                    IPBingkisan nipb = new IPBingkisan();
+                                                    nipb = pc.getIPB(idiii, idp);
+                                                    if(nipb.getIdi()==Integer.parseInt(idiii)
+                                                                    && nipb.getIdp()==Integer.parseInt(idp)){
+                                                                   ni = nipb.getNitem();
+                                                   }
+                                                    break;
+                                               }
+                                               }
+                                              
+                                            %>/> <%= ij.get(i).getName()%> 
                                                 <div><%= ij.get(i).getDescription()%> Harga Rp.<%=  ij.get(i).getBasic_price()%></div>
                                                 <div>
-                                                    <input type="text" name="nitem" value="<%
-                                                           String idp = pj.get(0).getIdp() +"";
-                                                           IPBingkisan nipb= new IPBingkisan();
-                                                           nipb = pc.getIPB(idiii, idp);
-                                                               if(nipb.getIdi()==Integer.parseInt(idiii)
-                                                                    && nipb.getIdp()==Integer.parseInt(idp)){
-                                                                   out.print(nipb.getNitem());
-                                                               }
-                                                    
-                                                          %>" />
+                                                    <input type="text" name="nitem" value="<%= ni %>" />
                                                 </div>
                                             
-                                            <% 
+                                            <%         
                                                     }
                                                 }
                                             %>
@@ -154,6 +147,17 @@
                                                          out.print(pj.get(0).getPrice());
                                                      }
                                                  %>" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                <td>
+                                    <input type="hidden" name="idp" value="<%                                        
+                                        if (!susun) {
+                                            if (pj.get(0).getDescription() != null) {
+                                                out.print(pj.get(0).getIdp());
+                                            }
+                                        }
+                                           %>" />
                                     </td>
                                 </tr>
                                 <tr align="center">
