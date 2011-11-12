@@ -42,70 +42,84 @@ public class PesanController extends HttpServlet {
             Customer cu = new Customer();
             HttpSession session = request.getSession();
             if (session.getAttribute("user") == null) {
-            response.sendRedirect("index.jsp");
+                out.write("\n");
+                out.write("                    <div class=\"login-bucket bucket\" style=\"width:350px;height:130px\">\n");
+                out.write("                        <form action=\"../login\" method=\"POST\" style=\"margin-top: 20px;\">\n");
+                out.write("                            <table border=\"0\"  style=\"width: 80%;margin-left:10%\">\n");
+                out.write("                                <tbody>\n");
+                out.write("                                    <tr>\n");
+                out.write("                                        <td colspan=\"2\">Have an account?</td>\n");
+                out.write("                                    </tr>\n");
+                out.write("                                    <tr>\n");
+                out.write("                                        <td>Email </td>\n");
+                out.write("                                        <td> <input type=\"text\" name=\"email\" value=\"\"  style=\"width: 100%;height: 24px\"/> </td>\n");
+                out.write("                                    </tr>\n");
+                out.write("                                    <tr>\n");
+                out.write("                                        <td>Password </td>\n");
+                out.write("                                        <td> <input type=\"password\" name=\"password\" value=\"\"  style=\"width: 100%;height: 24px\"/> </td>\n");
+                out.write("                                    </tr>\n");
+                out.write("                                    <tr><td></td>\n");
+                out.write("                                        <td  style=\"text-align: right;height: auto\"> <input type=\"submit\" class=\"thrbutton\"value=\"Login\" name=\"login\" style=\"width: 120px; height: 40px\" /> </td>\n");
+                out.write("                                    </tr>\n");
+                out.write("                                    ");
+                out.write("\n");
+                out.write("\n");
+                out.write("                                </tbody>\n");
+                out.write("                            </table>\n");
+                out.write("                        </form>\n");
+                out.write("                    </div>\n");
+                out.write("                    <div class=\"register-bucket bucket\">\n");
+                out.write("                        <div class=\"paket-button\" title=\"Don't have an account?\">\n");
+                out.write("                            <a href=\"");
+                out.print(request.getContextPath());
+                out.write("/Registerasi/registerasi.jsp\">Register</a>\n");
+                out.write("                        </div>  \n");
+                out.write("                    </div> \n");
+                out.write("                    ");
             } else {
-                if(session.getAttribute("jenisUser").equals("0"))
-                {
-                    cu = (Customer)session.getAttribute("user");
+                if (session.getAttribute("jenisUser").equals("0")) {
+                    cu = (Customer) session.getAttribute("user");
                 }
-                if(request.getParameter("menu").equals("buybingkisan")) {
+                if (request.getParameter("menu").equals("buybingkisan")) {
                     PaketBingkisan pbi = new PaketBingkisan();
                     PaketBingkisan pb = pbi.getPaketbyid(request.getParameter("idp"));
                     session.setAttribute("bingkisan", pb);
                     response.sendRedirect("paketBingkisan/pesanPaketBingkisan.jsp");
-                }
-                else if(request.getParameter("menu").equals("prosesbuybingkisan"))
-                {
-                    PesanBingkisan bingkisan =new PesanBingkisan();
+                } else if (request.getParameter("menu").equals("prosesbuybingkisan")) {
+                    PesanBingkisan bingkisan = new PesanBingkisan();
                     PesanKirimBingkisan kirim = new PesanKirimBingkisan();
-                    PaketBingkisan pbi = (PaketBingkisan)session.getAttribute("bingkisan");
+                    PaketBingkisan pbi = (PaketBingkisan) session.getAttribute("bingkisan");
                     bingkisan.setIdp(pbi.getIdp());
                     bingkisan.setIdc(cu.getIdc());
                     bingkisan.setJumlah_paket(Integer.parseInt(request.getParameter("jumlah")));
                     bingkisan.setDue_date2(request.getParameter("due_date"));
-                    String res = bingkisan.addPesanBingkisan();
-                    int max = bingkisan.lastPesanBingkisan();
                     kirim.setIdc(cu.getIdc());
                     kirim.setIdp(pbi.getIdp());
                     kirim.setBanyak_paket(Integer.parseInt(request.getParameter("jumlah")));
                     kirim.setAlamat(request.getParameter("alamat"));
-                    kirim.setHarga(bingkisan.getJumlah_paket()*pbi.getPrice());
-                    res = kirim.addPesanKirimBingkisan();
-                    //customer.addCustomer();'
-                    
-                    //out.print(res);
-                    //String res = customer.addCustomer();
+                    kirim.setHarga(bingkisan.getJumlah_paket() * pbi.getPrice());
+
                     String redirectURL = "paketBingkisan/daftarPaketBingkisan.jsp";
                     response.sendRedirect(redirectURL);
-                }
-                else if(request.getParameter("menu").equals("buyperjalanan")) {
+                } else if (request.getParameter("menu").equals("buyperjalanan")) {
                     PaketJalan pbi = new PaketJalan();
                     PaketJalan pb = pbi.getPaketbyid(request.getParameter("idp"));
                     session.setAttribute("perjalanan", pb);
                     response.sendRedirect("paketPerjalanan/pesanPaketPerjalanan.jsp");
-                }
-                else if(request.getParameter("menu").equals("prosesbuyperjalanan"))
-                {
-                    PesanPaket paket =new PesanPaket();
-                    PaketJalan pj = (PaketJalan)session.getAttribute("perjalanan");
+                } else if (request.getParameter("menu").equals("prosesbuyperjalanan")) {
+                    PesanPaket paket = new PesanPaket();
+                    PaketJalan pj = (PaketJalan) session.getAttribute("perjalanan");
                     paket.setIdc(cu.getIdc());
                     paket.setIdp(pj.getIdp());
                     paket.setJumlah_paket(Integer.parseInt(request.getParameter("jumlah")));
-                    String res = paket.addPesanPaket();
-                    //customer.addCustomer();'
-                    
-                    out.print(res);
-                    //String res = customer.addCustomer();
                     String redirectURL = "paketPerjalanan/daftarPaketPerjalanan.jsp";
                     response.sendRedirect(redirectURL);
-                }
-                else if(request.getParameter("menu").equals("historipemesanan"))
-                {
-                    PesanPaket paket =new PesanPaket();
-                    PesanBingkisan bingkisan =new PesanBingkisan();
+                } else if (request.getParameter("menu").equals("historipemesanan")) {
+                    PesanPaket paket = new PesanPaket();
+                    PesanBingkisan bingkisan = new PesanBingkisan();
                     PesanKirimBingkisan kirim = new PesanKirimBingkisan();
-                    ArrayList<PesanPaket> pp =new ArrayList<PesanPaket>();
-                    ArrayList<PesanBingkisan> pb =new ArrayList<PesanBingkisan>();
+                    ArrayList<PesanPaket> pp = new ArrayList<PesanPaket>();
+                    ArrayList<PesanBingkisan> pb = new ArrayList<PesanBingkisan>();
                     ArrayList<PesanKirimBingkisan> pk = new ArrayList<PesanKirimBingkisan>();
                     pp = paket.getPesanPaketbyIdc(Integer.toString(cu.getIdc()));
                     pb = bingkisan.getPesanBingkisanbyIdc(Integer.toString(cu.getIdc()));
@@ -117,7 +131,7 @@ public class PesanController extends HttpServlet {
                     response.sendRedirect(redirectURL);
                 }
             }
-        } finally {            
+        } finally {
             out.close();
         }
     }

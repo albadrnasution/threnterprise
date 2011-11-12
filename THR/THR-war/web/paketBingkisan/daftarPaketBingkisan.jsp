@@ -4,6 +4,7 @@
     Author     : Didik
 --%>
 
+<%@page import="model.DateFormater"%>
 <%@page import="model.PaketBingkisan"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="servlet.BingkisanController"%>
@@ -80,7 +81,7 @@
                                     <p style="font-size: 0.8em"><i><%= apb.get(i).getDescription()%></i></p>
                                 </div>
                                 <div class="cat-right">
-                                    <img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  />  <span>Rp<%= apb.get(i).getPrice()%></span><br/>
+                                    <img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  />  <span>Rp<%= DateFormater.formatCurrency(apb.get(i).getPrice())%></span><br/>
                                     <a class="thrbutton" href="detailPaketBingkisan.jsp?id=<%= apb.get(i).getIdp()%>">Details</a>
                                     <a href="<%= request.getContextPath() %>/PesanController?menu=buybingkisan&&idp=<%= apb.get(i).getIdp()%>"><input type="button" value="Buy" name="filter" class="thrbutton"/></a>
                                 </div>

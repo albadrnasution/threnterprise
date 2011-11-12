@@ -13,7 +13,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link type="text/css" rel="stylesheet" href="../style/default.css"/>
+        <link type="text/css" rel="stylesheet" href="../style/colorbox.css"/>
         <script type="text/javascript" src="../script/jquery-1.6.1.js"></script>
+        <script type="text/javascript" src="../script/jquery.colorbox.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.buy').colorbox();
+            });
+        </script>
         <title>Daftar Paket Perjalanan</title>
     </head>
     <body>
@@ -46,26 +53,26 @@
                                     </tr>
                                     <tr><td>Route : </td>
                                         <%
-                                        City city = new City();
-                                        ArrayList<City> lcity = new ArrayList<City>();
-                                        lcity=city.getCity();
+                                            City city = new City();
+                                            ArrayList<City> lcity = new ArrayList<City>();
+                                            lcity = city.getCity();
                                         %>
                                         <td>
                                             <select name="origin" class="filter" style="width: 150px">
                                                 <option> Origin </option>
                                                 <%
-                                                for(int i=0;i<lcity.size();++i){
+                                                    for (int i = 0; i < lcity.size(); ++i) {
                                                 %>
-                                                <option value="<%= lcity.get(i).getIdcity() %>"><%= lcity.get(i).getName() %></option>
-                                                <% } %>
+                                                <option value="<%= lcity.get(i).getIdcity()%>"><%= lcity.get(i).getName()%></option>
+                                                <% }%>
                                             </select>
                                             <select name="destination" class="filter" style="width: 150px">
                                                 <option> Destination </option>
                                                 <%
-                                                for(int i=0;i<lcity.size();++i){
+                                                    for (int i = 0; i < lcity.size(); ++i) {
                                                 %>
-                                                <option value="<%= lcity.get(i).getIdcity() %>"><%= lcity.get(i).getName() %></option>
-                                                <% } %>
+                                                <option value="<%= lcity.get(i).getIdcity()%>"><%= lcity.get(i).getName()%></option>
+                                                <% }%>
                                             </select>
 
                                         </td>
@@ -117,18 +124,17 @@
                                         <p style="font-size: 0.8em"><i><%= pp.get(i).getDescription()%></i></p>
                                     </div>
                                     <div class="cat-vault">
-                                        <span style="font-size: 0.9em"><img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  /> Rp<%= pp.get(i).getTotal_price()%>,-</span><br/>
+                                        <span style="font-size: 0.9em"><img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  /> Rp<%= DateFormater.formatCurrency(pp.get(i).getTotal_price())%></span><br/>
                                         <span style="font-size: 0.9em"><img src="../images/adult.png" alt="Bingkisan" class="ico-mini" /> Adult : <%= pp.get(i).getNadult()%></span><br/>
                                         <span style="font-size: 0.9em"><img src="../images/child.png" alt="Bingkisan" class="ico-mini" /> Child : <%= pp.get(i).getNchild()%></span><br/>
                                     </div>
                                     <div class="cat-right">
                                         <a class="thrbutton" href="detailPaketPerjalanan.jsp?id=<%= pp.get(i).getIdp()%>">Details</a>
-                                        <a href="<%= request.getContextPath() %>/PesanController?menu=buyperjalanan&&idp=<%= pp.get(i).getIdp() %>"><input type="button" value="Buy" name="filter" class="thrbutton"/></a>
+                                        <a class="buy" href="<%= request.getContextPath()%>/PesanController?menu=buyperjalanan&&idp=<%= pp.get(i).getIdp()%>"><input type="button" value="Buy" name="filter" class="thrbutton"/></a>
                                     </div>
                                 </div>
-
                                 <%
-                                        }
+                                    }
                                 %>
                             </div>
                         </div>
