@@ -9,6 +9,16 @@
 <%@page import="model.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    if (session.getAttribute("user") == null) {
+        response.sendRedirect("index.jsp?register=2");
+    } else {
+        if (session.getAttribute("jenisUser").equals("0")) {
+            response.sendRedirect("index.jsp?register=2");
+        } else {
+            Staff r = (Staff) session.getAttribute("user");
+
+%>   
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -36,10 +46,10 @@
                     <h2 style="margin-left: 10px;">Mengelola Paket Bingkisan</h2><hr/>
                     <table border="1" class="tutturu">
                         <tr>
-                            <th>Nama Paket</th>
-                            <th>Deskripsi</th>
-                            <th>Harga</th>
-                            <th>Aksi</th>
+                            <th style="width: 12%">Nama Paket</th>
+                            <th  style="width: 62%">Deskripsi</th>
+                            <th  style="width: 12%">Harga</th>
+                            <th  style="width: 14%">Aksi</th>
                         </tr>
                         <tbody>
                             <%
@@ -61,7 +71,7 @@
                             out.print("-");
                         }%></td>
                                 <td><% if (ij.get(i).getPrice() != 0) {
-                            out.print(ij.get(i).getPrice());
+                            out.print("Rp"+ model.DateFormater.formatCurrency(ij.get(i).getPrice()));
                         } else {
                             out.print("-");
                         }%></td>
@@ -75,12 +85,12 @@
                             %>
                         </tbody>
                     </table>
-                    <div style="width: 100%;margin-top: 25px;border-top: 1px solid #CCC;position: absolute;bottom:0px">
+                    <div style="width: 100%;margin-top: 25px;border-top: 1px solid #CCC;bottom:0px">
                         <table style="width: 100%">
                             <tr style="height: 40px;">
                                 <td style="padding-left: 40px;">
                                     <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>">Home</a>
-                                    <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>/.jsp"><< Back</a>
+                                    <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>/staff.jsp"><< Back</a>
                                 </td>
                                 <td style="text-align: right;padding-right: 40px;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/BingkisanController?mode=susun">Create Packet</a></td>
                             </tr>
@@ -92,3 +102,5 @@
         <%@include file="../layout/footer.jsp" %>
     </body>
 </html>
+<% }
+    }%>
