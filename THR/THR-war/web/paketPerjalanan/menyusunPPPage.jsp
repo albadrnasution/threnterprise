@@ -10,10 +10,10 @@
 
 <%
     if (session.getAttribute("user") == null) {
-        response.sendRedirect("index.jsp?register=2");
+        response.sendRedirect("../index.jsp?register=2");
     } else {
         if (session.getAttribute("jenisUser").equals("0")) {
-            response.sendRedirect("index.jsp?register=2");
+            response.sendRedirect("../index.jsp?register=2");
         } else {
             Staff r = (Staff) session.getAttribute("user");
 
