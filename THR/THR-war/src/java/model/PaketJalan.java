@@ -72,12 +72,13 @@ public class PaketJalan {
         this.paket_nama = paket_nama;
     }
 
-    public Date getTime() {
+    public Date getTimeD() {
         return time;
     }
     
-    public String getTime2() {
-        return time2;
+    public String getTime() throws ParseException {
+        String s = formatDateToView(time.toString());
+        return s;
     }
     
     public void setTime(Date time) {
@@ -85,7 +86,7 @@ public class PaketJalan {
     }
     
     public void setTime(String time) {
-            this.time2 = time2;
+            this.time2 = time;
     }
 
     public int getTotal_price() {

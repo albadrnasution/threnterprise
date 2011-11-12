@@ -102,7 +102,7 @@
                 <div class="manager-bucket bucket">
                     <div style="margin-top: 15px;text-align: center;vertical-align: middle;"><img src="images/stats.png" alt="Bingkisan"/></div>
                     <div class="paket-button" style="width: 236px">
-                        <a href="^^v">Statistik</a>
+                        <a href="<%= request.getContextPath()%>/statistic.jsp">Statistik</a>
                     </div>        
                 </div>
                 <%                } else if (session.getAttribute("jenisUser").equals("3")) {

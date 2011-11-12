@@ -154,7 +154,7 @@
                                         <td>Waktu Keberangkatan</td>
                                         <td>:<input class="filter" type="text" name="s_time" value="<%
                                                         if (!susun) {
-                                                            out.print(DateFormater.formatDateToCalFormat(pj.get(0).getTime()));
+                                                            out.print(DateFormater.formatDateToCalFormat(pj.get(0).getTimeD()));
                                                         }
                                                     %>" /></td>
                                     </tr>
