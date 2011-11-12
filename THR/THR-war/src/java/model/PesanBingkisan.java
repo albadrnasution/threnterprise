@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +35,16 @@ public class PesanBingkisan {
     private int total_pendapatan;
     private String item_name;
     private int jumlah_item;
+    private String pay_date;
+
+    public String getPay_date() {
+        return pay_date;
+    }
+
+    public void setPay_date(String pay_date) {
+        this.pay_date = pay_date;
+    }
+
 
     public Date getDue_date() {
         return due_date;
@@ -149,16 +160,19 @@ public class PesanBingkisan {
     
     
     
-    public String addPesanBingkisan()
+    public String addPesanBingkisan() throws ParseException
     {
         Database db = new Database();
         String sql = null;
+        String due_date = DateFormater.formatDateToCalFormat(this.getDue_date2());
+        due_date = DateFormater.nextNDate(due_date,(-1));
+        due_date = DateFormater.formatDateToDBFormat(due_date);
         try{
             sql= "INSERT INTO pesan_bingkisan (idp,idc,jumlah_paket,order_date,due_date,pay_status) VALUES "
                    
                     
                     + "("+this.getIdp()+","+this.getIdc() + ","+this.getJumlah_paket()+","
-                    + "NOW()" +",'"+this.getDue_date2()+"',"+0+")";
+                    + "NOW()" +",'"+due_date+"',"+0+")";
             System.out.println(sql);
             db.setConnection();
             db.updatingQuery(sql);
@@ -195,7 +209,7 @@ public class PesanBingkisan {
         ArrayList<PesanBingkisan> temp =new ArrayList<PesanBingkisan>();
         String sql;
         try{
-            sql="SELECT * FROM pesan_bingkisan WHERE idc="+idc;
+            sql="SELECT * FROM pesan_bingkisan AS pp INNER JOIN paket_bingkisan AS pb ON pp.idp=pb.idp WHERE idc="+idc;
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
@@ -204,8 +218,11 @@ public class PesanBingkisan {
                 c.setIdp(rs.getInt("idp"));
                 c.setIdc(rs.getInt("idc"));
                 c.setDue_date2(rs.getString("due_date"));
-                c.setOrder_date(rs.getDate("order_date"));
+                c.setOrder_dateS(rs.getString("order_date"));
+                c.setPay_date(rs.getString("pay_date"));
                 c.setJumlah_paket(rs.getInt("jumlah_paket"));
+                c.setPaket_name(rs.getString("paket_name"));
+                
                 if (rs.getInt("pay_status")==1)
                     c.setPay_status(true);
                 else c.setPay_status(false);

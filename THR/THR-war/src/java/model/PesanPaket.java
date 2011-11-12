@@ -145,10 +145,17 @@ public class PesanPaket {
         this.total_pendapatan = total_pendapatan;
     }
     
-    public String addPesanPaket()
+    public String addPesanPaket() throws ParseException
     {
         Database db = new Database();
         String sql = null;
+        PaketJalan paket = new PaketJalan();
+        ArrayList<PaketJalan> jalan = paket.getPaket(Integer.toString(this.getIdp()));
+        paket = jalan.get(0);
+        String due_date = DateFormater.formatDateToCalFormat(paket.getTimeD());
+         due_date = DateFormater.nextNDate( due_date,(-1));
+         due_date = DateFormater.formatDateToDBFormat( due_date);
+        System.out.println( due_date+"/n");
         try{
             sql="INSERT INTO pesan_paket (idp,idc,jumlah_paket,order_date,due_date,pay_status) VALUES "
                    /*+ "('aa','las','add','phon','emil','pla','00-00-0000','asd')";*/
@@ -156,7 +163,7 @@ public class PesanPaket {
                     
                     
                     + "("+this.getIdp()+","+this.getIdc()+","+this.getJumlah_paket()+","
-                    + "NOW()" +","+"NOW()"+","+0+")";
+                    + "NOW()" +",'"+ due_date+"',"+0+")";
             System.out.println(sql);
             db.setConnection();
             db.updatingQuery(sql);
