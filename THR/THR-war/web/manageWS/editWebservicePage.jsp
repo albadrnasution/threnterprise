@@ -39,9 +39,9 @@
         <link rel="stylesheet" href="../style/front.css" type="text/css" />
         <script type="text/javascript" src="../script/jquery-1.6.1.js"></script>
         <title><% if (add) {
-                out.print("Add User Page");
+                out.print("Add Web Service");
             } else {
-                out.print("Edit Profile Page");
+                out.print("Edit Web Service");
             }%></title>
 
     </head>
@@ -58,17 +58,16 @@
                         <img src="../images/person.png" alt="Bingkisan" style="max-height: 128px;" />
                     </div>
                     <a class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
-                    <br/><a  class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;" href="">Shopping History</a>
-                </div>
+              </div>
                 <div style="float: left; width: 740px; min-height: 140px; margin-bottom: 40px;padding-top: 15px;">
                     <h1><% if (add) {
                             out.print("Add Web Service");
                         } else {
-                            out.print("Edit Web Srevice");
+                            out.print("Edit Web Service");
                         }%></h1>
                         
-                    <form  action="../webserviceController?<% if (!managed.equals("")) {
-                            out.print("managed=" + managed);
+                    <form  action="../webUserController?save=1&<% if (!managed.equals("")) {
+                            out.print("manage=" + managed);
                         }
                         if (add) {
                             out.print("&action=add");

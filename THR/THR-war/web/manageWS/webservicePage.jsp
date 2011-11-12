@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <%
-        if (session.getAttribute("user") == null || !session.getAttribute("jenisUser").equals("3")) {
+        if (session.getAttribute("user") == null || !session.getAttribute("jenisUser").equals("2")) {
             response.sendRedirect("../index.jsp?register=2");
         }
     %>
@@ -28,18 +28,8 @@
             <div id="content" style="width: 1080px">
                 <div class="list-sheet" style="width: 100%; padding-top: 20px; min-height: 480px;">
                     <h2 style="margin-left: 10px;">Web Services</h2><hr/>
-                    <% if (request.getParameter("error") != null) {
-                            if (request.getParameter("error").equals("1")) {%>
-                    <div style="margin-left: 20px; color: red">Adding new user Failed, Password is incorrect.</div>
-                    <% } else if (request.getParameter("error").equals("2")) {%>
-                    <div style="margin-left: 20px; color: red">Adding new user Failed, First  name, Last name, Username, or Password can not be blank.</div>
-                    <% } else if (request.getParameter("error").equals("3")) {%>
-                    <div style="margin-left: 20px; color: red">Adding new user Failed, User already exists.</div>
-                    <% } else if (request.getParameter("error").equals("4")) {%>
-                    <div style="margin-left: 20px; color: red">Edit User Failed, First name,Last name can not be blank.</div>
-                    <% }
-                    } else if (request.getParameter("success") != null) {
-                        if (request.getParameter("success").equals("1")) {%>
+                    <%  if (request.getParameter("success") != null) {
+                            if (request.getParameter("success").equals("1")) {%>
                     <div style="margin-left: 20px; color: red">Web service has been deleted successfully.</div>
                     <% } else if (request.getParameter("success").equals("2")) {%>
                     <div style="margin-left: 20px; color: red">Web Service has been edited successfully.</div>
@@ -67,7 +57,7 @@
                             <td><% out.print(i + 1);%></td>
                             <td><% out.print(ws.getNama());%></td>
                             <td><% out.print(ws.getJenis());%></td>
-                            <td><% out.print(ws.getServer()); %></td>
+                            <td><% out.print(ws.getServer());%></td>
                             <td><% if (ws.getPort() != null) {
                                     out.print(ws.getPort());
                                 } else {
