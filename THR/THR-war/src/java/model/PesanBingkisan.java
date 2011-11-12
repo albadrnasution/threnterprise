@@ -97,13 +97,12 @@ public class PesanBingkisan {
         Database db = new Database();
         String sql = null;
         try{
-            sql= /*"INSERT INTO customer (first_name,last_name,address,phone,email,place_of_birth,date_of_birth,password) VALUES "
-                   + "('aa','las','add','phon','emil','pla','00-00-0000','asd')";*/
-                    "INSERT INTO pesan_bingkisan (idp,idc,jumlah_paket) VALUES "
-                   + "(1,5,123)";
+            sql= "INSERT INTO pesan_bingkisan (idp,idc,jumlah_paket,order_date,due_date,pay_status) VALUES "
+                   
                     
-                    /*+ "("+this.getIdp()+","+this.getIdc() + ","+this.getJumlah_paket()+","
-                    + "NOW()" +","+this.getDue_date2()+")";*/
+                    + "("+this.getIdp()+","+this.getIdc() + ","+this.getJumlah_paket()+","
+                    + "NOW()" +",'"+this.getDue_date2()+"',"+0+")";
+            System.out.println(sql);
             db.setConnection();
             db.updatingQuery(sql);
         }catch(Exception e){

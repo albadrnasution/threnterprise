@@ -141,13 +141,14 @@ public class PesanPaket {
         Database db = new Database();
         String sql = null;
         try{
-            sql="INSERT INTO pesan_paket (idp,idc,jumlah_paket,order_date,due_date) VALUES "
+            sql="INSERT INTO pesan_paket (idp,idc,jumlah_paket,order_date,due_date,pay_status) VALUES "
                    /*+ "('aa','las','add','phon','emil','pla','00-00-0000','asd')";*/
                     
                     
                     
                     + "("+this.getIdp()+","+this.getIdc()+","+this.getJumlah_paket()+","
-                    + "NOW()" +","+"NOW()"+")";
+                    + "NOW()" +","+"NOW()"+","+0+")";
+            System.out.println(sql);
             db.setConnection();
             db.updatingQuery(sql);
         }catch(Exception e){

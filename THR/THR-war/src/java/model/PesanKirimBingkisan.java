@@ -20,6 +20,15 @@ public class PesanKirimBingkisan {
     private String alamat;
     private int harga;
     private SatusKirim stat_kirim;
+    private int banyak_paket;
+
+    public int getBanyak_paket() {
+        return banyak_paket;
+    }
+
+    public void setBanyak_paket(int banyak_paket) {
+        this.banyak_paket = banyak_paket;
+    }
 
     public String getAlamat() {
         return alamat;
@@ -69,18 +78,19 @@ public class PesanKirimBingkisan {
         this.stat_kirim = stat_kirim;
     }
     
-    public String addPesanKirimBingkisan(String ido)
+    public String addPesanKirimBingkisan()
     {
         Database db = new Database();
         String sql = null;
         try{
-            sql="INSERT INTO pesan_kirim_bing (ido,idp,idc,no_paket,alamat,harga,stat_kirim) VALUES "
+            sql="INSERT INTO pesan_kirim_bing (idp,idc,no_paket,alamat,harga,stat_kirim,banyak_paket) VALUES "
                    /*+ "('aa','las','add','phon','emil','pla','00-00-0000','asd')";*/
                     
                     
                     
-                    + "("+ido+","+this.getIdp()+","+this.getIdc()+","+0+",'"
-                    + this.getAlamat() +"',"+this.getHarga()+","+"'pending')";
+                    + "("+this.getIdp()+","+this.getIdc()+","+0+",'"
+                    + this.getAlamat() +"',"+this.getHarga()+","+"'pending',"+this.banyak_paket+")";
+            
             db.setConnection();
             db.updatingQuery(sql);
         }catch(Exception e){
