@@ -213,16 +213,20 @@ public class PesanBingkisan {
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
+                
                 PesanBingkisan c = new PesanBingkisan();
                 c.setIdo(rs.getInt("ido"));
-                c.setIdp(rs.getInt("idp"));
-                c.setIdc(rs.getInt("idc"));
-                c.setDue_date2(rs.getString("due_date"));
-                c.setOrder_dateS(rs.getString("order_date"));
+              c.setIdp(rs.getInt("idp"));
+               c.setIdc(rs.getInt("idc"));
+                  c.setDue_date2(rs.getString("due_date"));
+                //c.setOrder_dateS(rs.getString("order_date"));
+                c.setOrder_date(rs.getDate("order_date"));
                 c.setPay_date(rs.getString("pay_date"));
                 c.setJumlah_paket(rs.getInt("jumlah_paket"));
                 c.setPaket_name(rs.getString("paket_name"));
-                
+//                System.out.println(rs.getString("paket_name"));
+//                System.out.println(rs.getString("pay_date"));
+//                System.out.println(rs.getDate("pay_date"));
                 if (rs.getInt("pay_status")==1)
                     c.setPay_status(true);
                 else c.setPay_status(false);
@@ -314,12 +318,12 @@ public class PesanBingkisan {
         PesanBingkisan p = new PesanBingkisan();
         ArrayList<PesanBingkisan> ap = new ArrayList<PesanBingkisan>();
         
-        ap = p.getPesanBingkisanbyItem("");
-        
+        //ap = p.getPesanBingkisanbyItem("");
+        p.getPesanBingkisanbyIdc("1");
         for(int i=0; i<ap.size();i++){
             //System.out.println(ap.get(i).getOrder_dateS());
             //System.out.println(ap.get(i).getPaket_name());                        
-            System.out.println(ap.get(i).getItem_name());
+            //System.out.println(ap.get(i).getItem_name());
         }
     }
     

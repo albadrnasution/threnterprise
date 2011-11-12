@@ -31,7 +31,15 @@ public class PesanPaket {
     private String item_name;
     private int jumlah_item;
     private int total_pendapatan;
-    
+    private  String pay_date;
+
+    public String getPay_date() {
+        return pay_date;
+    }
+
+    public void setPay_date(String pay_date) {
+        this.pay_date = pay_date;
+    }
 
     public Date getDue_date() {
         return due_date;
@@ -181,7 +189,7 @@ public class PesanPaket {
         ArrayList<PesanPaket> temp =new ArrayList<PesanPaket>();
         String sql;
         try{
-            sql="SELECT * FROM pesan_paket WHERE idc="+idc;
+            sql="SELECT * FROM pesan_paket AS pp INNER JOIN paket_jalan AS pj ON pp.idp=pj.idp WHERE idc="+idc;
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
@@ -192,6 +200,8 @@ public class PesanPaket {
                 c.setJumlah_paket(rs.getInt("jumlah_paket"));
                 c.setOrder_date(rs.getDate("order_date"));
                 c.setDue_date(rs.getDate("due_date"));
+                c.setPaket_name(rs.getString("paket_name"));
+                c.setPay_date(rs.getString("pay_date"));
                 if (rs.getInt("pay_status")==1)
                     c.setPay_status(true);
                 else c.setPay_status(false);
