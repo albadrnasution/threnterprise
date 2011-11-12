@@ -30,6 +30,7 @@ public class PesanPaket {
     private String paket_name;
     private String item_name;
     private int jumlah_item;
+    private int total_pendapatan;
     
 
     public Date getDue_date() {
@@ -135,6 +136,14 @@ public class PesanPaket {
     public void setJumlah_item(int jumlah_item) {
         this.jumlah_item = jumlah_item;
     }
+
+    public int getTotal_pendapatan() {
+        return total_pendapatan;
+    }
+
+    public void setTotal_pendapatan(int total_pendapatan) {
+        this.total_pendapatan = total_pendapatan;
+    }
     
     public String addPesanPaket()
     {
@@ -196,12 +205,13 @@ public class PesanPaket {
         String sql = null;
         try{
             if(orderby.equals("")){
-                sql="select ido,pesan_paket.idp,pesan_paket.idc, paket_name, order_date, pay_status, jumlah_paket "
-                        + "from pesan_paket, paket_jalan where pesan_paket.idp=paket_jalan.idp";
+                sql="select ido,pesan_paket.idp,pesan_paket.idc, paket_name, order_date, pay_status, jumlah_paket, (jumlah_paket*total_price) as price "
+                        + "from pesan_paket, paket_jalan where pesan_paket.idp=paket_jalan.idp group by ido";
             }else{
-                sql="select ido,pesan_paket.idp,pesan_paket.idc, paket_name, order_date, pay_status, jumlah_paket "
-                        + "from pesan_paket, paket_jalan where pesan_paket.idp=paket_jalan.idp order by "+orderby+ " desc";
+                sql="select ido,pesan_paket.idp,pesan_paket.idc, paket_name, order_date, pay_status, jumlah_paket, (jumlah_paket*total_price) as price "
+                        + "from pesan_paket, paket_jalan where pesan_paket.idp=paket_jalan.idp group by ido order by "+orderby+ " desc";
             }
+            System.out.println(sql);
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
@@ -212,6 +222,7 @@ public class PesanPaket {
                 c.setPaket_name(rs.getString("paket_name"));
                 c.setOrder_date(rs.getDate("order_date"));
                 c.setJumlah_paket(rs.getInt("jumlah_paket"));
+                c.setTotal_pendapatan(rs.getInt("price"));
                 if (rs.getInt("pay_status")==1){
                     c.setPay_status(true);
                 }else { 
@@ -240,7 +251,6 @@ public class PesanPaket {
                         + "from pesan_paket, item_jalan, ip_jalan where pesan_paket.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi group by idi order by "+orderby+ " desc";
             }
             Database.setConnection();
-            System.out.println(sql);
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
                 PesanPaket c = new PesanPaket();
@@ -263,10 +273,11 @@ public class PesanPaket {
         PesanPaket p = new PesanPaket();
         ArrayList<PesanPaket> ap = new ArrayList<PesanPaket>();
         
-        ap = p.getPesanPaketbyItem("name");
+        ap = p.getPesanPaket("paket_name");
+        System.out.println(ap.size());
         for(int i=0; i<ap.size();i++){
             //System.out.println(ap.get(i).getOrder_dateS());
-            System.out.println(ap.get(i).getItem_name());                        
+            System.out.println(ap.get(i).getPaket_name());                        
         }
         
     }
