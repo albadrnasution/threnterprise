@@ -67,9 +67,10 @@ public class PesanController extends HttpServlet {
                     int max = bingkisan.lastPesanBingkisan();
                     kirim.setIdc(cu.getIdc());
                     kirim.setIdp(pbi.getIdp());
+                    kirim.setBanyak_paket(Integer.parseInt(request.getParameter("jumlah")));
                     kirim.setAlamat(request.getParameter("alamat"));
                     kirim.setHarga(bingkisan.getJumlah_paket()*pbi.getPrice());
-                    res = kirim.addPesanKirimBingkisan(Integer.toString(max));
+                    res = kirim.addPesanKirimBingkisan();
                     //customer.addCustomer();'
                     
                     //out.print(res);
@@ -95,7 +96,7 @@ public class PesanController extends HttpServlet {
                     
                     out.print(res);
                     //String res = customer.addCustomer();
-                    String redirectURL = "paketBingkisan/daftarPaketPerjalanan.jsp";
+                    String redirectURL = "paketPerjalanan/daftarPaketPerjalanan.jsp";
                     response.sendRedirect(redirectURL);
                 }
                 else if(request.getParameter("menu").equals("historipemesanan"))
