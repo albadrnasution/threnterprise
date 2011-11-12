@@ -4,10 +4,12 @@
  */
 package model;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -211,5 +213,19 @@ public class DateFormater {
         } else {
             return null;
         }
+    }
+    
+    public static String formatCurrency(int currency){
+        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+        return nf.format(currency);
+    }
+    
+    public static String formatCurrency(String currency) throws ParseException{
+        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+        return nf.format(nf.parse(currency));
+    }
+    
+    public static void main(String[] args) throws ParseException {
+        System.out.println(formatCurrency("20000"));
     }
 }
