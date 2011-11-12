@@ -7,6 +7,17 @@
 <%@page import="servlet.PerjalananController" %>
 <%@page import="model.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    if (session.getAttribute("user") == null) {
+        response.sendRedirect("index.jsp?register=2");
+    } else {
+        if (session.getAttribute("jenisUser").equals("0")) {
+            response.sendRedirect("index.jsp?register=2");
+        } else {
+            Staff r = (Staff) session.getAttribute("user");
+
+%>   
 <!DOCTYPE html>
 <html>
     <%
@@ -39,7 +50,7 @@
     </head>
     <body>
         <%@include file="../layout/head.jsp" %>
-        
+
         <div id="content-wrapper">
             <div id="content">
                 <div class="list-sheet" style="width: 100%;padding-bottom: 40px;">
@@ -51,14 +62,12 @@
                     </div>
                     <div style="float: left; width: 740px; min-height: 140px; margin-bottom: 40px;padding-top: 15px;">
                         <h1><%= title%></h1>
-                        <form name="submit" action="../PerjalananController?act=<%
+                        <form action="../PerjalananController?act=<%
                             if (request.getParameter("aksi").equals("edit")) {
                                 out.print("editPaket");
                             } else if (request.getParameter("aksi").equals("susun")) {
                                 out.print("addPaket");
-                            }
-
-                              %>" name="editPaket" method="POST" id="editProfil">
+                            }%>" name="editPaket" method="POST" id="editProfil">
 
                             <%
                                 if (request.getParameter("success") != null) {
@@ -71,32 +80,32 @@
                             <%                            }
                                 }
                             %>
+                            <input class="filter" type="hidden" name="s_id" value="<%
+                                if (!susun) {
+                                    if (pj.get(0).getIdp() != 0) {
+                                        out.print(pj.get(0).getIdp());
+                                    }
+                                }
+                                   %>
+                                   " />
                             <table>
-                                <input class="filter" type="hidden" name="s_id" value="<%
-                                           if (!susun) {
-                                               if (pj.get(0).getIdp() != 0) {
-                                                   out.print(pj.get(0).getIdp());
-                                               }
-                                           }
-                                       %>
-                                       " />
                                 <tbody>
                                     <tr>
                                         <td>Nama Paket</td>
                                         <td>:<input class="filter" type="text" name="s_nama_paket" value="<%
-                                                        if (!susun) {
-                                                                out.print(pj.get(0).getPaket_nama());
-                                                        }
+                                            if (!susun) {
+                                                out.print(pj.get(0).getPaket_nama());
+                                            }
                                                     %>" /></td>
                                     </tr>
                                     <tr>
                                         <td>Deskripsi</td>
-                                        <td>:<textarea class="filter" name="s_desc" rows="4" cols="20"><%
-                                                    if (!susun) {
-                                                        if (pj.get(0).getDescription() != null) {
-                                                            out.print(pj.get(0).getDescription());
-                                                        }
-                                                    }
+                                        <td>:<textarea class="filter" name="s_desc" rows="4" cols="48"><%
+                                            if (!susun) {
+                                                if (pj.get(0).getDescription() != null) {
+                                                    out.print(pj.get(0).getDescription());
+                                                }
+                                            }
                                                 %></textarea></td>
                                     </tr>
                                     <tr>
@@ -107,11 +116,11 @@
                                                     for (int j = 0; j < pij.size(); ++j) {
                                             %>
                                             <input type="checkbox" name="s_item" value="<%= ij.get(i).getIdi()%>" <%
-                                                if (ij.get(i).getIdi() == pij.get(j).getIdi()) {
-                                                    out.print("checked");
-                                                }
+                                                    if (ij.get(i).getIdi() == pij.get(j).getIdi()) {
+                                                        out.print("checked");
+                                                    }
 
-                                           }%>/><% out.print(i + 1);%>.<% out.print(ij.get(i).getName());%> <br/>
+                                                }%>/><% out.print(i + 1);%>.<% out.print(ij.get(i).getName());%> <br/>
                                             <div><% out.print(ij.get(i).getDescription());%></div>
                                             <%
                                                 }
@@ -129,34 +138,32 @@
                                     <tr>
                                         <td>Total Harga</td>
                                         <td>:<input class="filter" type="text" name="s_harga" value="<%
-                                                        if (!susun) {
-                                                            out.print(pj.get(0).getTotal_price());
-                                                        }
+                                            if (!susun) {
+                                                out.print(pj.get(0).getTotal_price());
+                                            }
                                                     %>" /></td>
                                     </tr>
                                     <tr>
                                         <td>Jumlah Penumpang Dewasa</td>
                                         <td>:<input class="filter" type="text" name="s_nadult" value="<%
-                                                        if (!susun) {
-                                                            out.print(pj.get(0).getNadult());
-                                                        }
+                                            if (!susun) {
+                                                out.print(pj.get(0).getNadult());
+                                            }
                                                     %>" /></td>
                                     </tr>
                                     <tr>
                                         <td>Jumlah Penumpang Anak-anak</td>
                                         <td>:<input class="filter" type="text" name="s_nchild" value="<%
-                                                        if (!susun) {
-                                                            out.print(pj.get(0).getNchild());
-                                                        }
+                                            if (!susun) {
+                                                out.print(pj.get(0).getNchild());
+                                            }
                                                     %>" /></td>
                                     </tr>
                                     <tr>
                                         <td>Waktu Keberangkatan</td>
-                                        <td>:<input class="filter" type="text" name="s_time" value="<%
-                                                        if (!susun) {
-                                                            out.print(DateFormater.formatDateToCalFormat(pj.get(0).getTimeD()));
-                                                        }
-                                                    %>" /></td>
+                                        <td>:<input class="filter" type="text" name="s_time" value="<%if (!susun) {
+                                                            out.print(DateFormater.formatDateToCalFormat(pj.get(0).getTime()));
+                                                        }%>" /></td>
                                     </tr>
                                     <tr align="center">
                                         <td style="text-align: right" colspan="2">
@@ -164,17 +171,14 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </form>
                     </div>
                 </div>
-                </form
             </div>
         </div>
-    </div>
-<div id="footer-wrapper">
-    <div id="footer">
-        &COPY; 2011, Anpau Ltd.
-        <span class="footer-link"><a href="#">About Us</a></span>
-    </div>
-</div>
-</body>
+        <%@include file="../layout/footer.jsp" %>
+    </body>
 </html>
+
+<% }
+    }%>

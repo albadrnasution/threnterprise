@@ -3,7 +3,17 @@
     Created on : Oct 15, 2011, 1:52:15 AM
     Author     : Didik
 --%>
+<%
+    if (session.getAttribute("user") == null) {
+        response.sendRedirect("index.jsp?register=2");
+    } else {
+        if (session.getAttribute("jenisUser").equals("0")) {
+            response.sendRedirect("index.jsp?register=2");
+        } else {
+            Staff r = (Staff) session.getAttribute("user");
 
+%>   
+<%@page import="java.text.DateFormat"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="servlet.PerjalananController" %>
 <%@page import="model.*" %>
@@ -34,13 +44,13 @@
                     <h2 style="margin-left: 10px;">Mengelola Paket Perjalanan</h2><hr/>
                     <table border="1" class="tutturu">
                         <tr>
-                            <th>Nama Paket</th>
-                            <th>Deskripsi</th>
-                            <th>Harga</th>
-                            <th>N-adult</th>
-                            <th>N-child</th>
-                            <th>Waktu</th>
-                            <th>Aksi</th>
+                            <th style="width: 20%">Nama Paket</th>
+                            <th style="width: 46%">Deskripsi</th>
+                            <th style="width: 10%">Harga</th>
+                            <th style="width: 7%">N-adult</th>
+                            <th style="width: 7%">N-child</th>
+                            <th style="width: 10%">Waktu</th>
+                            <th style="width: 10%">Aksi</th>
                         </tr>
                         <%
                             PerjalananController pc = new PerjalananController();
@@ -61,7 +71,7 @@
                         out.print("-");
                     }%></td>
                             <td><% if (ij.get(i).getTotal_price() != 0) {
-                        out.print(ij.get(i).getTotal_price());
+                        out.print("Rp"+DateFormater.formatCurrency(ij.get(i).getTotal_price()));
                     } else {
                         out.print("0");
                     }%></td>
@@ -76,7 +86,7 @@
                         out.print("0");
                     }%></td>
                             <td><% if (ij.get(i).getTime() != null) {
-                        out.print(ij.get(i).getTime());
+                        out.print(DateFormater.formatDateToCalFormat(ij.get(i).getTime()));
                     } else {
                         out.print("-");
                     }%></td>
@@ -89,12 +99,12 @@
                             }
                         %>
                     </table>
-                    <div style="width: 100%;margin-top: 25px;border-top: 1px solid #CCC;position: absolute;bottom:0px">
+                    <div style="width: 100%;margin-top: 25px;border-top: 1px solid #CCC;bottom:0px">
                     <table style="width: 100%">
                         <tr style="height: 40px;">
                             <td style="padding-left: 40px;">
                                 <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>">Home</a>
-                                <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>/.jsp"><< Back</a>
+                                <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>/staff.jsp"><< Back</a>
                             </td>
                             <td style="text-align: right;padding-right: 40px;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/PerjalananController?mode=susun">Create Packet</a></td>
                         </tr>
@@ -102,7 +112,9 @@
                 </div>
                 </div>
             </div>
-        </div>      
+        </div>
         <%@include file="../layout/footer.jsp" %>
     </body>
 </html>
+<% }
+    }%>
