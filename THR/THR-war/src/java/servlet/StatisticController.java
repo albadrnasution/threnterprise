@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.PesanBingkisan;
 import model.PesanPaket;
 
 /**
@@ -34,49 +35,111 @@ public class StatisticController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            if(request.getParameter("orderby") != null){
-                    ArrayList<PesanPaket> ap = new ArrayList<PesanPaket>();
-                    PesanPaket pp = new PesanPaket();
-                    HttpSession session = request.getSession();
-                    if (request.getParameter("orderby").equals("payment")) {
-                        ap = pp.getPesanPaket("pay_status");                    
-                    }else if (request.getParameter("orderby").equals("paket")) {
-                        ap = pp.getPesanPaket("paket_name");
-                    }else if (request.getParameter("orderby").equals("order")) {
-                        ap = pp.getPesanPaket("order_date");
-                    }else if (request.getParameter("orderby").equals("jumlah")) {
-                        ap = pp.getPesanPaket("jumlah_paket");
-                    }else if (request.getParameter("orderby").equals("item")) {
-                        ArrayList<PesanPaket> api = new ArrayList<PesanPaket>();
-                        PesanPaket pi = new PesanPaket();
-                        api = pi.getPesanPaketbyItem("name");
-                        if (api.isEmpty()) {
-                            //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
-                        } else {
-                            session.setAttribute("PesanItem", api);
-                            session.setAttribute("sort", "1");
-                            response.sendRedirect("statistic.jsp");
+            if(request.getParameter("type") != null){
+                if(request.getParameter("type").equals("perjalanan")){
+                    if(request.getParameter("orderby") != null){
+                        ArrayList<PesanPaket> ap = new ArrayList<PesanPaket>();
+                        PesanPaket pp = new PesanPaket();
+                        HttpSession session = request.getSession();
+                        if (request.getParameter("orderby").equals("payment")) {
+                            ap = pp.getPesanPaket("pay_status");
+                        }else if (request.getParameter("orderby").equals("paket")) {
+                            ap = pp.getPesanPaket("paket_name");
+                        }else if (request.getParameter("orderby").equals("order")) {
+                            ap = pp.getPesanPaket("order_date");
+                        }else if (request.getParameter("orderby").equals("jumlah")) {
+                            ap = pp.getPesanPaket("jumlah_paket");
+                        }else if (request.getParameter("orderby").equals("harga")) {
+                            ap = pp.getPesanPaket("price");
+                        }else if (request.getParameter("orderby").equals("item")) {
+                            ArrayList<PesanPaket> api = new ArrayList<PesanPaket>();
+                            PesanPaket pi = new PesanPaket();
+                            api = pi.getPesanPaketbyItem("name");
+                            if (api.isEmpty()) {
+                                //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
+                            } else {
+                                session.setAttribute("PesanItem", api);
+                                session.setAttribute("sortitem", "1");
+                                response.sendRedirect("statistic.jsp");
+                            }
+                        }else if (request.getParameter("orderby").equals("jitem")) {
+                            ArrayList<PesanPaket> api = new ArrayList<PesanPaket>();
+                            PesanPaket pi = new PesanPaket();
+                            api = pi.getPesanPaketbyItem("jumlah");
+                            if (api.isEmpty()) {
+                                //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
+                            } else {
+                                session.setAttribute("PesanItem", api);
+                                session.setAttribute("sortitem", "1");
+                                response.sendRedirect("statistic.jsp");
+                            }
                         }
-                    }else if (request.getParameter("orderby").equals("jitem")) {
-                        ArrayList<PesanPaket> api = new ArrayList<PesanPaket>();
-                        PesanPaket pi = new PesanPaket();
-                        api = pi.getPesanPaketbyItem("jumlah");
-                        if (api.isEmpty()) {
-                            //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
+                        if (ap.isEmpty()) {
+                                //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
                         } else {
-                            session.setAttribute("PesanItem", api);
+                            session.setAttribute("PesanPaket", ap);
                             session.setAttribute("sort", "1");
                             response.sendRedirect("statistic.jsp");
                         }
                     }
-                    if (ap.isEmpty()) {
-                            //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
-                    } else {
-                        session.setAttribute("PesanPaket", ap);
-                        session.setAttribute("sort", "1");
-                        response.sendRedirect("statistic.jsp");
+                }else if(request.getParameter("type").equals("bingkisan")){
+                    if(request.getParameter("orderby") != null){
+                        ArrayList<PesanBingkisan> ab = new ArrayList<PesanBingkisan>();
+                        PesanBingkisan pb = new PesanBingkisan();
+                        HttpSession session = request.getSession();
+                        if (request.getParameter("orderby").equals("payment")) {
+                            ab = pb.getPesanBingkisan("pay_status");
+                        }else if (request.getParameter("orderby").equals("paket")) {
+                            ab = pb.getPesanBingkisan("paket_name");
+                        }else if (request.getParameter("orderby").equals("order")) {
+                            ab = pb.getPesanBingkisan("order_date");
+                        }else if (request.getParameter("orderby").equals("jumlah")) {
+                            ab = pb.getPesanBingkisan("jumlah_paket");
+                        }else if (request.getParameter("orderby").equals("harga")) {
+                            ab = pb.getPesanBingkisan("price");
+                        }else if (request.getParameter("orderby").equals("item")) {
+                            ArrayList<PesanBingkisan> abi = new ArrayList<PesanBingkisan>();
+                            PesanBingkisan pbi = new PesanBingkisan();
+                            abi = pbi.getPesanBingkisanbyItem("name");
+                            if (abi.isEmpty()) {
+                                //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
+                            } else {
+                                session.setAttribute("PesanItemBingkisan", abi);
+                                session.setAttribute("sortitemb", "1");
+                                response.sendRedirect("statistic.jsp");
+                            }
+                        }else if (request.getParameter("orderby").equals("jitem")) {
+                            ArrayList<PesanBingkisan> abi = new ArrayList<PesanBingkisan>();
+                            PesanBingkisan pbi = new PesanBingkisan();
+                            abi = pbi.getPesanBingkisanbyItem("jumlah");
+                            if (abi.isEmpty()) {
+                                //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
+                            } else {
+                                session.setAttribute("PesanItemBingkisan", abi);
+                                session.setAttribute("sortitemb", "1");
+                                response.sendRedirect("statistic.jsp");
+                            }
+                        }else if (request.getParameter("orderby").equals("hitem")) {
+                            ArrayList<PesanBingkisan> abi = new ArrayList<PesanBingkisan>();
+                            PesanBingkisan pbi = new PesanBingkisan();
+                            abi = pbi.getPesanBingkisanbyItem("harga");
+                            if (abi.isEmpty()) {
+                                //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
+                            } else {
+                                session.setAttribute("PesanItemBingkisan", abi);
+                                session.setAttribute("sortitemb", "1");
+                                response.sendRedirect("statistic.jsp");
+                            }
+                        }
+                        if (ab.isEmpty()) {
+                                //response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
+                        } else {
+                            session.setAttribute("PesanBingkisan", ab);
+                            session.setAttribute("sortb", "1");
+                            response.sendRedirect("statistic.jsp");
+                        }
                     }
-                    
+                }
             }
         } finally {            
             out.close();
@@ -120,14 +183,23 @@ public class StatisticController extends HttpServlet {
     }// </editor-fold>
 
 
-    public ArrayList<PesanPaket> showPesan(String s){
+    public ArrayList<PesanPaket> showPesanP(String s){
         PesanPaket pp = new PesanPaket();
         return pp.getPesanPaket(s);
     }
     
-    public ArrayList<PesanPaket> showPesanItem(String s){
+    public ArrayList<PesanPaket> showPesanItemP(String s){
         PesanPaket pp = new PesanPaket();
         return pp.getPesanPaketbyItem(s);
     }
 
+    public ArrayList<PesanBingkisan> showPesanB(String s){
+        PesanBingkisan pb = new PesanBingkisan();
+        return pb.getPesanBingkisan(s);
+    }
+    
+    public ArrayList<PesanBingkisan> showPesanItemB(String s){
+        PesanBingkisan pp = new PesanBingkisan();
+        return pp.getPesanBingkisanbyItem(s);
+    }
 }
