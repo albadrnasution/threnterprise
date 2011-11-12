@@ -122,12 +122,15 @@
                 <div class="manager-bucket bucket">
                     <div style="margin-top: 15px;text-align: center;vertical-align: middle;"><img src="images/container.png" alt="Bingkisan"/></div>
                     <div class="paket-button" style="width: 236px; bottom: 104px;">
-                        <a href="" style="font-size: 1.3em">Manajemen Paket Bingkisan</a>
+                        <a href="<%= request.getContextPath()%>/paketBingkisan/mengelolaPaket.jsp" style="font-size: 1.3em">Manajemen Paket Bingkisan</a>
                     </div>
                     <div class="paket-button" style="width: 236px">
-                        <a href="^^v" style="font-size: 1.3em">Manajemen Paket Perjalanan</a>
-                    </div>        
+                        <a href="<%= request.getContextPath()%>/paketPerjalanan/mengelolaPaket.jsp" style="font-size: 1.3em">Manajemen Paket Perjalanan</a>
+                    </div>       
                 </div>
+                    <div class="paket-button" style="width: 236px">
+                        <a href="<%= request.getContextPath()%>/manageWS/webservicePage.jsp" style="font-size: 1.3em">Manajemen Web Service</a>
+                    </div> 
                 <%                }
                 %>
             </div>
