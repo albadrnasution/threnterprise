@@ -42,7 +42,7 @@
             <div id="content" style="width: 1080px">
                 <div class="list-sheet" style="width: 100%; padding-top: 20px; min-height: 480px;">
                     <h2 style="margin-left: 10px;">Mengelola Paket Perjalanan</h2><hr/>
-                    <table border="1" class="tutturu">
+                    <table class="tutturu">
                         <tr>
                             <th style="width: 20%">Nama Paket</th>
                             <th style="width: 46%">Deskripsi</th>
@@ -52,12 +52,23 @@
                             <th style="width: 10%">Waktu</th>
                             <th style="width: 10%">Aksi</th>
                         </tr>
+                        <tbody>
                         <%
+                            int batas = 5;
+                            int pg = 1;
+                            if(request.getParameter("page")!=null){
+                                    pg = Integer.parseInt(request.getParameter("page"));
+                            }
                             PerjalananController pc = new PerjalananController();
                             ArrayList<PaketJalan> ij = new ArrayList<PaketJalan>();
                             ij = pc.showPaket();
-
-                            for (int i = 0; i < ij.size(); ++i) {
+                            int pages;
+                            if(ij.size()%batas==0){
+                                pages = (ij.size()/batas);
+                            }else{
+                                pages = (ij.size()/batas)+1;
+                            }
+                            for(int i=((pg-1)*batas); i<((pg*batas)<(ij.size())?(pg*batas):(ij.size())) ;++i){
                         %>
                         <tr>
                             <td><% if (ij.get(i).getPaket_nama() != null) {
@@ -98,18 +109,37 @@
                         <%
                             }
                         %>
+                        </tbody>
                     </table>
-                    <div style="width: 100%;margin-top: 25px;border-top: 1px solid #CCC;bottom:0px">
+                    <div style="width: 100%;margin-top: 25px;border-top: 1px solid #CCC;position: absolute;bottom:0px">
                     <table style="width: 100%">
                         <tr style="height: 40px;">
                             <td style="padding-left: 40px;">
                                 <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>">Home</a>
                                 <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>/staff.jsp"><< Back</a>
                             </td>
+                            <td>
+                                    <div>
+                                        <%
+                                        if(pages>1){
+                                            for(int i=1; i<=pages;++i){
+                                                if(i==pg){
+                                                        out.print("&nbsp;<b>["+i+"]</b>&nbsp;");
+                                                }else{
+                                                        out.print("&nbsp;<a href='mengelolaPaket.jsp?page="+i+"'>"+i+"</a>&nbsp;");
+                                                }
+                                                if(i!=pages){
+                                                        out.print("");
+                                                }
+                                            }
+                                        }
+                                        %>
+                                    </div>
+                                    </td>
                             <td style="text-align: right;padding-right: 40px;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/PerjalananController?mode=susun">Create Packet</a></td>
                         </tr>
                     </table>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
