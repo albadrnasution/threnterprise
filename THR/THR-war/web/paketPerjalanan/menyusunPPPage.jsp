@@ -110,7 +110,7 @@
                                     </tr>
                                     <tr>
                                         <td>Item Paket</td>
-                                        <td>:<br/><%
+                                        <td class="filter" style="width:100px;height:100px; overflow-x: scroll; overflow-y:scroll;">:<br/><%
                                             if (!susun) {
                                                 for (int i = 0; i < ij.size(); ++i) {
                                                     for (int j = 0; j < pij.size(); ++j) {
@@ -162,7 +162,7 @@
                                     <tr>
                                         <td>Waktu Keberangkatan</td>
                                         <td>:<input class="filter" type="text" name="s_time" value="<%if (!susun) {
-                                                            out.print(DateFormater.formatDateToCalFormat(pj.get(0).getTime()));
+                                                            out.print(DateFormater.formatDateToCalFormat(pj.get(0).getTimeD()));
                                                         }%>" /></td>
                                     </tr>
                                     <tr align="center">

@@ -54,21 +54,21 @@ public class PerjalananController extends HttpServlet {
                     String harga = request.getParameter("harga");
                     String name = request.getParameter("name");
                     String operator = request.getParameter("operator");
-                    String desc = request.getParameter("desc");
+                    String ori = request.getParameter("origin");
+                    String dest = request.getParameter("destination");
                     HttpSession session = request.getSession();
-                    if (harga.equals("") || operator.equals("")) {
+                    if (harga.equals("") && name.equals("") && ori.equals("") && dest.equals("")) {
                         response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp");
                     } else {
                         ArrayList<PaketJalan> p;
                         PaketJalan pj = new PaketJalan();
-                        p = pj.getSearchResult(harga, operator, name, desc);
+                        p = pj.getSearchResult(harga, operator, name, ori, dest);
                         if (p.isEmpty()) {
                             response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
                         } else {
                             session.setAttribute("PaketJalan", p);
                             session.setAttribute("filter", "1");
                             response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp");
-
                         }
                     }
                 }                

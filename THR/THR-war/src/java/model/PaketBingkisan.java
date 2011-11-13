@@ -129,21 +129,17 @@ public class PaketBingkisan {
         String harga = null,nama = null;
         String con;
         try{
-            if(h.equals("") ||  op.equals("")){
+            if(h.equals("")){
                 harga = "";
-            }else if(!h.equals("") &&  !op.equals("")){
-                if(n.equals("")){
-                    harga = " WHERE price " + op + " '" + h + "'";
-                }else if(d.equals("")){
-                    harga = " WHERE price " + op + " '" + h + "'";
-                }else{
+            }else if(!h.equals("")){
+                if(n.equals("") || d.equals("")){
                     harga = " WHERE price " + op + " '" + h + "'";
                 }
             }
             if(n.equals("") &&  d.equals("")){
                 nama = "";
             }else if(!n.equals("") ||  !d.equals("")){
-                if(h.equals("") ||  op.equals("")){
+                if(h.equals("")){
                     con = " WHERE";
                 }else{ 
                     con = " AND";
@@ -153,10 +149,10 @@ public class PaketBingkisan {
                 }else if(d.equals("")){
                     nama = con + " paket_name like \"%"+ n +"%\"";
                 }else{
-                    nama = con + " paket_name like \"%"+ n +"%\" or description like \"%"+ d +"%\"";
+                    nama = con + " paket_name like \"%"+ n +"%\" and description like \"%"+ d +"%\"";
                 }
             }
-            if(!h.equals("") &&  !op.equals("")){
+            if(!h.equals("")){
                 if(!n.equals("") ||  !d.equals("")){
                     sql="SELECT * FROM paket_bingkisan" + harga + nama;
                 }else{
@@ -270,21 +266,21 @@ public class PaketBingkisan {
     }
     
     public static void main(String[] args) {
-//        PaketBingkisan pj = new PaketBingkisan();
-//        ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();
-//        //apj = pj.getSearchResult("100000", "<", "", "");
-//        apj = pj.getPaket("3");
+        PaketBingkisan pj = new PaketBingkisan();
+        ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();
+        apj = pj.getSearchResult("", "", "kripik", "");
+        //apj = pj.getPaket("3");
+        
+        for(int i=0;i<apj.size();++i){
+            System.out.println(apj.get(i).getPaket_name());
+        }
+//        String res = null;
 //        
-//        for(int i=0;i<apj.size();++i){
-//            System.out.println(apj.get(i).getPaket_name());
-//        }
-        String res = null;
-        
-        PaketBingkisan pb = new PaketBingkisan();
-        res = pb.updatePaket("35","AAAA","asdsadsad","50000");
-        
-        String json = pb.getPaket_asJSON();
-        System.out.println(json);
+//        PaketBingkisan pb = new PaketBingkisan();
+//        res = pb.updatePaket("35","AAAA","asdsadsad","50000");
+//        
+//        String json = pb.getPaket_asJSON();
+//        System.out.println(json);
     }
     
 }

@@ -99,7 +99,7 @@
                                 </tr>
                                 <tr>
                                     <td>Item Paket</td>
-                                    <td>:<br/>
+                                    <td style="overflow-x:scroll;overfloe-y:scroll;">:<br/>  
                                         <%
                                             if (susun || pij.size() == 0) {
                                                 for (int i = 0; i < ij.size(); ++i) {

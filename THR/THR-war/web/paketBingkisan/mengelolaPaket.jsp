@@ -53,6 +53,7 @@
                         </tr>
                         <tbody>
                             <%
+                                int batas = 5;
                                 BingkisanController pc = new BingkisanController();
                                 ArrayList<PaketBingkisan> ij = new ArrayList<PaketBingkisan>();
                                 ij = pc.showPaket();

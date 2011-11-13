@@ -55,7 +55,7 @@ public class BingkisanController extends HttpServlet {
                     String operator = request.getParameter("operator");
                     String desc = request.getParameter("desc");
                     HttpSession session = request.getSession();
-                    if (harga.equals("") || operator.equals("")) {
+                    if (harga.equals("") && name.equals("") && desc.equals("")) {
                         response.sendRedirect("paketBingkisan/daftarPaketBingkisan.jsp");
                     } else {
                         ArrayList<PaketBingkisan> p;

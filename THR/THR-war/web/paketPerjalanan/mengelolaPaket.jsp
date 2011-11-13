@@ -86,7 +86,7 @@
                         out.print("0");
                     }%></td>
                             <td><% if (ij.get(i).getTime() != null) {
-                        out.print(DateFormater.formatDateToCalFormat(ij.get(i).getTime()));
+                        out.print(ij.get(i).getTime());
                     } else {
                         out.print("-");
                     }%></td>

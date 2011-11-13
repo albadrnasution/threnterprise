@@ -169,53 +169,68 @@ public class PaketJalan {
     }
     
     
-    public ArrayList<PaketJalan> getSearchResult(String h, String op, String n, String d){
+    public ArrayList<PaketJalan> getSearchResult(String h, String op, String n, String o, String d){
         Database db = new Database();
         ResultSet rs;
         ArrayList<PaketJalan> temp = new ArrayList<PaketJalan>();
-        String sql = null;
-        String harga = null,nama = null;
-        String con;
+        String sql = "", query="";
         try{
-            if(h.equals("") ||  op.equals("")){
-                harga = "";
-            }else if(!h.equals("") &&  !op.equals("")){
-                if(n.equals("")){
-                    harga = " WHERE total_price " + op + " '" + h + "'";
-                }else if(d.equals("")){
-                    harga = " WHERE total_price " + op + " '" + h + "'";
-                }else{
-                    harga = " WHERE total_price " + op + " '" + h + "'";
-                }
-            }
-            if(n.equals("") &&  d.equals("")){
-                nama = "";
-            }else if(!n.equals("") ||  !d.equals("")){
-                if(h.equals("") ||  op.equals("")){
-                    con = " WHERE";
-                }else{ 
-                    con = " AND";
-                }
-                if(n.equals("")){
-                    nama = con + " description like \"%"+ d +"%\"";
-                }else if(d.equals("")){
-                    nama = con + " paket_name like \"%"+ n +"%\"";
-                }else{
-                    nama = con + " paket_name like \"%"+ n +"%\" or description like \"%"+ d +"%\"";
-                }
-            }
-            if(!h.equals("") &&  !op.equals("")){
-                if(!n.equals("") ||  !d.equals("")){
-                    sql="SELECT * FROM paket_jalan" + harga + nama;
-                }else{
-                    sql="SELECT * FROM paket_jalan" + harga;
-                }
+            if(!h.equals("")){
+                if(!n.equals("")){
+                    if(!o.equals("Origin")){
+                        if(!d.equals("Destination")){
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and paket_name like '%"+n+"%' and item_jalan.origin = "+o+" and item_jalan.dest = "+d;
+                        }else{
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and paket_name like '%"+n+"%' and item_jalan.origin = "+o;
+                        }
+                    }else {
+                        if(!d.equals("Destination")){
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and paket_name like '%"+n+"%' and item_jalan.dest = "+d;
+                        }else{
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and paket_name like '%"+n+"%'";
+                        }
+                    }
+                }else{ if(!o.equals("Origin")){
+                        if(!d.equals("Destination")){
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and item_jalan.origin = "+o+" and item_jalan.dest = "+d;
+                        }else{
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and item_jalan.origin = "+o;
+                        }
+                    }else if(!d.equals("Destination")){
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and item_jalan.dest = "+d;
+                        }else{
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h;
+                        }
+                    }
             }else{
-                sql="SELECT * FROM paket_jalan" + nama;
+                if(!n.equals("")){
+                    if(!o.equals("Origin")){
+                        if(!d.equals("Destination")){
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and paket_name like '%"+n+"%' and item_jalan.origin = "+o+" and item_jalan.dest = "+d;
+                        }else{
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and paket_name like '%"+n+"%' and item_jalan.origin = "+o;
+                        }
+                    }else if(!d.equals("Destination")){
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and paket_name like '%"+n+"%' and item_jalan.dest = "+d;
+                        }else{
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and paket_name like '%"+n+"%'";
+                        }
+                }else if(!o.equals("Origin")){
+                        if(!d.equals("Destination")){
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and item_jalan.origin = "+o+" and item_jalan.dest = "+d;
+                        }else{
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and item_jalan.origin = "+o;
+                        }
+                    }else if(!d.equals("Destination")){
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and item_jalan.dest = "+d;
+                        }else{
+                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi";
+                        }
             }
-            System.out.println(sql);
+            query = "select paket_jalan.idp, paket_name, paket_jalan.description, time, nadult, nchild, total_price from paket_jalan, ip_jalan, item_jalan "+ sql;
+            System.out.println(query);
             Database.setConnection();
-            rs = Database.executingQuery(sql) ;
+            rs = Database.executingQuery(query) ;
             while (rs.next()) {
                 PaketJalan pj = new PaketJalan();
                 pj.setIdp(rs.getInt("idp"));
@@ -419,15 +434,15 @@ public class PaketJalan {
     public static void main(String[] args) throws ParseException {
         PaketJalan pj = new PaketJalan();
         ArrayList<PaketJalan> apj = new ArrayList<PaketJalan>();
-        //apj = pj.getSearchResult("", "", "", "tiket");
-        apj = pj.getPaket("3");
+        apj = pj.getSearchResult("", "", "", "1","Destination");
+        //apj = pj.getPaket("3");
         
-        String res = null;
-        res = pj.updatePaket("10", "Abab", "adasdsadsad", "5555", "5", "5", DateFormater.formatDateToDBFormat("5/5/2000"));
+//        String res = null;
+//        res = pj.updatePaket("10", "Abab", "adasdsadsad", "5555", "5", "5", DateFormater.formatDateToDBFormat("5/5/2000"));
         
-//        for(int i=0;i<apj.size();++i){
-//            System.out.println(apj.get(i).getPaket_nama());
-//        }
+        for(int i=0;i<apj.size();++i){
+            System.out.println(apj.get(i).getPaket_nama());
+        }
     }
     
     

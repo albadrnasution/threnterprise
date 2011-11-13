@@ -216,17 +216,23 @@ public class PesanPaket {
         return temp ;
     }
     
-    public ArrayList<PesanPaket> getPesanPaket(String orderby){
+    public ArrayList<PesanPaket> getPesanPaket(String orderby, String s, String end){
         ResultSet rs;
         ArrayList<PesanPaket> temp =new ArrayList<PesanPaket>();
         String sql = null;
+        String date = null;
         try{
+            if(s.equals("")||end.equals("")){
+                date = "";
+            }else{
+                date = " and order_date between '"+s+"' and '"+end+"' ";
+            }
             if(orderby.equals("")){
                 sql="select ido,pesan_paket.idp,pesan_paket.idc, paket_name, order_date, pay_status, jumlah_paket, (jumlah_paket*total_price) as price "
-                        + "from pesan_paket, paket_jalan where pesan_paket.idp=paket_jalan.idp group by ido";
+                        + "from pesan_paket, paket_jalan where pesan_paket.idp=paket_jalan.idp "+ date +" group by ido";
             }else{
                 sql="select ido,pesan_paket.idp,pesan_paket.idc, paket_name, order_date, pay_status, jumlah_paket, (jumlah_paket*total_price) as price "
-                        + "from pesan_paket, paket_jalan where pesan_paket.idp=paket_jalan.idp group by ido order by "+orderby+ " desc";
+                        + "from pesan_paket, paket_jalan where pesan_paket.idp=paket_jalan.idp "+ date +" group by ido order by "+orderby+ " desc";
             }
             System.out.println(sql);
             Database.setConnection();
@@ -255,17 +261,23 @@ public class PesanPaket {
         return temp ;
     }
     
-    public ArrayList<PesanPaket> getPesanPaketbyItem(String orderby){
+    public ArrayList<PesanPaket> getPesanPaketbyItem(String orderby, String s, String end){
         ResultSet rs;
         ArrayList<PesanPaket> temp =new ArrayList<PesanPaket>();
         String sql = null;
+        String date = null;
         try{
+            if(s.equals("")||end.equals("")){
+                date = "";
+            }else{
+                date = " and order_date between '"+s+"' and '"+end+"' ";
+            }
             if(orderby.equals("")){
                 sql="select distinct ido, item_jalan.idi, pesan_paket.idp, item_jalan.name, sum(jumlah_paket) as jumlah "
-                        + "from pesan_paket, item_jalan, ip_jalan where pesan_paket.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi group by idi";
+                        + "from pesan_paket, item_jalan, ip_jalan where pesan_paket.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi "+ date +" group by idi";
             }else{
                 sql="select distinct ido, item_jalan.idi, pesan_paket.idp, item_jalan.name, sum(jumlah_paket) as jumlah "
-                        + "from pesan_paket, item_jalan, ip_jalan where pesan_paket.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi group by idi order by "+orderby+ " desc";
+                        + "from pesan_paket, item_jalan, ip_jalan where pesan_paket.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi "+ date +" group by idi order by "+orderby+ " desc";
             }
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
@@ -290,11 +302,12 @@ public class PesanPaket {
         PesanPaket p = new PesanPaket();
         ArrayList<PesanPaket> ap = new ArrayList<PesanPaket>();
         
-        ap = p.getPesanPaket("paket_name");
+        ap = p.getPesanPaketbyItem("","2011-09-23", "2011-09-26");
         System.out.println(ap.size());
         for(int i=0; i<ap.size();i++){
             //System.out.println(ap.get(i).getOrder_dateS());
-            System.out.println(ap.get(i).getPaket_name());                        
+            //System.out.println(ap.get(i).getPaket_name());        
+            System.out.println(ap.get(i).getItem_name());  
         }
         
     }

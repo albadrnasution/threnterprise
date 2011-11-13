@@ -241,17 +241,23 @@ public class PesanBingkisan {
         return temp ;
     }
     
-    public ArrayList<PesanBingkisan> getPesanBingkisan(String orderby){
+    public ArrayList<PesanBingkisan> getPesanBingkisan(String orderby, String s, String end){
         ResultSet rs;
         ArrayList<PesanBingkisan> temp =new ArrayList<PesanBingkisan>();
-        String sql = null;
+        String sql = null; 
+        String date = null;
         try{
+            if(s.equals("")||end.equals("")){
+                date = "";
+            }else{
+                date = " and order_date between '"+s+"' and '"+end+"' ";
+            }
             if(orderby.equals("")){
                 sql="select ido,pesan_bingkisan.idp,pesan_bingkisan.idc, paket_name, order_date, pay_status, jumlah_paket, (jumlah_paket*price) as price "
-                        + "from pesan_bingkisan, paket_bingkisan where pesan_bingkisan.idp=paket_bingkisan.idp group by ido";
+                        + "from pesan_bingkisan, paket_bingkisan where pesan_bingkisan.idp=paket_bingkisan.idp "+ date +" group by ido";
             }else{
                 sql="select ido,pesan_bingkisan.idp,pesan_bingkisan.idc, paket_name, order_date, pay_status, jumlah_paket, (jumlah_paket*price) as price "
-                        + "from pesan_bingkisan, paket_bingkisan where pesan_bingkisan.idp=paket_bingkisan.idp group by ido order by "+orderby+ " desc";
+                        + "from pesan_bingkisan, paket_bingkisan where pesan_bingkisan.idp=paket_bingkisan.idp "+ date +" group by ido order by "+orderby+ " desc";
             }
             System.out.println(sql);
             Database.setConnection();
@@ -280,19 +286,25 @@ public class PesanBingkisan {
         return temp ;
     }
     
-    public ArrayList<PesanBingkisan> getPesanBingkisanbyItem(String orderby){
+    public ArrayList<PesanBingkisan> getPesanBingkisanbyItem(String orderby, String s, String end){
         ResultSet rs;
         ArrayList<PesanBingkisan> temp =new ArrayList<PesanBingkisan>();
         String sql = null;
+        String date = null;
         try{
+            if(s.equals("")||end.equals("")){
+                date = "";
+            }else{
+                date = " and order_date between '"+s+"' and '"+end+"' ";
+            }
             if(orderby.equals("")){
                 sql="select distinct ido, item_bingkisan.idi, pesan_bingkisan.idp, item_bingkisan.name, sum(nitem*jumlah_paket) as jumlah,"
                         + " sum(nitem*jumlah_paket*basic_price) as harga from pesan_bingkisan, item_bingkisan, ip_bingkisan "
-                        + "where pesan_bingkisan.idp=ip_bingkisan.idp and ip_bingkisan.idi=item_bingkisan.idi group by idi";
+                        + "where pesan_bingkisan.idp=ip_bingkisan.idp and ip_bingkisan.idi=item_bingkisan.idi "+ date +" group by idi";
             }else{
                 sql="select distinct ido, item_bingkisan.idi, pesan_bingkisan.idp, item_bingkisan.name, sum(nitem*jumlah_paket) as jumlah,"
                         + " sum(nitem*jumlah_paket*basic_price) as harga from pesan_bingkisan, item_bingkisan, ip_bingkisan "
-                        + "where pesan_bingkisan.idp=ip_bingkisan.idp and ip_bingkisan.idi=item_bingkisan.idi group by idi order by "+orderby+ " desc";
+                        + "where pesan_bingkisan.idp=ip_bingkisan.idp and ip_bingkisan.idi=item_bingkisan.idi "+ date +" group by idi order by "+orderby+ " desc";
             }
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
@@ -320,10 +332,11 @@ public class PesanBingkisan {
         
         //ap = p.getPesanBingkisanbyItem("");
         p.getPesanBingkisanbyIdc("1");
+        ap = p.getPesanBingkisanbyItem("", "2011-09-23", "2011-09-26");
         for(int i=0; i<ap.size();i++){
             //System.out.println(ap.get(i).getOrder_dateS());
             //System.out.println(ap.get(i).getPaket_name());                        
-            //System.out.println(ap.get(i).getItem_name());
+            System.out.println(ap.get(i).getItem_name());
         }
     }
     
