@@ -39,100 +39,102 @@ public class PerjalananController extends HttpServlet {
         try {
             if (request.getParameter("mode") != null) {
                 if (request.getParameter("mode").equals("susun")) {
-                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=susun");
-                } else if(request.getParameter("mode").equals("edit")){
+                    response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=susun");
+                } else if (request.getParameter("mode").equals("edit")) {
                     response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=edit&id=" + request.getParameter("id"));
-                }else if (request.getParameter("mode").equals("delete")) {
-                        PaketJalan p = new PaketJalan();
-                        String x = p.deleteP(request.getParameter("id"));
-                        if(x.isEmpty()){
-                            response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
-                        }else{
-                            response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
-                        }                        
-                }else if (request.getParameter("mode").equals("cari")) {
+                } else if (request.getParameter("mode").equals("delete")) {
+                    PaketJalan p = new PaketJalan();
+                    String x = p.deleteP(request.getParameter("id"));
+                    if (x.isEmpty()) {
+                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
+                    } else {
+                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                    }
+                } else if (request.getParameter("mode").equals("cari")) {
                     String harga = request.getParameter("harga");
                     String name = request.getParameter("name");
                     String operator = request.getParameter("operator");
-                    String ori = request.getParameter("origin");
-                    String dest = request.getParameter("destination");
+                    int origin = 0;
+                    int dest = 0;
+                    if (!request.getParameter("origin").equals("Origin")) {
+                        origin = Integer.parseInt(request.getParameter("origin"));
+                    }
+                    if (!request.getParameter("destination").equals("Destination")) {
+                        dest = Integer.parseInt(request.getParameter("destination"));
+                    }
                     HttpSession session = request.getSession();
-                    if (harga.equals("") && name.equals("") && ori.equals("") && dest.equals("")) {
+                    ArrayList<PaketJalan> p;
+                    PaketJalan pj = new PaketJalan();
+                    p = pj.getSearchResult(operator, harga, name, origin, dest);
+                    if (p.isEmpty()) {
+                        response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
+                    } else {
+                        session.setAttribute("PaketJalan", p);
+                        session.setAttribute("filter", "1");
                         response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp");
-                    } else {
-                        ArrayList<PaketJalan> p;
-                        PaketJalan pj = new PaketJalan();
-                        p = pj.getSearchResult(harga, operator, name, ori, dest);
-                        if (p.isEmpty()) {
-                            response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp?empty=1");
-                        } else {
-                            session.setAttribute("PaketJalan", p);
-                            session.setAttribute("filter", "1");
-                            response.sendRedirect("paketPerjalanan/daftarPaketPerjalanan.jsp");
-                        }
                     }
-                }                
-            }else if(request.getParameter("act").equals("addPaket")){
-                    String n = request.getParameter("s_nama_paket");
-                    String d = request.getParameter("s_desc");
-                    String h = request.getParameter("s_harga");
-                    String[] it = request.getParameterValues("s_item");
-                    String na = request.getParameter("s_nadult");
-                    String nc = request.getParameter("s_nchild");
-                    String t = request.getParameter("s_time");
-                    if (n.equals("") || d.equals("") || h.equals("") || na.equals("") || nc.equals("") || t.equals("")) {
-                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
-                    } else {
-                        PaketJalan pb = new PaketJalan();
-                        t = DateFormater.formatDateToDBFormat(t);
-                        pb.setPaket(n, d, h, na, nc, t);
+                }
+            } else if (request.getParameter("act").equals("addPaket")) {
+                String n = request.getParameter("s_nama_paket");
+                String d = request.getParameter("s_desc");
+                String h = request.getParameter("s_harga");
+                String[] it = request.getParameterValues("s_item");
+                String na = request.getParameter("s_nadult");
+                String nc = request.getParameter("s_nchild");
+                String t = request.getParameter("s_time");
+                if (n.equals("") || d.equals("") || h.equals("") || na.equals("") || nc.equals("") || t.equals("")) {
+                    response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
+                } else {
+                    PaketJalan pb = new PaketJalan();
+                    t = DateFormater.formatDateToDBFormat(t);
+                    pb.setPaket(n, d, h, na, nc, t);
 
-                        String i = pb.lastID() + "";
-                        IPJalan ipb = new IPJalan();
-                        if (it != null && it.length != 0) {
-                            for (int x = 0; x < it.length; x++) {
-                                ipb.setIPJalan(it[x], i);
-                            }
+                    String i = pb.lastID() + "";
+                    IPJalan ipb = new IPJalan();
+                    if (it != null && it.length != 0) {
+                        for (int x = 0; x < it.length; x++) {
+                            ipb.setIPJalan(it[x], i);
                         }
-                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
                     }
-            }else if(request.getParameter("act").equals("editPaket")){
-                    String idp = request.getParameter("s_id");
-                    String n = request.getParameter("s_nama_paket");
-                    String d = request.getParameter("s_desc");
-                    String h = request.getParameter("s_harga");
-                    String[] it = request.getParameterValues("s_item");
-                    String na = request.getParameter("s_nadult");
-                    String nc = request.getParameter("s_nchild");
-                    String t = request.getParameter("s_time");
+                    response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                }
+            } else if (request.getParameter("act").equals("editPaket")) {
+                String idp = request.getParameter("s_id");
+                String n = request.getParameter("s_nama_paket");
+                String d = request.getParameter("s_desc");
+                String h = request.getParameter("s_harga");
+                String[] it = request.getParameterValues("s_item");
+                String na = request.getParameter("s_nadult");
+                String nc = request.getParameter("s_nchild");
+                String t = request.getParameter("s_time");
 
-                    if (n.equals("") || d.equals("") || h.equals("") || na.equals("") || nc.equals("") || t.equals("") || it == null) {
-                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
-                    } else if (!n.equals("") && !d.equals("") && !h.equals("") && !na.equals("") & !nc.equals("") && !t.equals("")){// && it != null) {
-                        String res = null;
-                        PaketJalan pb = new PaketJalan();
-                        
-                        out.print(n);
-                        out.print(d);
-                        out.print(h);
-                        out.print(na);
-                        out.print(nc);
-                        out.print(t);
-                        
-                        res = pb.updatePaket(idp, n, d, h, na, nc, DateFormater.formatDateToDBFormat(t));
-                        
-                        String i = idp;
-                        IPJalan ipb = new IPJalan();                     
-                        if (it != null && it.length != 0) {
-                            ipb.deleteIP(idp);
-                            for (int x = 0; x < it.length; x++) {
-                                ipb.setIPJalan(it[x], i);
-                            }
+                if (n.equals("") || d.equals("") || h.equals("") || na.equals("") || nc.equals("") || t.equals("") || it == null) {
+                    response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
+                } else if (!n.equals("") && !d.equals("") && !h.equals("") && !na.equals("") & !nc.equals("") && !t.equals("")) {// && it != null) {
+                    String res = null;
+                    PaketJalan pb = new PaketJalan();
+
+                    out.print(n);
+                    out.print(d);
+                    out.print(h);
+                    out.print(na);
+                    out.print(nc);
+                    out.print(t);
+
+                    res = pb.updatePaket(idp, n, d, h, na, nc, DateFormater.formatDateToDBFormat(t));
+
+                    String i = idp;
+                    IPJalan ipb = new IPJalan();
+                    if (it != null && it.length != 0) {
+                        ipb.deleteIP(idp);
+                        for (int x = 0; x < it.length; x++) {
+                            ipb.setIPJalan(it[x], i);
                         }
-                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
-                    }else{
-                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
                     }
+                    response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                } else {
+                    response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
+                }
             }
         } finally {
             out.close();
@@ -188,11 +190,16 @@ public class PerjalananController extends HttpServlet {
         return p.getPaket();
     }
 
+    public ArrayList<PaketJalan> showPaketView() {
+        PaketJalan p = new PaketJalan();
+        return p.getPaketView();
+    }
+
     public ArrayList<PaketJalan> showPaket(String id) {
         PaketJalan p = new PaketJalan();
         return p.getPaket(id);
     }
-    
+
     public ArrayList<ItemJalan> showDetail(String id) {
         ItemJalan ij = new ItemJalan();
         return ij.getItem(id);
@@ -202,15 +209,14 @@ public class PerjalananController extends HttpServlet {
         ItemJalan ij = new ItemJalan();
         return ij.getItem();
     }
-    
+
     public ArrayList<ItemJalan> getItem(String id) {
         ItemJalan ij = new ItemJalan();
         return ij.getItem(id);
     }
-    
-    public City showCity(int id){
+
+    public City showCity(int id) {
         City c = new City();
         return c.getCity(id);
     }
-    
 }

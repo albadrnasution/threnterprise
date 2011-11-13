@@ -1,6 +1,5 @@
 package model;
 
-
 //import com.google.gson.Gson;
 import com.google.gson.Gson;
 import java.sql.ResultSet;
@@ -18,12 +17,12 @@ import util.Database;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Didik
  */
 public class PaketJalan {
+
     private int idp;
     private String paket_nama;
     private String description;
@@ -76,18 +75,18 @@ public class PaketJalan {
     public Date getTimeD() {
         return time;
     }
-    
+
     public String getTime() throws ParseException {
         String s = formatDateToView(time.toString());
         return s;
     }
-    
+
     public void setTime(Date time) {
         this.time = time;
     }
-    
+
     public void setTime(String time) {
-            this.time2 = time;
+        this.time2 = time;
     }
 
     public int getTotal_price() {
@@ -97,30 +96,30 @@ public class PaketJalan {
     public void setTotal_price(int total_price) {
         this.total_price = total_price;
     }
- 
-     public String getPaket_asJSON(){
+
+    public String getPaket_asJSON() {
         String json = "";
-        ArrayList<PaketJalan> arrayJalan = getPaket();
+        ArrayList<PaketJalan> arrayJalan = getPaketView();
         json = new Gson().toJson(arrayJalan);
         return json;
     }
-     
-     public String getPaket_asJSON(String idp){
+
+    public String getPaket_asJSON(String idp) {
         String json = "";
         ArrayList<PaketJalan> arrayJalan = getPaket(idp);
         json = new Gson().toJson(arrayJalan);
         return json;
-     }
-     
-    public ArrayList<PaketJalan> getPaket(){
+    }
+
+    public ArrayList<PaketJalan> getPaket() {
         Database db = new Database();
         ResultSet rs;
         ArrayList<PaketJalan> temp = new ArrayList<PaketJalan>();
         String sql;
-        try{
-            sql="SELECT * FROM paket_jalan";
+        try {
+            sql = "SELECT * FROM paket_jalan";
             Database.setConnection();
-            rs = Database.executingQuery(sql) ;
+            rs = Database.executingQuery(sql);
             while (rs.next()) {
                 PaketJalan pj = new PaketJalan();
                 pj.setIdp(rs.getInt("idp"));
@@ -132,23 +131,24 @@ public class PaketJalan {
                 pj.setTotal_price(rs.getInt("total_price"));
                 temp.add(pj);
             }
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
-        return temp ;
+        return temp;
     }
-    
-    public ArrayList<PaketJalan> getPaket(String idp){
-        Database db = new Database();
+
+    public ArrayList<PaketJalan> getPaketView() {
         ResultSet rs;
         ArrayList<PaketJalan> temp = new ArrayList<PaketJalan>();
         String sql;
-        try{
-            sql="SELECT * FROM paket_jalan WHERE idp="+idp;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            String today = sdf.format(Calendar.getInstance().getTime());
+            sql = "SELECT * FROM paket_jalan WHERE time >'" + today + "'";
+            System.out.println(sql);
             Database.setConnection();
-            rs = Database.executingQuery(sql) ;
+            rs = Database.executingQuery(sql);
             while (rs.next()) {
                 PaketJalan pj = new PaketJalan();
                 pj.setIdp(rs.getInt("idp"));
@@ -160,77 +160,62 @@ public class PaketJalan {
                 pj.setTotal_price(rs.getInt("total_price"));
                 temp.add(pj);
             }
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
-        return temp ;
+        return temp;
     }
-    
-    
-    public ArrayList<PaketJalan> getSearchResult(String h, String op, String n, String o, String d){
+
+    public ArrayList<PaketJalan> getPaket(String idp) {
         Database db = new Database();
         ResultSet rs;
         ArrayList<PaketJalan> temp = new ArrayList<PaketJalan>();
-        String sql = "", query="";
-        try{
-            if(!h.equals("")){
-                if(!n.equals("")){
-                    if(!o.equals("Origin")){
-                        if(!d.equals("Destination")){
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and paket_name like '%"+n+"%' and item_jalan.origin = "+o+" and item_jalan.dest = "+d;
-                        }else{
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and paket_name like '%"+n+"%' and item_jalan.origin = "+o;
-                        }
-                    }else {
-                        if(!d.equals("Destination")){
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and paket_name like '%"+n+"%' and item_jalan.dest = "+d;
-                        }else{
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and paket_name like '%"+n+"%'";
-                        }
-                    }
-                }else{ if(!o.equals("Origin")){
-                        if(!d.equals("Destination")){
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and item_jalan.origin = "+o+" and item_jalan.dest = "+d;
-                        }else{
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and item_jalan.origin = "+o;
-                        }
-                    }else if(!d.equals("Destination")){
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h+" and item_jalan.dest = "+d;
-                        }else{
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and total_price "+op+" "+h;
-                        }
-                    }
-            }else{
-                if(!n.equals("")){
-                    if(!o.equals("Origin")){
-                        if(!d.equals("Destination")){
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and paket_name like '%"+n+"%' and item_jalan.origin = "+o+" and item_jalan.dest = "+d;
-                        }else{
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and paket_name like '%"+n+"%' and item_jalan.origin = "+o;
-                        }
-                    }else if(!d.equals("Destination")){
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and paket_name like '%"+n+"%' and item_jalan.dest = "+d;
-                        }else{
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and paket_name like '%"+n+"%'";
-                        }
-                }else if(!o.equals("Origin")){
-                        if(!d.equals("Destination")){
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and item_jalan.origin = "+o+" and item_jalan.dest = "+d;
-                        }else{
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and item_jalan.origin = "+o;
-                        }
-                    }else if(!d.equals("Destination")){
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi and item_jalan.dest = "+d;
-                        }else{
-                            sql = "where paket_jalan.idp=ip_jalan.idp and ip_jalan.idi=item_jalan.idi";
-                        }
+        String sql;
+        try {
+            sql = "SELECT * FROM paket_jalan WHERE idp=" + idp;
+            Database.setConnection();
+            rs = Database.executingQuery(sql);
+            while (rs.next()) {
+                PaketJalan pj = new PaketJalan();
+                pj.setIdp(rs.getInt("idp"));
+                pj.setPaket_nama(rs.getString("paket_name"));
+                pj.setDescription(rs.getString("description"));
+                pj.setTime(rs.getDate("time"));
+                pj.setNadult(rs.getInt("nadult"));
+                pj.setNchild(rs.getInt("nchild"));
+                pj.setTotal_price(rs.getInt("total_price"));
+                temp.add(pj);
             }
-            query = "select paket_jalan.idp, paket_name, paket_jalan.description, time, nadult, nchild, total_price from paket_jalan, ip_jalan, item_jalan "+ sql;
+        } catch (Exception e) {
+        } finally {
+            Database.unsetConnection();
+        }
+        return temp;
+    }
+
+    public ArrayList<PaketJalan> getSearchResult(String mark, String price, String name, int origins, int dests) {
+        String query = "SELECT * FROM paket_jalan, item_jalan, ip_jalan WHERE paket_jalan.idp=ip_jalan.idp AND ip_jalan.idi=item_jalan.idi";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        ArrayList<PaketJalan> temp = new ArrayList<PaketJalan>();
+        try {
+            String today = sdf.format(Calendar.getInstance().getTime());
+            query = query.concat(" AND time >'" + today + "'");
+            Database.setConnection();
+            if (origins != 0) {
+                query = query.concat(" AND origin=" + origins);
+            }
+            if (dests != 0) {
+                query = query.concat(" AND dest=" + dests);
+            }
+            if (!name.equals("")) {
+                query = query.concat(" AND name \"%" + name + "%\"");
+            }
+            if (!price.equals("") && !mark.equals("")) {
+                query = query.concat(" AND total_price" + mark + price);
+            }
             System.out.println(query);
-            Database.setConnection();
-            rs = Database.executingQuery(query) ;
+            ResultSet rs = Database.executingQuery(query);
             while (rs.next()) {
                 PaketJalan pj = new PaketJalan();
                 pj.setIdp(rs.getInt("idp"));
@@ -242,15 +227,70 @@ public class PaketJalan {
                 pj.setTotal_price(rs.getInt("total_price"));
                 temp.add(pj);
             }
-        }catch(Exception e){
+        } catch (SQLException ex) {
+            Logger.getLogger(PaketJalan.class.getName()).log(Level.SEVERE, null, ex);
         }
-        finally{
-            Database.unsetConnection();
-        }
-        return temp ;
+
+        return temp;
     }
-     
-    
+
+    public String getSearchInJSON(String mark, String price, String name, String origin, String dest) {
+        String query = "SELECT * FROM paket_jalan, item_jalan, ip_jalan WHERE paket_jalan.idp=ip_jalan.idp AND ip_jalan.idi=item_jalan.idi";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String json = new String();
+        try {
+            String today = sdf.format(Calendar.getInstance().getTime());
+            query = query.concat(" AND time >'" + today + "'");
+            Database.setConnection();
+            int origins = 0;
+            int dests = 0;
+            if (!origin.equals("")) {
+                String querys = "SELECT * FROM city WHERE name like \"%" + origin + "%\"";
+                ResultSet rs = Database.executingQuery(querys);
+                while (rs.next()) {
+                    origins = rs.getInt("idcity");
+                }
+            }
+            if (!dest.equals("")) {
+                String querys = "SELECT * FROM city WHERE name like \"%" + dest + "%\"";
+                ResultSet rs = Database.executingQuery(querys);
+                while (rs.next()) {
+                    dests = rs.getInt("idcity");
+                }
+            }
+            if (origins != 0) {
+                query = query.concat(" AND origin=" + origins);
+            }
+            if (dests != 0) {
+                query = query.concat(" AND dest=" + dests);
+            }
+            if (!name.equals("")) {
+                query = query.concat(" AND name \"%" + name + "%\"");
+            }
+            if (!price.equals("") && !mark.equals("")) {
+                query = query.concat(" AND total_price" + mark + price);
+            }
+            ArrayList<PaketJalan> temp = new ArrayList<PaketJalan>();
+            ResultSet rs = Database.executingQuery(query);
+            while (rs.next()) {
+                PaketJalan pj = new PaketJalan();
+                pj.setIdp(rs.getInt("idp"));
+                pj.setPaket_nama(rs.getString("paket_name"));
+                pj.setDescription(rs.getString("description"));
+                pj.setTime(rs.getDate("time"));
+                pj.setNadult(rs.getInt("nadult"));
+                pj.setNchild(rs.getInt("nchild"));
+                pj.setTotal_price(rs.getInt("total_price"));
+                temp.add(pj);
+                json = new Gson().toJson(temp);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PaketJalan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return json;
+    }
+
     public String formatDateToView(String StrDate) throws ParseException {
         SimpleDateFormat formaterD = new SimpleDateFormat("yyyy-M-d");
         Date result = formaterD.parse(StrDate);
@@ -341,22 +381,21 @@ public class PaketJalan {
 
         return Month;
     }
-    
-    public void setPaket(String nama, String desk, String harga, String na, String nc, String t){
+
+    public void setPaket(String nama, String desk, String harga, String na, String nc, String t) {
         Database db = new Database();
         String sql;
-        try{
+        try {
             Database.setConnection();
-            sql = "INSERT INTO paket_jalan (`paket_name`,`description`,`total_price`, `nadult`, `nchild`, `time`) VALUES('"+nama+"','"+desk+"','"+harga+"','"+na+"','"+nc+"','"+t+"')";
+            sql = "INSERT INTO paket_jalan (`paket_name`,`description`,`total_price`, `nadult`, `nchild`, `time`) VALUES('" + nama + "','" + desk + "','" + harga + "','" + na + "','" + nc + "','" + t + "')";
             Database.updatingQuery(sql);
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
     }
-    
-    public int lastID(){
+
+    public int lastID() {
         int i = 0;
         Database db = new Database();
         String sql;
@@ -365,85 +404,75 @@ public class PaketJalan {
             Database.setConnection();
             sql = "select idp from paket_jalan order by idp desc limit 1";
             rs = Database.executingQuery(sql);
-            if(rs.next()){
+            if (rs.next()) {
                 i = rs.getInt(1);
             }
-        }catch(Exception e){}
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
         return i;
     }
-    
-    public String deleteP(String id){
+
+    public String deleteP(String id) {
         Database db = new Database();
         String sql = null;
-        try{
-            sql="DELETE FROM paket_jalan WHERE idp='"+id+"'";
+        try {
+            sql = "DELETE FROM paket_jalan WHERE idp='" + id + "'";
             Database.setConnection();
             Database.updatingQuery(sql);
             System.out.println(sql);
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
         return sql;
     }
-    
-    public String updatePaket(String idp, String n, String d, String h, String na, String nc, String t){
+
+    public String updatePaket(String idp, String n, String d, String h, String na, String nc, String t) {
         Database db = new Database();
         String sql = null;
-        try{
+        try {
             Database.setConnection();
-            sql = "UPDATE paket_jalan SET  paket_name =  '"+ n +"', description = '"+ d +"', "
-                    + "total_price = '"+ h +"', nadult =  '"+ na +"', nchild = '"+ nc +"', "
-                    + "time = '"+ t +"' WHERE idp = "+idp;
+            sql = "UPDATE paket_jalan SET  paket_name =  '" + n + "', description = '" + d + "', "
+                    + "total_price = '" + h + "', nadult =  '" + na + "', nchild = '" + nc + "', "
+                    + "time = '" + t + "' WHERE idp = " + idp;
             System.out.println(sql);
             Database.updatingQuery(sql);
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
         return sql;
     }
-    
-    public PaketJalan getPaketbyid(String id){
+
+    public PaketJalan getPaketbyid(String id) {
         ResultSet rs;
         PaketJalan pb = new PaketJalan();
         String Sql;
-        Sql="SELECT * FROM paket_jalan WHERE idp='"+id+"'";
+        Sql = "SELECT * FROM paket_jalan WHERE idp='" + id + "'";
         Database.setConnection();
         rs = Database.executingQuery(Sql);
         try {
-            while(rs.next()){
+            while (rs.next()) {
                 pb.setIdp(rs.getInt("idp"));
                 pb.setPaket_nama(rs.getString("paket_name"));
                 pb.setDescription(rs.getString("description"));
                 pb.setTotal_price(rs.getInt("price"));
                 pb.setNadult(rs.getInt("nadult"));
                 pb.setNchild(rs.getInt("nchild"));
+
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return pb;
     }
-    
+
     public static void main(String[] args) throws ParseException {
         PaketJalan pj = new PaketJalan();
-        ArrayList<PaketJalan> apj = new ArrayList<PaketJalan>();
-        apj = pj.getSearchResult("", "", "", "1","Destination");
         //apj = pj.getPaket("3");
-        
-//        String res = null;
-//        res = pj.updatePaket("10", "Abab", "adasdsadsad", "5555", "5", "5", DateFormater.formatDateToDBFormat("5/5/2000"));
-        
-        for(int i=0;i<apj.size();++i){
-            System.out.println(apj.get(i).getPaket_nama());
-        }
+        System.out.println(pj.getSearchInJSON(">", "10000", "", "Jakarta", "Kalianda"));
     }
-    
-    
 }

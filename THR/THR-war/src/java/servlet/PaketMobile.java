@@ -6,6 +6,9 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,48 +34,53 @@ public class PaketMobile extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         try {
-            if (request.getParameter("mobile")!=null){
-                
-                if (request.getParameter("request").equals("jalan")){
-                    PaketJalan pj = new PaketJalan();
-                    out.print(pj.getPaket_asJSON());
-                }else if (request.getParameter("request").equals("bingkisan")){
-                    PaketBingkisan pb = new PaketBingkisan();
-                    out.print(pb.getPaket_asJSON());
-                }else if (request.getParameter("request").equals("ijalan") && request.getParameter("idp")!=null){
-                    String idp = request.getParameter("idp");
-                    
-                    ItemJalan ij = new ItemJalan();
-                    PaketJalan pj = new PaketJalan();
-                    out.print(ij.getItems_asJSON(idp));
-                }else if (request.getParameter("request").equals("ibingkisan") && request.getParameter("idp")!=null){
-                    String idp = request.getParameter("idp");
-                    
-                    ItemBingkisan ib = new ItemBingkisan();
-                    PaketBingkisan pb = new PaketBingkisan();
-                    out.print(ib.getItems_asJSON(idp));
-//                    out.print(pb.getPaket_asJSON(idp));
-                }else{
-                    out.println("Invalid request.");
+            if (request.getParameter("mobile") != null) {
+                if (request.getParameter("filter") != null) {
+                    if (request.getParameter("request").equals("bingkisan")) {
+                        String mark = request.getParameter("mark");
+                        String price = request.getParameter("price");
+                        String desc = request.getParameter("desc");
+                        String name = request.getParameter("name");
+                        PaketBingkisan pb = new PaketBingkisan();
+                        out.print(pb.getFilterAsJSON(mark, price, name, desc));
+                    } else if (request.getParameter("request").equals("jalan")) {
+                        String mark = request.getParameter("mark");
+                        String price = request.getParameter("price");
+                        String name = request.getParameter("name");
+                        String origin = request.getParameter("origin");
+                        String dest = request.getParameter("dest");
+                        PaketJalan pb = new PaketJalan();
+                        out.print(pb.getSearchInJSON(mark, price, name, origin, dest));
+                    } else {
+                        out.println("Invalid request.");
+                    }
+                } else {
+                    if (request.getParameter("request").equals("jalan")) {
+                        PaketJalan pj = new PaketJalan();
+                        out.print(pj.getPaket_asJSON());
+                    } else if (request.getParameter("request").equals("bingkisan")) {
+                        PaketBingkisan pb = new PaketBingkisan();
+                        out.print(pb.getPaket_asJSON());
+                    } else if (request.getParameter("request").equals("ijalan") && request.getParameter("idp") != null) {
+                        String idp = request.getParameter("idp");
+                        ItemJalan ij = new ItemJalan();
+                        out.print(ij.getItems_asJSON(idp));
+                    } else if (request.getParameter("request").equals("ibingkisan") && request.getParameter("idp") != null) {
+                        String idp = request.getParameter("idp");
+                        ItemBingkisan ib = new ItemBingkisan();
+                        out.print(ib.getItems_asJSON(idp));
+                    } else {
+                        out.println("Invalid request.");
+                    }
                 }
-            }else{
+            } else {
                 out.println("Invalid request.");
             };
-            /* TODO output your page here
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PaketMobile</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PaketMobile at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-             */
-        } finally {            
+        } finally {
             out.close();
         }
     }
@@ -88,7 +96,11 @@ public class PaketMobile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(PaketMobile.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
@@ -101,7 +113,11 @@ public class PaketMobile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(PaketMobile.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 

@@ -12,7 +12,6 @@ import util.Database;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Didik
@@ -54,33 +53,33 @@ public class PaketBingkisan {
     public void setPrice(int price) {
         this.price = price;
     }
-    
-    public String getPaket_asJSON(){
+
+    public String getPaket_asJSON() {
         String json = "";
-        
+
         ArrayList<PaketBingkisan> aPB = getPaket();
-        
+
         Gson gson = new Gson();
         json = gson.toJson(aPB);
         return json;
     }
-    
-    public String getPaket_asJSON(String idp){
+
+    public String getPaket_asJSON(String idp) {
         String json = "";
         ArrayList<PaketBingkisan> bingkisan = getPaket(idp);
         json = new Gson().toJson(bingkisan);
         return json;
-     }
-     
-    public ArrayList<PaketBingkisan> getPaket(){
+    }
+
+    public ArrayList<PaketBingkisan> getPaket() {
         Database db = new Database();
         ResultSet rs;
         ArrayList<PaketBingkisan> temp = new ArrayList<PaketBingkisan>();
         String sql;
-        try{
-            sql="SELECT * FROM paket_bingkisan";
+        try {
+            sql = "SELECT * FROM paket_bingkisan";
             Database.setConnection();
-            rs = Database.executingQuery(sql) ;
+            rs = Database.executingQuery(sql);
             while (rs.next()) {
                 PaketBingkisan pb = new PaketBingkisan();
                 pb.setIdp(rs.getInt("idp"));
@@ -89,22 +88,22 @@ public class PaketBingkisan {
                 pb.setPrice(rs.getInt("price"));
                 temp.add(pb);
             }
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
-        return temp ;
+        return temp;
     }
-    public ArrayList<PaketBingkisan> getPaket(String idp){
+
+    public ArrayList<PaketBingkisan> getPaket(String idp) {
         Database db = new Database();
         ResultSet rs;
         ArrayList<PaketBingkisan> temp = new ArrayList<PaketBingkisan>();
         String sql;
-        try{
-            sql="SELECT * FROM paket_bingkisan WHERE idp="+idp;
+        try {
+            sql = "SELECT * FROM paket_bingkisan WHERE idp=" + idp;
             Database.setConnection();
-            rs = Database.executingQuery(sql) ;
+            rs = Database.executingQuery(sql);
             while (rs.next()) {
                 PaketBingkisan pb = new PaketBingkisan();
                 pb.setIdp(rs.getInt("idp"));
@@ -113,57 +112,29 @@ public class PaketBingkisan {
                 pb.setPrice(rs.getInt("price"));
                 temp.add(pb);
             }
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
-        return temp ;
+        return temp;
     }
-    
-    public ArrayList<PaketBingkisan> getSearchResult(String h, String op, String n, String d){
-        Database db = new Database();
+
+    public ArrayList<PaketBingkisan> getSearchResult(String h, String op, String n, String d) {
+        String query = "SELECT * FROM paket_bingkisan";
+        if (!h.equals("") && !op.equals("")) {
+            query = query.concat(" WHERE price " + op + h);
+        }
+        if (!n.equals("")) {
+            query = query.concat(" AND paket_name like \"%" + n + "%\"");
+        }
+        if (!d.equals("")) {
+            query = query.concat(" AND description like \"%" + d + "%\"");
+        }
+        Database.setConnection();
         ResultSet rs;
+        rs = Database.executingQuery(query);
         ArrayList<PaketBingkisan> temp = new ArrayList<PaketBingkisan>();
-        String sql = null;
-        String harga = null,nama = null;
-        String con;
-        try{
-            if(h.equals("")){
-                harga = "";
-            }else if(!h.equals("")){
-                if(n.equals("") || d.equals("")){
-                    harga = " WHERE price " + op + " '" + h + "'";
-                }
-            }
-            if(n.equals("") &&  d.equals("")){
-                nama = "";
-            }else if(!n.equals("") ||  !d.equals("")){
-                if(h.equals("")){
-                    con = " WHERE";
-                }else{ 
-                    con = " AND";
-                }
-                if(n.equals("")){
-                    nama = con + " description like \"%"+ d +"%\"";
-                }else if(d.equals("")){
-                    nama = con + " paket_name like \"%"+ n +"%\"";
-                }else{
-                    nama = con + " paket_name like \"%"+ n +"%\" and description like \"%"+ d +"%\"";
-                }
-            }
-            if(!h.equals("")){
-                if(!n.equals("") ||  !d.equals("")){
-                    sql="SELECT * FROM paket_bingkisan" + harga + nama;
-                }else{
-                    sql="SELECT * FROM paket_bingkisan" + harga;
-                }
-            }else{
-                sql="SELECT * FROM paket_bingkisan" + nama;
-            }
-            System.out.println(sql);
-            Database.setConnection();
-            rs = Database.executingQuery(sql) ;
+        try {
             while (rs.next()) {
                 PaketBingkisan pj = new PaketBingkisan();
                 pj.setIdp(rs.getInt("idp"));
@@ -172,71 +143,64 @@ public class PaketBingkisan {
                 pj.setPrice(rs.getInt("price"));
                 temp.add(pj);
             }
-        }catch(Exception e){
+        } catch (SQLException ex) {
+            Logger.getLogger(PaketBingkisan.class.getName()).log(Level.SEVERE, null, ex);
         }
-        finally{
-            Database.unsetConnection();
-        }
-        return temp ;
+        return temp;
     }
-    
-    public void setPaket(String nama, String desk, String harga){
-        Database db = new Database();
+
+    public void setPaket(String nama, String desk, String harga) {
         String sql;
-        try{
+        try {
             Database.setConnection();
-            sql = "INSERT INTO paket_bingkisan (`paket_name`,`description`,`price`) VALUES('"+nama+"','"+desk+"','"+harga+"')";
+            sql = "INSERT INTO paket_bingkisan (`paket_name`,`description`,`price`) VALUES('" + nama + "','" + desk + "','" + harga + "')";
             Database.updatingQuery(sql);
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
     }
-    
-    public int lastID(){
+
+    public int lastID() {
         int i = 0;
-        Database db = new Database();
         String sql;
         ResultSet rs;
         try {
             Database.setConnection();
             sql = "select idp from paket_bingkisan order by idp desc limit 1";
             rs = Database.executingQuery(sql);
-            if(rs.next()){
+            if (rs.next()) {
                 i = rs.getInt(1);
             }
-        }catch(Exception e){}
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
         return i;
     }
-    
-    public void deleteP(String id){
-        Database db = new Database();
+
+    public void deleteP(String id) {
         String sql = null;
-        try{
-            sql="DELETE FROM paket_bingkisan WHERE idp='"+id+"'";
+        try {
+            sql = "DELETE FROM paket_bingkisan WHERE idp='" + id + "'";
             Database.setConnection();
             Database.updatingQuery(sql);
             System.out.println(sql);
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
     }
-    
-    public PaketBingkisan getPaketbyid(String id){
+
+    public PaketBingkisan getPaketbyid(String id) {
         ResultSet rs;
         PaketBingkisan pb = new PaketBingkisan();
         String Sql;
-        Sql="SELECT * FROM paket_bingkisan WHERE idp='"+id+"'";
+        Sql = "SELECT * FROM paket_bingkisan WHERE idp='" + id + "'";
         Database.setConnection();
         rs = Database.executingQuery(Sql);
         try {
-            while(rs.next()){
+            while (rs.next()) {
                 pb.setIdp(rs.getInt("idp"));
                 pb.setPaket_name(rs.getString("paket_name"));
                 pb.setDescription(rs.getString("description"));
@@ -247,33 +211,60 @@ public class PaketBingkisan {
         }
         return pb;
     }
-    
-    public String updatePaket(String idp, String name, String desc, String price)
-    {
-        Database db = new Database();
+
+    public String updatePaket(String idp, String name, String desc, String price) {
         String sql = null;
-        try{
-            sql="UPDATE paket_bingkisan SET  paket_name =  '"+ name +"', description = '"+ desc +"', "
-                    + "price = '"+ price +"' WHERE idp ="+idp;
+        try {
+            sql = "UPDATE paket_bingkisan SET  paket_name =  '" + name + "', description = '" + desc + "', "
+                    + "price = '" + price + "' WHERE idp =" + idp;
             Database.setConnection();
             Database.updatingQuery(sql);
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
         return sql;
     }
-    
-    public static void main(String[] args) {
-        PaketBingkisan pj = new PaketBingkisan();
-        ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();
-        apj = pj.getSearchResult("", "", "kripik", "");
-        //apj = pj.getPaket("3");
-        
-        for(int i=0;i<apj.size();++i){
-            System.out.println(apj.get(i).getPaket_name());
+
+    public String getFilterAsJSON(String mark, String price, String name, String desc) throws SQLException {
+        //Query string building
+        String query = "SELECT * FROM paket_bingkisan";
+        if (!mark.equals("") && !price.equals("")) {
+            query = query.concat(" WHERE price " + mark + price);
         }
+        if (!name.equals("")) {
+            query = query.concat(" AND paket_name like \"%" + name + "%\"");
+        }
+        if (!desc.equals("")) {
+            query = query.concat(" AND description like \"%" + desc + "%\"");
+        }
+        Database.setConnection();
+        ResultSet rs;
+        rs = Database.executingQuery(query);
+        ArrayList<PaketBingkisan> temp = new ArrayList<PaketBingkisan>();
+        while (rs.next()) {
+            PaketBingkisan pj = new PaketBingkisan();
+            pj.setIdp(rs.getInt("idp"));
+            pj.setPaket_name(rs.getString("paket_name"));
+            pj.setDescription(rs.getString("description"));
+            pj.setPrice(rs.getInt("price"));
+            temp.add(pj);
+        }
+        String json = new Gson().toJson(temp);
+        return json;
+    }
+
+    public static void main(String[] args) throws SQLException {
+        PaketBingkisan pj = new PaketBingkisan();
+//        ArrayList<PaketBingkisan> apj = new ArrayList<PaketBingkisan>();
+//        //apj = pj.getSearchResult("100000", "<", "", "");
+//        apj = pj.getPaket("3");
+//        
+//        for(int i=0;i<apj.size();++i){
+//            System.out.println(apj.get(i).getPaket_name());
+//        }
+
+        System.out.println(pj.getFilterAsJSON("<", "10000", "keripik", "keripik"));
 //        String res = null;
 //        
 //        PaketBingkisan pb = new PaketBingkisan();
@@ -282,5 +273,4 @@ public class PaketBingkisan {
 //        String json = pb.getPaket_asJSON();
 //        System.out.println(json);
     }
-    
 }
