@@ -87,7 +87,7 @@
                                 <%
                                     PerjalananController pc = new PerjalananController();
                                     ArrayList<PaketJalan> pp = new ArrayList<PaketJalan>();
-                                    pp = pc.showPaket();
+                                    pp = pc.showPaketView();
                                     if (session.getAttribute("filter") != null) {
                                         if (session.getAttribute("PaketBingkisan") != null && session.getAttribute("filter").equals("1")) {
                                             session.setAttribute("filter", "0");
