@@ -20,7 +20,7 @@
 %>   
 <!DOCTYPE html>
 <html>
-    <%
+    <%               
         String title = null;
         boolean susun = false;
         PerjalananController pc = new PerjalananController();
@@ -31,7 +31,7 @@
             if (request.getParameter("aksi").equals("susun")) {
                 ij = pc.getItem();
                 title = "Menyusun Paket Perjalanan";
-                susun = true;
+                susun = true;                
             } else if (request.getParameter("aksi").equals("edit")) {
                 ij = pc.getItem();
                 pj = pc.showPaket(request.getParameter("id"));
@@ -45,6 +45,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../style/default.css" type="text/css" />
         <link rel="stylesheet" href="../style/front.css" type="text/css" />
+        <style type="text/css">
+            div.scroll
+            {
+            width:410px;
+            height:300px;
+            overflow:auto;
+            }
+        </style>
         <script type="text/javascript" src="../script/jquery-1.6.1.js"></script>
         <title><%= title%></title>
     </head>
@@ -110,9 +118,9 @@
                                     </tr>
                                     <tr>
                                         <td>Item Paket</td>
-                                        <td class="filter" style="width:100px;height:100px; overflow-x: scroll; overflow-y:scroll;">:<br/><%
+                                        <td>:<br/><div class="scroll"><%
                                             if (!susun) {
-                                                for (int i = 0; i < ij.size(); ++i) {
+                                                for(int i=0;i<ij.size();++i){
                                                     for (int j = 0; j < pij.size(); ++j) {
                                             %>
                                             <input type="checkbox" name="s_item" value="<%= ij.get(i).getIdi()%>" <%
@@ -121,19 +129,19 @@
                                                     }
 
                                                 }%>/><% out.print(i + 1);%>.<% out.print(ij.get(i).getName());%> <br/>
-                                            <div><% out.print(ij.get(i).getDescription());%></div>
+                                            <div><% out.print(ij.get(i).getDescription());%></div><br/>
                                             <%
                                                 }
                                             } else {
-                                                for (int i = 0; i < ij.size(); ++i) {
+                                                for(int i=0; i<ij.size() ;++i){
                                             %>
                                             <input type="checkbox" name="s_item" value="<%= ij.get(i).getIdi()%>"/><% out.print(i + 1);%>.<% out.print(ij.get(i).getName());%> <br/>
-                                            <div><% out.print(ij.get(i).getDescription());%></div>
+                                            <div><% out.print(ij.get(i).getDescription());%></div><br/>
                                             <%
                                                     }
                                                 }
-
-                                            %></td>
+                                            
+                                            %></div></td>
                                     </tr>
                                     <tr>
                                         <td>Total Harga</td>

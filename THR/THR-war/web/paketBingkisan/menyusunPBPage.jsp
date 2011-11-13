@@ -49,6 +49,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../style/default.css" type="text/css" />
         <link rel="stylesheet" href="../style/front.css" type="text/css" />
+        <style type="text/css">
+            div.scroll
+            {
+            width:410px;
+            height:300px;
+            overflow:auto;
+            }
+        </style>
         <script type="text/javascript" src="../script/jquery-1.6.1.js"></script>
         <title><%= title%></title>
     </head>
@@ -99,7 +107,8 @@
                                 </tr>
                                 <tr>
                                     <td>Item Paket</td>
-                                    <td style="overflow-x:scroll;overfloe-y:scroll;">:<br/>  
+                                    <td>:<br/>
+                                        <div class="scroll">
                                         <%
                                             if (susun || pij.size() == 0) {
                                                 for (int i = 0; i < ij.size(); ++i) {
@@ -108,7 +117,7 @@
                                         <div><%= ij.get(i).getDescription()%> Harga Rp.<%=  ij.get(i).getBasic_price()%></div>
                                         <div>
                                             <input type="text" name="nitem" value="" /> 
-                                        </div>
+                                        </div><br/>
 
                                         <%
                                             }
@@ -143,13 +152,13 @@
                                         <div><%= ij.get(i).getDescription()%> Harga Rp<%=  model.DateFormater.formatCurrency(ij.get(i).getBasic_price())%></div>
                                         <div>
                                             <input type="text" name="nitem" value="<%= ni%>" />
-                                        </div>
+                                        </div><br/>
 
                                         <%
                                                 }
                                             }
                                         %>
-
+                                    </div>
                                     </td>
                                 </tr>
                                 <tr>
