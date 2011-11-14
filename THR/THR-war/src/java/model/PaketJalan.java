@@ -458,11 +458,10 @@ public class PaketJalan {
                 pb.setIdp(rs.getInt("idp"));
                 pb.setPaket_nama(rs.getString("paket_name"));
                 pb.setDescription(rs.getString("description"));
-                pb.setTotal_price(rs.getInt("price"));
+                pb.setTotal_price(rs.getInt("total_price"));
                 pb.setNadult(rs.getInt("nadult"));
                 pb.setNchild(rs.getInt("nchild"));
-
-
+                pb.setTime(rs.getDate("time"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
