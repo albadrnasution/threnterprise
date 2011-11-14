@@ -1,5 +1,5 @@
 <%-- 
-    Document   : historipesan
+    Document   : konfirmasipembayaran
     Created on : Oct 25, 2011, 6:35:48 AM
     Author     : hyouda
 --%>
@@ -30,6 +30,7 @@
             <th>order date</th>
             <th>due date</th>
             <th>keterangan bayar</th>
+            <th>aksi</th>
             </tr>
             <% for(int i=0;i<pp.size();i++) { 
                 PesanPaket paket = pp.get(i);
@@ -40,10 +41,24 @@
             <td><% out.print(paket.getOrder_dateS()); %></td>
             <td><% out.print(paket.getDue_date()); %></td>
             <td><% 
-            if(paket.getPay_date()==null)
+            if(!paket.isPay_status())
                 out.print("belum bayar");
             else
             out.print(paket.getPay_date()); %></td>
+            <td><a href="<%= request.getContextPath()%>/PesanController?paket=perjalanan&&ido=<%= Integer.toString(paket.getIdo()) %>&&menu=<%
+                   // link konfirm/cancel
+                   if(paket.isPay_status())
+                        out.print("cancelbayar");
+                    else
+                        out.print("konfirmbayar");%>
+                   "><% 
+            if(paket.isPay_status())
+                out.print("cancel");
+            else
+                out.print("konfirm");
+            %>
+            </a>
+            </td>
             </tr>
             <% } %>
 </table>
@@ -55,8 +70,8 @@
             <th>jumlah_paket</th>
             <th>order date</th>
             <th>due date</th>
-            
-            <th>pay date</th>
+            <th>Keterangan bayar</th>
+            <th>aksi</th>
             </tr>
             <% for(int i=0;i<pb.size();i++) { 
                 PesanBingkisan bingkisan = pb.get(i);
@@ -68,10 +83,22 @@
             <td><% out.print(bingkisan.getDue_date2()); %></td>
             
             <td><% 
-            if(bingkisan.getPay_date()==null)
+            if(!bingkisan.isPay_status())
                 out.print("belum bayar");
             else
             out.print(bingkisan.getPay_date()); %></td>
+            <td><a href="<%= request.getContextPath()%>/PesanController?paket=bingkisan&&ido=<%= Integer.toString(bingkisan.getIdo()) %>&&menu=<%
+                   // link konfirm/cancel
+                   if(bingkisan.isPay_status())
+                        out.print("cancelbayar");
+                    else
+                        out.print("konfirmbayar");%>
+                   "><% 
+            if(bingkisan.isPay_status())
+                out.print("cancel");
+            else
+                out.print("konfirm");
+            %>
             </tr>
             <% } %>
 </table>
@@ -79,8 +106,8 @@
 </html>
 <%
         }
-        else
-                       {
-            response.sendRedirect("../index.jsp");
-                       }
+       // else
+      //                 {
+       //     response.sendRedirect("../index.jsp");
+       //                }
 %>
