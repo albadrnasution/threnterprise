@@ -31,19 +31,26 @@
                         <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>/paketPerjalanan/daftarPaketPerjalanan.jsp"><< Back</a>
                         <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
                     </div>
+                    <%
+                    PaketJalan p = new PaketJalan().getPaketbyid(request.getParameter("id"));
+                            PerjalananController pc = new PerjalananController();
+                            ArrayList<ItemJalan> ij = new ArrayList<ItemJalan>();
+                            ij = pc.showDetail(request.getParameter("id"));
+                    %>
                     <div style="float: left; width: 780px; min-height: 140px; margin-bottom: 40px;padding-top: 15px">
                         <h3>Detail Paket</h3>
                         <table id="detail-paket">
-                            <tr><td>Nama Paket</td><td>:</td><td>Nama Paket Perjalanan Dummy</td><td rowspan="7">
+                            <tr><td>Nama Paket</td><td>:</td><td><%= p.getPaket_nama() %></td><td rowspan="7">
                                     <button class="thrbutton" style="width: 80px;height: 100px;font-size: 1em">
                                         <img src="../images/Cart.PNG" style="max-height: 48px;margin-top: 6px" /><div style="margin-top: -8px">Buy</div>
                                     </button>
                                 </td></tr>
-                            <tr><td>Deskripsi</td><td>:</td><td><p><i>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ...</i></p></td></tr>
-                            <tr><td>Asal</td><td>:</td><td>Kota Asal </td></tr>
-                            <tr><td>Tujuan</td><td>:</td><td>Kota Tujuan </td></tr>
-                            <tr><td>Paket</td><td>:</td><td><img src="../images/adult.png" alt="Bingkisan" class="ico-mini"  /> Dewasa : 1, <img src="../images/child.png" alt="Bingkisan" class="ico-mini" /> Anak-anak N </td></tr>
-                            <tr><td>Harga Paket</td><td>:</td><td><img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  /> Rp12.000.000,-</td></tr>
+                            <tr><td>Deskripsi</td><td>:</td><td><p><i><%= p.getDescription() %></i></p></td></tr>
+                            <tr><td>Asal</td><td>:</td><td><%= pc.showCity(ij.get(0).getOrigin()).getName() %></td></tr>
+                            <tr><td>Tujuan</td><td>:</td><td><%= pc.showCity(ij.get(ij.size()-1).getDest()).getName() %></td></tr>
+                            <tr><td>Keberangkatan</td><td>:</td><td><%= p.getTime() %></td></tr>
+                            <tr><td>Paket</td><td>:</td><td><img src="../images/adult.png" alt="Bingkisan" class="ico-mini"  /> Dewasa : <%= p.getNadult() %>, <img src="../images/child.png" alt="Bingkisan" class="ico-mini" /> Anak-anak : <%= p.getNchild() %> </td></tr>
+                            <tr><td>Harga Paket</td><td>:</td><td><img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  /><%= "Rp"+DateFormater.formatCurrency(p.getTotal_price()) %></td></tr>
                             <tr><td>Daftar Perjalanan dalam paket</td><td>:</td><td></td></tr>
                         </table>
                         <table id="list-item">
@@ -58,9 +65,6 @@
                             </thead>
                             <tbody>
                             <%
-                            PerjalananController pc = new PerjalananController();
-                            ArrayList<ItemJalan> ij = new ArrayList<ItemJalan>();
-                            ij = pc.showDetail(request.getParameter("id"));
 
                             for(int i=0; i<ij.size();i++){
                                        %>

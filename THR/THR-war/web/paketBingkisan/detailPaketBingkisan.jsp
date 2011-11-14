@@ -4,6 +4,8 @@
     Author     : Didik
 --%>
 
+<%@page import="model.DateFormater"%>
+<%@page import="model.PaketBingkisan"%>
 <%@page import="model.ItemBingkisan"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="servlet.BingkisanController"%>
@@ -30,16 +32,19 @@
                         <a class="thrbutton" style="margin-left: 16px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
                     </div>
                     <div style="float: left; width: 780px; min-height: 140px; margin-bottom: 40px;padding-top: 15px">
+                        <%
+                        PaketBingkisan p = new PaketBingkisan().getPaketbyid(request.getParameter("id"));
+                        %>
                         <h3>Detail Paket</h3>
                         <div>
                             <table id="detail-paket">
-                                <tr><td>Nama Paket</td><td>:</td><td>Ini Nama Dummy</td><td rowspan="4">
+                                <tr><td>Nama Paket</td><td>:</td><td><%= p.getPaket_name() %></td><td rowspan="4">
                                         <button class="thrbutton" style="width: 80px;height: 100px;font-size: 1em">
                                             <img src="../images/Cart.PNG" style="max-height: 48px;margin-top: 6px" /><div style="margin-top: -8px">Buy</div>
                                         </button>
                                     </td></tr>
-                                <tr><td>Deskripsi</td><td>:</td><td><p><i>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ...</i></p></td></tr>
-                                <tr><td>Harga Paket</td><td>:</td><td>Rp12.000.000,-</td></tr>
+                                <tr><td>Deskripsi</td><td>:</td><td><p><i><%= p.getDescription() %></i></p></td></tr>
+                                <tr><td>Harga Paket</td><td>:</td><td><%= "Rp"+DateFormater.formatCurrency(p.getPrice()) %></td></tr>
                                 <tr><td>List Item</td><td>:</td><td></td></tr>
                             </table>
                         </diV>

@@ -45,11 +45,11 @@
                     <table class="tutturu">
                         <tr>
                             <th style="width: 20%">Nama Paket</th>
-                            <th style="width: 46%">Deskripsi</th>
+                            <th style="width: 36%">Deskripsi</th>
                             <th style="width: 10%">Harga</th>
                             <th style="width: 7%">N-adult</th>
                             <th style="width: 7%">N-child</th>
-                            <th style="width: 10%">Waktu</th>
+                            <th style="width: 20%">Waktu</th>
                             <th style="width: 10%">Aksi</th>
                         </tr>
                         <tbody>
