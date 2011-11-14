@@ -298,6 +298,55 @@ public class PesanPaket {
         return temp ;
     }
     
+    public ArrayList<PesanPaket> getAllPesanPaket(){
+        ResultSet rs;
+        ArrayList<PesanPaket> temp =new ArrayList<PesanPaket>();
+        String sql;
+        try{
+            sql="SELECT * FROM pesan_paket AS pp INNER JOIN paket_jalan AS pj ON pp.idp=pj.idp ORDER BY pay_status,ido DESC";
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                PesanPaket c = new PesanPaket();
+                c.setIdo(rs.getInt("ido"));
+                c.setIdp(rs.getInt("idp"));
+                c.setIdc(rs.getInt("idc"));
+                c.setJumlah_paket(rs.getInt("jumlah_paket"));
+                c.setOrder_date(rs.getDate("order_date"));
+                c.setDue_date(rs.getDate("due_date"));
+                c.setPaket_name(rs.getString("paket_name"));
+                c.setPay_date(rs.getString("pay_date"));
+                if (rs.getInt("pay_status")==1)
+                    c.setPay_status(true);
+                else c.setPay_status(false);
+                temp.add(c);
+                System.out.println(c.getIdc());
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return temp ;
+    }
+    
+    public void changePayStatus(String aksi, String ido)
+    {
+        String sql;
+        if(aksi.equals("konfirm"))
+        {
+            sql = "UPDATE pesan_paket SET pay_status=1 , pay_date=NOW() WHERE ido="+ido;
+            Database.setConnection();
+            Database.updatingQuery(sql);
+        }
+        else
+        {
+            sql = "UPDATE pesan_paket SET pay_status=0 WHERE ido="+ido;
+            Database.setConnection();
+            Database.updatingQuery(sql);
+        }
+    }
+    
     public static void main(String[] args) throws ParseException {
         PesanPaket p = new PesanPaket();
         ArrayList<PesanPaket> ap = new ArrayList<PesanPaket>();
@@ -311,6 +360,8 @@ public class PesanPaket {
         }
         
     }
+    
+    
     
 }
 

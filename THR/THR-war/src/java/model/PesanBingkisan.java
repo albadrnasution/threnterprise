@@ -241,6 +241,45 @@ public class PesanBingkisan {
         return temp ;
     }
     
+    public ArrayList<PesanBingkisan> getAllPesanBingkisan(){
+        ResultSet rs;
+        int i =0;
+        ArrayList<PesanBingkisan> temp =new ArrayList<PesanBingkisan>();
+        String sql;
+        try{
+            sql="SELECT * FROM pesan_bingkisan AS pp INNER JOIN paket_bingkisan AS pb ON pp.idp=pb.idp ORDER BY pay_status,ido DESC";
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                i++;
+                System.out.println("there: "+i);
+                PesanBingkisan c = new PesanBingkisan();
+                c.setIdo(rs.getInt("ido"));
+              c.setIdp(rs.getInt("idp"));
+               c.setIdc(rs.getInt("idc"));
+                  c.setDue_date2(rs.getString("due_date"));
+                //c.setOrder_dateS(rs.getString("order_date"));
+                c.setOrder_date(rs.getDate("order_date"));
+                c.setPay_date(rs.getString("pay_date"));
+                c.setJumlah_paket(rs.getInt("jumlah_paket"));
+                c.setPaket_name(rs.getString("paket_name"));
+//                System.out.println(rs.getString("paket_name"));
+//                System.out.println(rs.getString("pay_date"));
+//                System.out.println(rs.getDate("pay_date"));
+                if (rs.getInt("pay_status")==1)
+                    c.setPay_status(true);
+                else c.setPay_status(false);
+                temp.add(c);
+                System.out.println(c.getIdc());
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return temp ;
+    }
+    
     public ArrayList<PesanBingkisan> getPesanBingkisan(String orderby, String s, String end){
         ResultSet rs;
         ArrayList<PesanBingkisan> temp =new ArrayList<PesanBingkisan>();
@@ -324,6 +363,23 @@ public class PesanBingkisan {
             Database.unsetConnection();
         }
         return temp ;
+    }
+    
+    public void changePayStatus(String aksi, String ido)
+    {
+        String sql;
+        if(aksi.equals("konfirm"))
+        {
+            sql = "UPDATE pesan_bingkisan SET pay_status=1 , pay_date=NOW() WHERE ido="+ido;
+            Database.setConnection();
+            Database.updatingQuery(sql);
+        }
+        else
+        {
+            sql = "UPDATE pesan_bingkisan SET pay_status=0 WHERE ido="+ido;
+            Database.setConnection();
+            Database.updatingQuery(sql);
+        }
     }
     
     public static void main(String[] args) {

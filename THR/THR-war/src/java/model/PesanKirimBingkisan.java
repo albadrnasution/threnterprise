@@ -128,4 +128,30 @@ public class PesanKirimBingkisan {
         return temp ;
     }
     
+    public ArrayList<PesanKirimBingkisan> getAllPesanKirimBingkisan(){
+        ResultSet rs;
+        ArrayList<PesanKirimBingkisan> temp =new ArrayList<PesanKirimBingkisan>();
+        String sql;
+        try{
+            sql="SELECT * FROM pesan_kirim_bing ORDER BY ido DESC";
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                PesanKirimBingkisan c = new PesanKirimBingkisan();
+                c.setIdo(rs.getInt("ido"));
+                c.setIdp(rs.getInt("idp"));
+                c.setIdc(rs.getInt("idc"));
+                c.setAlamat(rs.getString("alamat"));
+                c.setHarga(rs.getInt("harga"));
+                temp.add(c);
+                System.out.println(c.getIdc());
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return temp ;
+    }
+    
 }
