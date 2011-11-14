@@ -6,7 +6,10 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +22,7 @@ import model.PaketJalan;
 import model.PesanBingkisan;
 import model.PesanKirimBingkisan;
 import model.PesanPaket;
+import model.Staff;
 
 /**
  *
@@ -35,11 +39,12 @@ public class PesanController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             Customer cu = new Customer();
+            Staff st = new Staff();
             HttpSession session = request.getSession();
             if (session.getAttribute("user") == null) {
                 out.write("\n");
@@ -79,6 +84,9 @@ public class PesanController extends HttpServlet {
             } else {
                 if (session.getAttribute("jenisUser").equals("0")) {
                     cu = (Customer) session.getAttribute("user");
+                } else
+                {
+                    st = (Staff) session.getAttribute("user");
                 }
                 if (request.getParameter("menu").equals("buybingkisan")) {
                     PaketBingkisan pbi = new PaketBingkisan();
@@ -99,7 +107,7 @@ public class PesanController extends HttpServlet {
                     kirim.setAlamat(request.getParameter("alamat"));
                     kirim.setHarga(bingkisan.getJumlah_paket() * pbi.getPrice());
 
-                    String redirectURL = "paketBingkisan/daftarPaketBingkisan.jsp";
+                    String redirectURL = "paketBingkisan/historiPesan.jsp";
                     response.sendRedirect(redirectURL);
                 } else if (request.getParameter("menu").equals("buyperjalanan")) {
                     PaketJalan pbi = new PaketJalan();
@@ -112,7 +120,7 @@ public class PesanController extends HttpServlet {
                     paket.setIdc(cu.getIdc());
                     paket.setIdp(pj.getIdp());
                     paket.setJumlah_paket(Integer.parseInt(request.getParameter("jumlah")));
-                    String redirectURL = "paketPerjalanan/daftarPaketPerjalanan.jsp";
+                    String redirectURL = "paketBingkisan/historiPesan.jsp";
                     response.sendRedirect(redirectURL);
                 } else if (request.getParameter("menu").equals("historipemesanan")) {
                     PesanPaket paket = new PesanPaket();
@@ -127,8 +135,43 @@ public class PesanController extends HttpServlet {
                     session.setAttribute("getpaket", pp);
                     session.setAttribute("getbingkisan", pb);
                     session.setAttribute("getkirim", pk);
-                    String redirectURL = "paketBingkisan/historiPesan.jsp";
-                    response.sendRedirect(redirectURL);
+                    response.sendRedirect("paketBingkisan/historiPesan.jsp");
+                }
+                else if (request.getParameter("menu").equals("konfirmasipembayaran") && st != null)
+                {
+                    PesanPaket paket = new PesanPaket();
+                    PesanBingkisan bingkisan = new PesanBingkisan();
+                    PesanKirimBingkisan kirim = new PesanKirimBingkisan();
+                    ArrayList<PesanPaket> pp = new ArrayList<PesanPaket>();
+                    ArrayList<PesanBingkisan> pb = new ArrayList<PesanBingkisan>();
+                    ArrayList<PesanKirimBingkisan> pk = new ArrayList<PesanKirimBingkisan>();
+                    pp = paket.getAllPesanPaket();
+                    pb = bingkisan.getAllPesanBingkisan();
+                    pk = kirim.getAllPesanKirimBingkisan();
+                    session.setAttribute("getpaket", pp);
+                    session.setAttribute("getbingkisan", pb);
+                    session.setAttribute("getkirim", pk);
+                    response.sendRedirect("paketBingkisan/konfirmasiPembayaran.jsp");
+                }
+                else if(request.getParameter("menu").equals("konfirmbayar"))
+                {
+                    PesanPaket paket = new PesanPaket();
+                    PesanBingkisan bingkisan = new PesanBingkisan();
+                    if(request.getParameter("paket").equals("perjalanan"))
+                        paket.changePayStatus("konfirm", request.getParameter("ido"));
+                    else
+                        bingkisan.changePayStatus("konfirm", request.getParameter("ido"));
+                    response.sendRedirect(request.getContextPath()+"/PesanController?menu=konfirmasipembayaran");
+                }
+                else if(request.getParameter("menu").equals("cancelbayar"))
+                {
+                    PesanPaket paket = new PesanPaket();
+                    PesanBingkisan bingkisan = new PesanBingkisan();
+                    if(request.getParameter("paket").equals("perjalanan"))
+                        paket.changePayStatus("cancel", request.getParameter("ido"));
+                    else 
+                        bingkisan.changePayStatus("cancel", request.getParameter("ido"));
+                    response.sendRedirect(request.getContextPath()+"/PesanController?menu=konfirmasipembayaran");
                 }
             }
         } finally {
@@ -147,7 +190,11 @@ public class PesanController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(PesanController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
@@ -160,7 +207,11 @@ public class PesanController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(PesanController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
