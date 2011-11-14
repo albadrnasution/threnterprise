@@ -55,6 +55,13 @@
                         </div>
                         <div id="list-bingkisan">
                             <%
+                            int batas = 5;
+                            int pg = 1;
+                            boolean res = false;
+                            if(request.getParameter("page")!=null || request.getParameter("res")!=null){
+                                pg = Integer.parseInt(request.getParameter("page"));
+                                res = Boolean.parseBoolean(request.getParameter("res"));
+                            }
                                 BingkisanController bc = new BingkisanController();
                                 ArrayList<PaketBingkisan> apb = new ArrayList<PaketBingkisan>();
                                 apb = bc.showPaket();
@@ -62,6 +69,7 @@
                                     if (session.getAttribute("PaketBingkisan") != null && session.getAttribute("filter").equals("1")) {
                                         session.setAttribute("filter", "0");
                                         apb = (ArrayList<PaketBingkisan>) session.getAttribute("PaketBingkisan");
+                                        res = true;
                                     }
                                 }
                                 if (request.getParameter("empty") != null) {
@@ -69,7 +77,9 @@
                                         apb = new ArrayList<PaketBingkisan>();
                                     }
                                 }
-                                for (int i = 0; i < apb.size(); i++) {
+                                //for (int i = 0; i < apb.size(); i++) {
+                                int pages = (apb.size()/batas)+1;
+                                for(int i=((pg-1)*batas); i<((pg*batas)<(apb.size())?(pg*batas):(apb.size())) ;++i){    
                             %>
 
                             <div class="li-bingkisan">
@@ -101,6 +111,24 @@
                                     </div>
                             <%
                                 }
+                                if(pages>1){
+                                %>
+                                <div>Halaman&nbsp;:&nbsp;
+                                <%
+                                    for(int i=1; i<=pages;++i){
+                                        if(i==pg)
+                                            out.print("&nbsp;<b>"+i+"</b>&nbsp;");
+                                        else
+                                            out.print("&nbsp;<a href='daftarPaketBingkisan.jsp?page="+i+"&&res="+res+"'>"+i+"</a>&nbsp;");
+                                        if(i!=pages)
+                                            out.print("&gt;");
+                                    }
+                                %>
+                                </div>
+                                
+                                
+                                <%
+                               }
                             %>
                         </div>
                     </div>
