@@ -25,6 +25,8 @@
         <h1>List Pemesanan Perjalanan</h1>
         <table border="1">
             <tr>
+                <th>first name customer</th>
+                <th>last name customer</th>
                 <th>nama_paket</th>
             <th>jumlah_paket</th>
             <th>order date</th>
@@ -36,6 +38,8 @@
                 PesanPaket paket = pp.get(i);
                 %>
             <tr>
+                <td><% out.print(paket.getFirst_name()); %></td>
+                <td><% out.print(paket.getLast_name()); %></td>
                 <td><% out.print(paket.getPaket_name()); %></td>
             <td><% out.print(paket.getJumlah_paket()); %></td>
             <td><% out.print(paket.getOrder_dateS()); %></td>
@@ -66,6 +70,8 @@
 <h1>List Pemesanan Paket Bingkisan</h1>
         <table border="1">
             <tr>
+                <th>first name customer</th>
+                <th>last name customer</th>
                 <th>nama paket</th>
             <th>jumlah_paket</th>
             <th>order date</th>
@@ -77,6 +83,8 @@
                 PesanBingkisan bingkisan = pb.get(i);
                 %>
             <tr>
+                <td><% out.print(bingkisan.getFirst_name()); %></td>
+                <td><% out.print(bingkisan.getLast_name()); %></td>
                 <td><% out.print(bingkisan.getPaket_name()); %></td>
             <td><% out.print(bingkisan.getJumlah_paket()); %></td>
             <td><% out.print(bingkisan.getOrder_dateS()); %></td>
