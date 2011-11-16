@@ -39,16 +39,43 @@ public class PerjalananController extends HttpServlet {
         try {
             if (request.getParameter("mode") != null) {
                 if (request.getParameter("mode").equals("susun")) {
-                    response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=susun");
+                    if (request.getParameter("tipe").equals("item")) {
+                        if (request.getParameter("aksi") != null) {
+                            if (request.getParameter("aksi").equals("create")) {
+                                response.sendRedirect("paketBingkisan/menyusunItem.jsp?item=perjalanan&option=create");
+                            }
+                        } else {
+                            response.sendRedirect("paketBingkisan/mengelolaItem.jsp?manageitem=perjalanan");
+                        }
+                    }
+                    if (request.getParameter("tipe").equals("paket")) {
+                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=susun");
+                    }
                 } else if (request.getParameter("mode").equals("edit")) {
-                    response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=edit&id=" + request.getParameter("id"));
+                    if (request.getParameter("tipe").equals("item")) {
+                        response.sendRedirect("paketBingkisan/menyusunItem.jsp?item=perjalanan&option=edit&id=" + request.getParameter("id"));
+                    }
+                    if (request.getParameter("tipe").equals("paket")) {
+                        response.sendRedirect("paketPerjalanan/menyusunPPPage.jsp?aksi=edit&id=" + request.getParameter("id"));
+                    }
                 } else if (request.getParameter("mode").equals("delete")) {
-                    PaketJalan p = new PaketJalan();
-                    String x = p.deleteP(request.getParameter("id"));
-                    if (x.isEmpty()) {
-                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
-                    } else {
-                        response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                    if (request.getParameter("tipe").equals("paket")) {
+                        PaketJalan p = new PaketJalan();
+                        String x = p.deleteP(request.getParameter("id"));
+                        if (x.isEmpty()) {
+                            response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
+                        } else {
+                            response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
+                        }
+                    }
+                    if (request.getParameter("tipe").equals("item")) {
+                        ItemJalan ij = new ItemJalan();
+                        String res = ij.deleteItem(request.getParameter("id"));
+                        if (res != null) {
+                            response.sendRedirect("paketBingkisan/mengelolaItem.jsp?success=1&manageitem=perjalanan");
+                        } else {
+                            response.sendRedirect("paketBingkisan/mengelolaItem.jsp?success=0&manageitem=perjalanan");
+                        }
                     }
                 } else if (request.getParameter("mode").equals("cari")) {
                     String harga = request.getParameter("harga");
@@ -134,6 +161,48 @@ public class PerjalananController extends HttpServlet {
                     response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=1");
                 } else {
                     response.sendRedirect("paketPerjalanan/mengelolaPaket.jsp?success=0");
+                }
+            } else if (request.getParameter("act").equals("addItem")) {
+                String n = request.getParameter("nama_item");
+                String d = request.getParameter("desc");
+                String m = request.getParameter("moda");
+                String o = request.getParameter("origin");
+                String dest = request.getParameter("dest");
+                String hc = request.getParameter("hargachild");
+                String ha = request.getParameter("hargaadult");
+                String idt = request.getParameter("idmoedik");
+
+                if (m.equals("bus") || m.equals("kereta api") || m.equals("pesawat") || m.equals("kapal") || m.equals("mobil")) {
+                    if (!n.equals("") && !d.equals("") && !m.equals("") && !o.equals("") && !dest.equals("") && !hc.equals("") && !ha.equals("") && !idt.equals("")) {
+                        ItemJalan ij = new ItemJalan();
+                        ij.setItem(n, d, m, o, dest, hc, ha, idt);
+                        response.sendRedirect("paketBingkisan/mengelolaItem.jsp?success=2&manageitem=perjalanan");
+                    } else {
+                        response.sendRedirect("paketBingkisan/mengelolaItem.jsp?success=0&manageitem=perjalanan");
+                    }
+                } else {
+                    response.sendRedirect("paketBingkisan/mengelolaItem.jsp?success=0&manageitem=perjalanan");
+                }
+            } else if (request.getParameter("act").equals("editItem")) {
+                String idi = request.getParameter("idi");
+                String n = request.getParameter("nama_item");
+                String d = request.getParameter("desc");
+                String m = request.getParameter("moda");
+                String o = request.getParameter("origin");
+                String dest = request.getParameter("dest");
+                String hc = request.getParameter("hargachild");
+                String ha = request.getParameter("hargaadult");
+                String idt = request.getParameter("idmoedik");
+                if (m.equals("bus") || m.equals("kereta api") || m.equals("pesawat") || m.equals("kapal") || m.equals("mobil")) {
+                    if (!n.equals("") && !d.equals("") && !m.equals("") && !o.equals("") && !dest.equals("") && !hc.equals("") && !ha.equals("") && !idt.equals("")) {
+                        ItemJalan ij = new ItemJalan();
+                        ij.updateItem(idi, n, d, m, o, dest, hc, ha, idt);
+                        response.sendRedirect("paketBingkisan/mengelolaItem.jsp?success=2&manageitem=perjalanan");
+                    } else {
+                        response.sendRedirect("paketBingkisan/mengelolaItem.jsp?success=0&manageitem=perjalanan");
+                    }
+                } else {
+                    response.sendRedirect("paketBingkisan/mengelolaItem.jsp?success=0&manageitem=perjalanan");
                 }
             }
         } finally {

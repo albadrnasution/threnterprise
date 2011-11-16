@@ -9,12 +9,12 @@ import util.Database;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Didik
  */
 public class ItemJalan {
+
     private int idi;
     private String name;
     private String description;
@@ -96,16 +96,16 @@ public class ItemJalan {
     public void setOrigin(int origin) {
         this.origin = origin;
     }
-    
-    public ArrayList<ItemJalan> getItem(){
+
+    public ArrayList<ItemJalan> getItem() {
         Database db = new Database();
         ResultSet rs;
         ArrayList<ItemJalan> temp = new ArrayList<ItemJalan>();
         String sql;
-        try{
-            sql="SELECT * FROM item_jalan";
+        try {
+            sql = "SELECT * FROM item_jalan";
             Database.setConnection();
-            rs = Database.executingQuery(sql) ;
+            rs = Database.executingQuery(sql);
             while (rs.next()) {
                 ItemJalan pj = new ItemJalan();
                 pj.setIdi(rs.getInt("idi"));
@@ -119,25 +119,24 @@ public class ItemJalan {
                 pj.setIdmoedik(rs.getInt("idmoedik"));
                 temp.add(pj);
             }
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
-        return temp ;
+        return temp;
     }
-    
-    public ArrayList<ItemJalan> getItem(String idp){
+
+    public ArrayList<ItemJalan> getItem(String idp) {
         Database db = new Database();
         ResultSet rs;
         ArrayList<ItemJalan> temp = new ArrayList<ItemJalan>();
         String sql;
-        try{
-            sql="select idi, name, description, moda, origin, dest, bprice_child, bprice_adult, idmoedik  "
-                    + "from item_jalan where idi in (select ip_jalan.idi from ip_jalan where ip_jalan.idp = '"+ idp +"')";
+        try {
+            sql = "select idi, name, description, moda, origin, dest, bprice_child, bprice_adult, idmoedik  "
+                    + "from item_jalan where idi in (select ip_jalan.idi from ip_jalan where ip_jalan.idp = '" + idp + "')";
             System.out.println(sql);
             Database.setConnection();
-            rs = Database.executingQuery(sql) ;
+            rs = Database.executingQuery(sql);
             while (rs.next()) {
                 ItemJalan pj = new ItemJalan();
                 pj.setIdi(rs.getInt("idi"));
@@ -151,28 +150,99 @@ public class ItemJalan {
                 pj.setIdmoedik(rs.getInt("idmoedik"));
                 temp.add(pj);
             }
-        }catch(Exception e){
-        }
-        finally{
+        } catch (Exception e) {
+        } finally {
             Database.unsetConnection();
         }
-        return temp ;
+        return temp;
     }
-    
-    
-    public String getItems_asJSON(String idp){
+
+    public String deleteItem(String idi) {
+        Database db = new Database();
+        String sql = null;
+        try {
+            sql = "DELETE FROM item_jalan WHERE idi='" + idi + "'";
+            Database.setConnection();
+            Database.updatingQuery(sql);
+            System.out.println(sql);
+        } catch (Exception e) {
+        } finally {
+            Database.unsetConnection();
+        }
+        return sql;
+    }
+
+    public ArrayList<ItemJalan> getItemJalan(String idi) {
+        Database db = new Database();
+        ResultSet rs;
+        ArrayList<ItemJalan> temp = new ArrayList<ItemJalan>();
+        String sql;
+        try {
+            sql = "SELECT * FROM item_jalan where idi=" + idi;
+            Database.setConnection();
+            rs = Database.executingQuery(sql);
+            while (rs.next()) {
+                ItemJalan pj = new ItemJalan();
+                pj.setIdi(rs.getInt("idi"));
+                pj.setName(rs.getString("name"));
+                pj.setDescription(rs.getString("description"));
+                pj.setModa(rs.getString("moda"));
+                pj.setOrigin(rs.getInt("origin"));
+                pj.setDest(rs.getInt("dest"));
+                pj.setBprice_child(rs.getInt("bprice_child"));
+                pj.setBprice_adult(rs.getInt("bprice_adult"));
+                pj.setIdmoedik(rs.getInt("idmoedik"));
+                temp.add(pj);
+            }
+        } catch (Exception e) {
+        } finally {
+            Database.unsetConnection();
+        }
+        return temp;
+    }
+
+    public void setItem(String nama, String desk, String moda, String origin, String dest, String bpc, String bpa, String idm) {
+        Database db = new Database();
+        String sql;
+        try {
+            Database.setConnection();
+            sql = "INSERT INTO item_jalan (`name`, `description`, `moda`, `origin`, `dest`, `bprice_child`, `bprice_adult`, `idmoedik`) "
+                    + "VALUES('" + nama + "','" + desk + "','" + moda + "','" + origin + "','" + dest + "','" + bpc + "','" + bpa + "','" + idm + "')";
+            Database.updatingQuery(sql);
+        } catch (Exception e) {
+        } finally {
+            Database.unsetConnection();
+        }
+    }
+
+    public void updateItem(String idi, String n, String d, String m, String o, String dest, String bpc, String bpa, String idm) {
+        Database db = new Database();
+        String sql = null;
+        try {
+            Database.setConnection();
+            sql = "UPDATE item_jalan SET  name =  '" + n + "', description = '" + d + "', moda = '" + m + "', origin = '" + o + 
+                    "', dest =  '" + dest + "', bprice_child = '" + bpc + "', bprice_adult = '" + bpa + "', idmoedik =  '" + idm + "' WHERE idi = " + idi;
+            System.out.println(sql);
+            Database.updatingQuery(sql);
+        } catch (Exception e) {
+        } finally {
+            Database.unsetConnection();
+        }
+    }
+
+    public String getItems_asJSON(String idp) {
         String json = "";
         ArrayList<ItemJalan> itemJalan = this.getItem(idp);
         json = new Gson().toJson(itemJalan);
         return json;
     }
-     
+
     public static void main(String[] args) {
         ItemJalan ij = new ItemJalan();
         ArrayList<ItemJalan> aij = new ArrayList<ItemJalan>();
         aij = ij.getItem("10");
-        
-        for(int i=0;i<aij.size();++i){
+
+        for (int i = 0; i < aij.size(); ++i) {
             System.out.println(aij.get(i).getName());
         }
     }

@@ -125,6 +125,75 @@ public class ItemBingkisan {
         return json;
     }
     
+    public String deleteItem(String idi){
+        Database db = new Database();
+        String sql = null;
+        try{
+            sql="DELETE FROM item_bingkisan WHERE idi='"+idi+"'";
+            Database.setConnection();
+            Database.updatingQuery(sql);
+            System.out.println(sql);
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return sql;
+    }
+    
+    public void setItem(String nama, String desk, String harga, String idt) {
+        Database db = new Database();
+        String sql;
+        try {
+            Database.setConnection();
+            sql = "INSERT INTO item_bingkisan (`name`,`description`,`basic_price`, `id_tempe`) VALUES('" + nama + "','" + desk + "','" + harga + "','" + idt+ "')";
+            Database.updatingQuery(sql);
+        } catch (Exception e) {
+        } finally {
+            Database.unsetConnection();
+        }
+    }
+    
+    public void updateItem(String idi, String n, String d, String h, String idt) {
+        Database db = new Database();
+        String sql = null;
+        try {
+            Database.setConnection();
+            sql = "UPDATE item_bingkisan SET  name =  '" + n + "', description = '" + d + "', "
+                    + "basic_price = '" + h + "', id_tempe =  '" + idt + "' WHERE idi = " + idi;
+            Database.updatingQuery(sql);
+        } catch (Exception e) {
+        } finally {
+            Database.unsetConnection();
+        }
+    }
+    
+    public ArrayList<ItemBingkisan> getItemBingkisan(String idi){
+        Database db = new Database();
+        ResultSet rs;
+        ArrayList<ItemBingkisan> temp = new ArrayList<ItemBingkisan>();
+        String sql;
+        try{
+            sql="SELECT * FROM item_bingkisan WHERE idi='"+idi+"'";
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                ItemBingkisan pb = new ItemBingkisan();
+                pb.setIdi(rs.getInt("idi"));
+                pb.setName(rs.getString("name"));
+                pb.setDescription(rs.getString("description"));
+                pb.setBasic_price(rs.getInt("basic_price"));
+                pb.setId_tempe(rs.getInt("id_tempe"));
+                temp.add(pb);
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        return temp ;
+    }
+    
     public static void main(String[] args) {
         ItemBingkisan pj = new ItemBingkisan();
         ArrayList<ItemBingkisan> apj = new ArrayList<ItemBingkisan>();

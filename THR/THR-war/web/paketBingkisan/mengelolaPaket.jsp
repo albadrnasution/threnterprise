@@ -87,8 +87,8 @@
                             out.print("-");
                         }%></td>
                                 <td  style="width: 120px">
-                                    <a class="thrbutton" href="<%= request.getContextPath()%>/BingkisanController?mode=edit&id=<% out.print(ij.get(i).getIdp());%>">Edit</a>
-                                    <a class="thrbutton" href="<%= request.getContextPath()%>/BingkisanController?mode=delete&id=<% out.print(ij.get(i).getIdp());%>">Delete</a>
+                                    <a class="thrbutton" href="<%= request.getContextPath()%>/BingkisanController?mode=edit&tipe=paket&id=<% out.print(ij.get(i).getIdp());%>">Edit</a>
+                                    <a class="thrbutton" href="<%= request.getContextPath()%>/BingkisanController?mode=delete&tipe=paket&id=<% out.print(ij.get(i).getIdp());%>">Delete</a>
                                 </td>
                             </tr>
                             <%
@@ -122,7 +122,9 @@
                                         %>
                                     </div>
                                     </td>
-                                <td style="text-align: right;padding-right: 40px;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/BingkisanController?mode=susun">Create Packet</a></td>
+                                <td style="text-align: right;"><a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/BingkisanController?mode=susun&tipe=paket">Create Packet</a>
+                                    <a class="thrbutton"  style="height: 32px; width: 180px" href="<%= request.getContextPath()%>/BingkisanController?mode=susun&tipe=item">Manage Item</a>
+                                </td>
                             </tr>
                         </table>
                     </div>

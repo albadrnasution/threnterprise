@@ -11,7 +11,7 @@ package model;
  */
 
 public class Moda {
-    public static final String  BUS = "bus";
+    public static final String BUS = "bus";
     public static final String MOBIL = "mobil";
     public static final String KERETA_API = "kereta api";
     public static final String KAPAL = "kapal";
@@ -19,7 +19,7 @@ public class Moda {
     private String value;
 
    public Moda(String value){
-        if(value == "bus" || value == "mobil" || value == "kereta api" || value == "kapal" || value =="pesawat"){
+        if(value.equals("bus") || value.equals("mobil") || value.equals("kereta api") || value.equals("kapal") || value.equals("pesawat")){
             this.value = value;
         }else{
             this.value = "";

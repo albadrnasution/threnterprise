@@ -172,4 +172,28 @@ public class Webservice {
         db.unsetConnection();
         return temp;
     }
+    public ArrayList<Webservice> getWSByjenis(String jenis) throws SQLException{
+        Database db = new Database();
+        ResultSet rs;
+        String sql;
+        ArrayList<Webservice> temp=new ArrayList<Webservice>();
+        
+        sql="SELECT * FROM webservice where jenis='"+jenis+"'";
+        Database.setConnection();
+        rs=Database.executingQuery(sql);
+        while(rs.next()){
+          Webservice ws = new Webservice();
+          ws.setId(rs.getInt("id"));
+          ws.setJenis(rs.getString("jenis"));
+          ws.setNama(rs.getString("nama"));
+          ws.setPassword(rs.getString("password"));
+          ws.setServer(rs.getString("server"));
+          ws.setPort(rs.getString("port"));
+          ws.setUsername(rs.getString("username"));
+          temp.add(ws);
+        }
+        
+        Database.unsetConnection();
+        return temp;
+    }
 }
