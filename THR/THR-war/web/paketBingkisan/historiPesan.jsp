@@ -33,6 +33,7 @@
             <th>order date</th>
             <th>due date</th>
             <th>keterangan bayar</th>
+            <th>aksi</th>
             </tr>
             <% for(int i=0;i<pp.size();i++) { 
                 PesanPaket paket = pp.get(i);
@@ -45,8 +46,19 @@
             <td><% 
             if(paket.getPay_date()==null)
                 out.print("belum bayar");
+            else if(paket.isPay_status())
+                out.print(paket.getPay_date());
             else
-            out.print(paket.getPay_date()); %></td>
+                out.print("belum dicek");
+            %></td>
+            <td><% if(paket.getPay_date()==null) {%>
+                <a href="konfirmasiPembayaranForm.jsp?ido=<% out.print(paket.getIdo()); %>&&jenispaket=perjalanan">konfirm</a></td>
+            <%}
+                       else 
+                       {
+                         out.print("sudah kirim konfirmasi");
+                       }                          
+            %>
             </tr>
             <% } %>
 </table>
@@ -59,8 +71,8 @@
             <th>alamat tujuan</th>
             <th>order date</th>
             <th>due date</th>
-            
             <th>pay date</th>
+            <th>aksi</th>
             </tr>
             <% for(int i=0;i<pb.size();i++) { 
                 PesanBingkisan bingkisan = pb.get(i);
@@ -72,12 +84,27 @@
             <td><% out.print(kirim.getAlamat()); %></td>
             <td><% out.print(bingkisan.getOrder_dateS()); %></td>
             <td><% out.print(bingkisan.getDue_date2()); %></td>
-            
             <td><% 
             if(bingkisan.getPay_date()==null)
                 out.print("belum bayar");
             else
             out.print(bingkisan.getPay_date()); %></td>
+            <td><% 
+            if(bingkisan.getPay_date()==null)
+                out.print("belum bayar");
+            else if(bingkisan.isPay_status())
+                out.print(bingkisan.getPay_date());
+            else
+                out.print("belum dicek");
+            %></td>
+            <td><% if(bingkisan.getPay_date()==null) {%>
+                <a href="konfirmasiPembayaranForm.jsp?ido=<% out.print(bingkisan.getIdo()); %>&&jenispaket=perjalanan">konfirm</a></td>
+            <%}
+                       else 
+                       {
+                         out.print("sudah kirim konfirmasi");
+                       }                          
+            %>
             </tr>
             <% } %>
 </table>
