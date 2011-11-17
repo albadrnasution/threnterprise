@@ -118,6 +118,8 @@ public class PesanPaket {
     public boolean isPay_status() {
         return pay_status;
     }
+    
+   
 
     public void setPay_status(boolean pay_status) {
         this.pay_status = pay_status;
@@ -321,7 +323,7 @@ public class PesanPaket {
         ArrayList<PesanPaket> temp =new ArrayList<PesanPaket>();
         String sql;
         try{
-            sql="SELECT * FROM pesan_paket AS pp INNER JOIN paket_jalan AS pj ON pp.idp=pj.idp INNER JOIN customer AS c ON c.idc=pp.idc ORDER BY pay_status,ido DESC";
+            sql="SELECT * FROM pesan_paket AS pp INNER JOIN paket_jalan AS pj ON pp.idp=pj.idp INNER JOIN customer AS c ON c.idc=pp.idc WHERE pay_date IS NOT NULL ORDER BY pay_status,ido DESC";
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
@@ -355,7 +357,7 @@ public class PesanPaket {
         String sql;
         if(aksi.equals("konfirm"))
         {
-            sql = "UPDATE pesan_paket SET pay_status=1 , pay_date=NOW() WHERE ido="+ido;
+            sql = "UPDATE pesan_paket SET pay_status=1 WHERE ido="+ido;
             Database.setConnection();
             Database.updatingQuery(sql);
         }
@@ -365,6 +367,14 @@ public class PesanPaket {
             Database.setConnection();
             Database.updatingQuery(sql);
         }
+    }
+    
+    public void confirmPay(String ido, String pay_date, String no_rekening, String uang_pembayaran)
+    {
+        String sql;
+        sql = "UPDATE pesan_paket SET pay_date='"+pay_date+"', no_rekening='"+ no_rekening +"', uang_pembayaran='"+ uang_pembayaran +"' WHERE ido="+ido;
+            Database.setConnection();
+            Database.updatingQuery(sql);
     }
     
     public static void main(String[] args) throws ParseException {

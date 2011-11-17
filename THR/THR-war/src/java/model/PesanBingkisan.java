@@ -266,7 +266,7 @@ public class PesanBingkisan {
         ArrayList<PesanBingkisan> temp =new ArrayList<PesanBingkisan>();
         String sql;
         try{
-            sql="SELECT * FROM pesan_bingkisan AS pp INNER JOIN paket_bingkisan AS pb ON pp.idp=pb.idp INNER JOIN customer AS c ON c.idc=pp.idc ORDER BY pay_status,ido DESC";
+            sql="SELECT * FROM pesan_bingkisan AS pp INNER JOIN paket_bingkisan AS pb ON pp.idp=pb.idp INNER JOIN customer AS c ON c.idc=pp.idc WHERE pay_date IS NOT NULL ORDER BY pay_status,ido DESC";
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
@@ -386,12 +386,20 @@ public class PesanBingkisan {
         return temp ;
     }
     
+    public void confirmPay(String ido, String pay_date, String no_rekening, String uang_pembayaran)
+    {
+        String sql;
+        sql = "UPDATE pesan_bingkisan SET pay_date='"+pay_date+"', no_rekening='"+ no_rekening +"', uang_pembayaran='"+ uang_pembayaran +"' WHERE ido="+ido;
+            Database.setConnection();
+            Database.updatingQuery(sql);
+    }
+    
     public void changePayStatus(String aksi, String ido)
     {
         String sql;
         if(aksi.equals("konfirm"))
         {
-            sql = "UPDATE pesan_bingkisan SET pay_status=1 , pay_date=NOW() WHERE ido="+ido;
+            sql = "UPDATE pesan_bingkisan SET pay_status=1 WHERE ido="+ido;
             Database.setConnection();
             Database.updatingQuery(sql);
         }
