@@ -101,13 +101,14 @@ public class PesanController extends HttpServlet {
                     bingkisan.setIdc(cu.getIdc());
                     bingkisan.setJumlah_paket(Integer.parseInt(request.getParameter("jumlah")));
                     bingkisan.setDue_date2(request.getParameter("due_date"));
+                    String res = bingkisan.addPesanBingkisan();
                     kirim.setIdc(cu.getIdc());
                     kirim.setIdp(pbi.getIdp());
                     kirim.setBanyak_paket(Integer.parseInt(request.getParameter("jumlah")));
                     kirim.setAlamat(request.getParameter("alamat"));
                     kirim.setHarga(bingkisan.getJumlah_paket() * pbi.getPrice());
-
-                    String redirectURL = "paketBingkisan/historiPesan.jsp";
+                    res = kirim.addPesanKirimBingkisan();
+                    String redirectURL = "PesanController?menu=historipemesanan";
                     response.sendRedirect(redirectURL);
                 } else if (request.getParameter("menu").equals("buyperjalanan")) {
                     PaketJalan pbi = new PaketJalan();
@@ -120,7 +121,8 @@ public class PesanController extends HttpServlet {
                     paket.setIdc(cu.getIdc());
                     paket.setIdp(pj.getIdp());
                     paket.setJumlah_paket(Integer.parseInt(request.getParameter("jumlah")));
-                    String redirectURL = "paketBingkisan/historiPesan.jsp";
+                    String res = paket.addPesanPaket();
+                    String redirectURL = "PesanController?menu=historipemesanan";
                     response.sendRedirect(redirectURL);
                 } else if (request.getParameter("menu").equals("historipemesanan")) {
                     PesanPaket paket = new PesanPaket();
