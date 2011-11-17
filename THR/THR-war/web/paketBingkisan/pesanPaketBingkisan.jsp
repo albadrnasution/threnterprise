@@ -12,15 +12,28 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <% PaketBingkisan pbi = (PaketBingkisan)session.getAttribute("bingkisan"); %>
+    <% PaketBingkisan pbi = (PaketBingkisan) session.getAttribute("bingkisan");%>
     <body>
-        pesan paket <%= pbi.getPaket_name() %> <br />
-        <form action="<%= request.getContextPath() %>/PesanController">
-            Jumlah : <input type="text" name="jumlah" /> <br />
-            Alamat Tujuan : <input type="text" name="alamat" /> <br />
-            Due date : <input type="text" name="due_date" /> <br />
-            <input type="hidden" name="menu" value="prosesbuybingkisan" />
-            <input type="submit" value="confirm" />
+        <div>Pesan Paket : <b><%= pbi.getPaket_name()%> </b></div><br />
+        <form action="<%= request.getContextPath()%>/PesanController">
+            <table class="filter">
+                <tr>
+                    <td>Jumlah</td>
+                    <td>: <input class="filter" type="text" name="jumlah" /></td>
+                </tr>
+                <tr>
+                    <td>Alamat Tujuan</td>
+                    <td>: <input class="filter" type="text" name="alamat" /> </td>
+                </tr>
+                <tr>
+                    <td>Due date</td>
+                    <td>: <input class="filter" type="text" name="due_date" /> </td>
+                </tr>
+                <tr>
+                    <td><input type="hidden" name="menu" value="prosesbuybingkisan" /></td>
+                    <td><input class="thrbutton" type="submit" value="confirm" /></td>
+                </tr>
+            </table>
         </form>
     </body>
 </html>

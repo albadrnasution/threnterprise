@@ -40,7 +40,7 @@
                             <th>Order Date</th>
                             <th>Due Date</th>
                             <th>Tujuan</th>
-                            <th>Keterangan</th>
+                            <th>Pay Date</th>
                         </tr>
                         <% for (int i = 0; i < pp.size(); i++) {
                                 PesanPaket paket = pp.get(i);
@@ -79,6 +79,7 @@
                                 PesanKirimBingkisan kirim = pk.get(i);
                         %>
                         <tr>
+                            <td><% out.print(i + 1);%></td>
                             <td><% out.print(bingkisan.getPaket_name());%></td>
                             <td><% out.print(bingkisan.getJumlah_paket());%></td>
                             <td><% out.print(kirim.getAlamat());%></td>
@@ -93,7 +94,19 @@
                                 }%></td>
                         </tr>
                         <% }%>
-                    </table></div>
+                    </table>
+                    <div style="width: 100%;margin-top: 25px;border-top: 1px solid #CCC;position: absolute;bottom:0px">
+                        <table style="width: 100%">
+                            <tr style="height: 40px;">
+                                <td style="padding-left: 40px;">
+                                    <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>">Home</a>
+                                    <a class="thrbutton" style="height: 32px; width: 100px" href="<%= request.getContextPath()%>/home.jsp"><< Back</a>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
             </div>
         </div>
         <%@include file="../layout/footer.jsp" %>

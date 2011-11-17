@@ -15,6 +15,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link type="text/css" rel="stylesheet" href="../style/default.css"/>
+        <link type="text/css" rel="stylesheet" href="../style/colorbox.css"/>
+        <script type="text/javascript" src="../script/jquery-1.6.1.js"></script>
+        <script type="text/javascript" src="../script/jquery.colorbox.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.buy').colorbox();
+            });
+        </script>
         <title>Detail Paket</title>
     </head>
     <body>
@@ -40,7 +48,7 @@
                             <table id="detail-paket">
                                 <tr><td>Nama Paket</td><td>:</td><td><%= p.getPaket_name() %></td><td rowspan="4">
                                         <button class="thrbutton" style="width: 80px;height: 100px;font-size: 1em">
-                                            <img src="../images/Cart.PNG" style="max-height: 48px;margin-top: 6px" /><div style="margin-top: -8px">Buy</div>
+                                            <img src="../images/Cart.PNG" style="max-height: 48px;margin-top: 6px" /><div style="margin-top: -8px"><a style="text-decoration: none" class="buy" href="<%= request.getContextPath() %>/PesanController?menu=buybingkisan&&idp=<%= p.getIdp() %>">Buy</a></div>
                                         </button>
                                     </td></tr>
                                 <tr><td>Deskripsi</td><td>:</td><td><p><i><%= p.getDescription() %></i></p></td></tr>

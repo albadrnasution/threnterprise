@@ -16,7 +16,7 @@
     <body>
         <div>Pesan Paket : <b><%= pbi.getPaket_nama()%></b> </div>&nbsp;
         <form action="<%= request.getContextPath()%>/PesanController">
-            <div>Jumlah : <input type="text" name="jumlah" />&nbsp;
+            <div>Jumlah : <input type="text" name="jumlah" class="filter"/>&nbsp;
                 <input type="hidden" name="menu" value="prosesbuyperjalanan" /></div>
             <div><input class="thrbutton" type="submit" value="confirm" /></div>
         </form>

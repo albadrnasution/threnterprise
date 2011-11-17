@@ -15,6 +15,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link type="text/css" rel="stylesheet" href="../style/default.css"/>
         <script type="text/javascript" src="../script/jquery-1.6.1.js"></script>
+        <link type="text/css" rel="stylesheet" href="../style/colorbox.css"/>
+        <script type="text/javascript" src="../script/jquery.colorbox.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.buy').colorbox();
+            });
+        </script>
         <title>Daftar Paket Bingkisan</title>
     </head>
     <body>
@@ -93,7 +100,7 @@
                                 <div class="cat-right">
                                     <img src="../images/coin.PNG" alt="Bingkisan" class="ico-mini"  />  <span>Rp<%= DateFormater.formatCurrency(apb.get(i).getPrice())%></span><br/>
                                     <a class="thrbutton" href="detailPaketBingkisan.jsp?id=<%= apb.get(i).getIdp()%>">Details</a>
-                                    <a href="<%= request.getContextPath() %>/PesanController?menu=buybingkisan&&idp=<%= apb.get(i).getIdp()%>"><input type="button" value="Buy" name="filter" class="thrbutton"/></a>
+                                    <a class="buy" href="<%= request.getContextPath() %>/PesanController?menu=buybingkisan&&idp=<%= apb.get(i).getIdp()%>"><input type="button" value="Buy" name="filter" class="thrbutton"/></a>
                                 </div>
                             </div>
 
