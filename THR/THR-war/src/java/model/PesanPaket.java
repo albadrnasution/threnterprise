@@ -32,6 +32,24 @@ public class PesanPaket {
     private int jumlah_item;
     private int total_pendapatan;
     private  String pay_date;
+    private String first_name;
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+    private String last_name;
 
     public String getPay_date() {
         return pay_date;
@@ -303,7 +321,7 @@ public class PesanPaket {
         ArrayList<PesanPaket> temp =new ArrayList<PesanPaket>();
         String sql;
         try{
-            sql="SELECT * FROM pesan_paket AS pp INNER JOIN paket_jalan AS pj ON pp.idp=pj.idp ORDER BY pay_status,ido DESC";
+            sql="SELECT * FROM pesan_paket AS pp INNER JOIN paket_jalan AS pj ON pp.idp=pj.idp INNER JOIN customer AS c ON c.idc=pp.idc ORDER BY pay_status,ido DESC";
             Database.setConnection();
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
@@ -311,6 +329,8 @@ public class PesanPaket {
                 c.setIdo(rs.getInt("ido"));
                 c.setIdp(rs.getInt("idp"));
                 c.setIdc(rs.getInt("idc"));
+                c.setFirst_name(rs.getString("first_name"));
+                c.setLast_name(rs.getString("last_name"));
                 c.setJumlah_paket(rs.getInt("jumlah_paket"));
                 c.setOrder_date(rs.getDate("order_date"));
                 c.setDue_date(rs.getDate("due_date"));
