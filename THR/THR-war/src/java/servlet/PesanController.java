@@ -155,6 +155,21 @@ public class PesanController extends HttpServlet {
                     session.setAttribute("getkirim", pk);
                     response.sendRedirect("paketBingkisan/konfirmasiPembayaran.jsp");
                 }
+                else if (request.getParameter("menu").equals("konfirmpesan"))
+                {
+                    if(request.getParameter("jenispaket").equals("bingkisan"))
+                    {
+                        PesanBingkisan bingkisan = new PesanBingkisan();
+                        bingkisan.confirmPay(request.getParameter("ido"),request.getParameter("pay_date"),request.getParameter("no_rekening"),request.getParameter("uang_pembayaran"));
+                        response.sendRedirect("PesanController?menu=historipemesanan");
+                    }
+                    else if(request.getParameter("jenispaket").equals("perjalanan"))
+                    {
+                        PesanPaket paket = new PesanPaket();
+                        paket.confirmPay(request.getParameter("ido"),request.getParameter("pay_date"),request.getParameter("no_rekening"),request.getParameter("uang_pembayaran"));
+                        response.sendRedirect("PesanController?menu=historipemesanan");
+                    }
+                }
                 else if(request.getParameter("menu").equals("konfirmbayar"))
                 {
                     PesanPaket paket = new PesanPaket();
