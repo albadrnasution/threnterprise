@@ -44,7 +44,7 @@
                         </div>
                         <a class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;"  href="<%= request.getContextPath()%>">Home</a>
                         <a  class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;" href="<%= request.getContextPath()%>/editProfile/editProfilPage.jsp">Edit Profile</a>
-                        <a  class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;" href="">Shopping History</a>
+                        <a  class="thrbutton" style="margin-left: 40px;margin-top: 10px;width: 132px;" href="<%= request.getContextPath()%>/PesanController?menu=historipemesanan">Shopping History</a>
                     </div>
                     <div style="float: left; width: 740px; min-height: 140px; margin-bottom: 40px;padding-top: 15px;">
 
