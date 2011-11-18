@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Customer;
+import model.DateFormater;
 import model.PaketBingkisan;
 import model.PaketJalan;
 import model.PesanBingkisan;
@@ -100,7 +101,7 @@ public class PesanController extends HttpServlet {
                     bingkisan.setIdp(pbi.getIdp());
                     bingkisan.setIdc(cu.getIdc());
                     bingkisan.setJumlah_paket(Integer.parseInt(request.getParameter("jumlah")));
-                    bingkisan.setDue_date2(request.getParameter("due_date"));
+                    bingkisan.setDue_date2(DateFormater.formatDateToDBFormat(request.getParameter("due_date")));
                     String res = bingkisan.addPesanBingkisan();
                     kirim.setIdc(cu.getIdc());
                     kirim.setIdp(pbi.getIdp());
@@ -166,7 +167,7 @@ public class PesanController extends HttpServlet {
                     else if(request.getParameter("jenispaket").equals("perjalanan"))
                     {
                         PesanPaket paket = new PesanPaket();
-                        paket.confirmPay(request.getParameter("ido"),request.getParameter("pay_date"),request.getParameter("no_rekening"),request.getParameter("uang_pembayaran"));
+                        paket.confirmPay(request.getParameter("ido"),DateFormater.formatDateToDBFormat(request.getParameter("pay_date")),request.getParameter("no_rekening"),request.getParameter("uang_pembayaran"));
                         response.sendRedirect("PesanController?menu=historipemesanan");
                     }
                 }

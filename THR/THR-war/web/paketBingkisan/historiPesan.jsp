@@ -4,6 +4,7 @@
     Author     : hyouda
 --%>
 
+<%@page import="model.DateFormater"%>
 <%@page import="model.PesanKirimBingkisan"%>
 <%@page import="model.PesanBingkisan"%>
 <%@page import="java.util.ArrayList"%>
@@ -23,7 +24,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../style/default.css" type="text/css" />
         <link rel="stylesheet" href="../style/front.css" type="text/css" />
-        <script type="text/javascript" src="script/jquery-1.6.1.js"></script>
+        <link type="text/css" rel="stylesheet" href="../style/colorbox.css"/>
+        <script type="text/javascript" src="../script/jquery-1.6.1.js"></script>
+        <script type="text/javascript" src="../script/jquery.colorbox.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.buy').colorbox();
+            });
+        </script>
         <title>Histori Pemesanan</title>
     </head>
     <body>
@@ -31,7 +39,7 @@
         <div id="content-wrapper">
             <div id="content" style="width: 1080px">
                 <div class="list-sheet" style="width: 100%; padding-top: 20px; min-height: 480px;">
-                    <h2 style="margin-left: 10px;">Paket Bingkisan</h2><hr/>
+                    <h2 style="margin-left: 10px;">Paket Perjalanan</h2><hr/>
                     <table border="1" class="tutturu">
                         <tr>
                             <th>No.</th>
@@ -39,31 +47,35 @@
                             <th>Jumlah Paket</th>
                             <th>Order Date</th>
                             <th>Due Date</th>
-                            <th>Tujuan</th>
                             <th>Pay Date</th>
+                            <th>Aksi</th>
                         </tr>
                         <% for (int i = 0; i < pp.size(); i++) {
                                 PesanPaket paket = pp.get(i);
-                                PesanKirimBingkisan kirim = pk.get(i);
                         %>
                         <tr>
                             <td><% out.print(i + 1);%></td>
                             <td><% out.print(paket.getPaket_name());%></td>
                             <td><% out.print(paket.getJumlah_paket());%></td>
                             <td><% out.print(paket.getOrder_dateS());%></td>
-                            <td><% out.print(paket.getDue_date());%></td>
-                            <td><% out.print(kirim.getAlamat());%></td>
+                            <td><% out.print(DateFormater.formatDateToView(DateFormater.formatDateToDBFormat(DateFormater.formatDateToCalFormat(paket.getDue_date()))));%></td>
                             <td><%
                                 if (paket.getPay_date() == null) {
                                     out.print("belum bayar");
                                 } else {
                                     out.print(paket.getPay_date());
                                 }%></td>
+                            <td><% if (paket.getPay_date() == null) {%>
+                                <a  class="buy" href="konfirmasiPembayaranForm.jsp?ido=<% out.print(paket.getIdo());%>&&jenispaket=perjalanan"><input type="button" value="Konfirm" name="filter" class="thrbutton"/></a>
+                                <%} else {
+                                        out.print("sudah kirim konfirmasi");
+                                    }
+                                %></td>
                         </tr>
                         <% }%>
                     </table>
                     &nbsp;
-                    <h2 style="margin-left: 10px;">Paket Perjalanan</h2><hr/>
+                    <h2 style="margin-left: 10px;">Paket Bingkisan</h2><hr/>
                     <table border="1" class="tutturu">
                         <tr>
                             <th>No.</th>
@@ -73,6 +85,7 @@
                             <th>Order Date</th>
                             <th>Due Date</th>
                             <th>Pay Date</th>
+                            <th>Aksi</th>
                         </tr>
                         <% for (int i = 0; i < pb.size(); i++) {
                                 PesanBingkisan bingkisan = pb.get(i);
@@ -84,7 +97,7 @@
                             <td><% out.print(bingkisan.getJumlah_paket());%></td>
                             <td><% out.print(kirim.getAlamat());%></td>
                             <td><% out.print(bingkisan.getOrder_dateS());%></td>
-                            <td><% out.print(bingkisan.getDue_date2());%></td>
+                            <td><% out.print(DateFormater.formatDateToView(bingkisan.getDue_date2()));%></td>
 
                             <td><%
                                 if (bingkisan.getPay_date() == null) {
@@ -92,6 +105,12 @@
                                 } else {
                                     out.print(bingkisan.getPay_date());
                                 }%></td>
+                            <td><% if (bingkisan.getPay_date() == null) {%>
+                                <a class="buy" href="konfirmasiPembayaranForm.jsp?ido=<% out.print(bingkisan.getIdo());%>&&jenispaket=perjalanan"><input type="button" value="Konfirm" name="filter" class="thrbutton"/></a>
+                                <%} else {
+                                        out.print("sudah kirim konfirmasi");
+                                    }
+                                %></td>
                         </tr>
                         <% }%>
                     </table>
