@@ -238,6 +238,7 @@ public class PaketJalan {
         String query = "SELECT * FROM paket_jalan, item_jalan, ip_jalan WHERE paket_jalan.idp=ip_jalan.idp AND ip_jalan.idi=item_jalan.idi";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String json = new String();
+        json = new Gson().toJson(json);
         try {
             String today = sdf.format(Calendar.getInstance().getTime());
             query = query.concat(" AND time >'" + today + "'");
@@ -282,8 +283,8 @@ public class PaketJalan {
                 pj.setNchild(rs.getInt("nchild"));
                 pj.setTotal_price(rs.getInt("total_price"));
                 temp.add(pj);
-                json = new Gson().toJson(temp);
             }
+            json = new Gson().toJson(temp);
         } catch (SQLException ex) {
             Logger.getLogger(PaketJalan.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -472,6 +473,6 @@ public class PaketJalan {
     public static void main(String[] args) throws ParseException {
         PaketJalan pj = new PaketJalan();
         //apj = pj.getPaket("3");
-        System.out.println(pj.getSearchInJSON(">", "10000", "", "Jakarta", "Kalianda"));
+        System.out.println(pj.getSearchInJSON(">", "100000", "", "", ""));
     }
 }

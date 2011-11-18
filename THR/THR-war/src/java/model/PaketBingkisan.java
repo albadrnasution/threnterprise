@@ -227,30 +227,30 @@ public class PaketBingkisan {
     }
 
     public String getFilterAsJSON(String mark, String price, String name, String desc) throws SQLException {
-        //Query string building
-        String query = "SELECT * FROM paket_bingkisan";
-        if (!mark.equals("") && !price.equals("")) {
-            query = query.concat(" WHERE price " + mark + price);
-        }
-        if (!name.equals("")) {
-            query = query.concat(" AND paket_name like \"%" + name + "%\"");
-        }
-        if (!desc.equals("")) {
-            query = query.concat(" AND description like \"%" + desc + "%\"");
-        }
-        Database.setConnection();
-        ResultSet rs;
-        rs = Database.executingQuery(query);
-        ArrayList<PaketBingkisan> temp = new ArrayList<PaketBingkisan>();
-        while (rs.next()) {
+//        //Query string building
+//        String query = "SELECT * FROM paket_bingkisan";
+//        if (!mark.equals("") && !price.equals("")) {
+//            query = query.concat(" WHERE price " + mark + price);
+//        }
+//        if (!name.equals("")) {
+//            query = query.concat(" AND paket_name like \"%" + name + "%\"");
+//        }
+//        if (!desc.equals("")) {
+//            query = query.concat(" AND description like \"%" + desc + "%\"");
+//        }
+//        Database.setConnection();
+//        ResultSet rs;
+//        rs = Database.executingQuery(query);
+//        ArrayList<PaketBingkisan> temp = new ArrayList<PaketBingkisan>();
+//        while (rs.next()) {
             PaketBingkisan pj = new PaketBingkisan();
-            pj.setIdp(rs.getInt("idp"));
-            pj.setPaket_name(rs.getString("paket_name"));
-            pj.setDescription(rs.getString("description"));
-            pj.setPrice(rs.getInt("price"));
-            temp.add(pj);
-        }
-        String json = new Gson().toJson(temp);
+//            pj.setIdp(rs.getInt("idp"));
+//            pj.setPaket_name(rs.getString("paket_name"));
+//            pj.setDescription(rs.getString("description"));
+//            pj.setPrice(rs.getInt("price"));
+//            temp.add(pj);
+//        }
+        String json = new Gson().toJson(pj.getSearchResult(price, mark, name, desc));
         return json;
     }
 
@@ -264,7 +264,7 @@ public class PaketBingkisan {
 //            System.out.println(apj.get(i).getPaket_name());
 //        }
 
-        System.out.println(pj.getFilterAsJSON("<", "10000", "keripik", "keripik"));
+        System.out.println(pj.getFilterAsJSON(">", "500000", "", ""));
 //        String res = null;
 //        
 //        PaketBingkisan pb = new PaketBingkisan();

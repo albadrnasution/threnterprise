@@ -42,6 +42,13 @@ public class PaketMobile extends HttpServlet {
                 if (request.getParameter("filter") != null) {
                     if (request.getParameter("request").equals("bingkisan")) {
                         String mark = request.getParameter("mark");
+                        if(mark.equals("L")){
+                            mark = "<";
+                        } else if(mark.equals("G")){
+                            mark = ">";
+                        } else {
+                            mark ="=";
+                        }
                         String price = request.getParameter("price");
                         String desc = request.getParameter("desc");
                         String name = request.getParameter("name");
@@ -49,10 +56,23 @@ public class PaketMobile extends HttpServlet {
                         out.print(pb.getFilterAsJSON(mark, price, name, desc));
                     } else if (request.getParameter("request").equals("jalan")) {
                         String mark = request.getParameter("mark");
+                        if(mark.equals("L")){
+                            mark = "<";
+                        } else if(mark.equals("G")){
+                            mark = ">";
+                        } else {
+                            mark ="=";
+                        }
                         String price = request.getParameter("price");
                         String name = request.getParameter("name");
-                        String origin = request.getParameter("origin");
-                        String dest = request.getParameter("dest");
+                        String origin = "";
+                        String dest = "";
+                        if(request.getParameter("origin")!=null){
+                            origin = request.getParameter("origin");
+                        }
+                        if(request.getParameter("dest")!=null){
+                            dest = request.getParameter("dest");
+                        }
                         PaketJalan pb = new PaketJalan();
                         out.print(pb.getSearchInJSON(mark, price, name, origin, dest));
                     } else {
