@@ -161,7 +161,7 @@ public class PesanController extends HttpServlet {
                     if(request.getParameter("jenispaket").equals("bingkisan"))
                     {
                         PesanBingkisan bingkisan = new PesanBingkisan();
-                        bingkisan.confirmPay(request.getParameter("ido"),request.getParameter("pay_date"),request.getParameter("no_rekening"),request.getParameter("uang_pembayaran"));
+                        bingkisan.confirmPay(request.getParameter("ido"),DateFormater.formatDateToDBFormat(request.getParameter("pay_date")),request.getParameter("no_rekening"),request.getParameter("uang_pembayaran"));
                         response.sendRedirect("PesanController?menu=historipemesanan");
                     }
                     else if(request.getParameter("jenispaket").equals("perjalanan"))
