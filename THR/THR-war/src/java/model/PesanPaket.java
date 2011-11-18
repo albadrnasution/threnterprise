@@ -3,7 +3,9 @@ package model;
 
 import java.sql.ResultSet;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import util.Database;
 
@@ -194,13 +196,12 @@ public class PesanPaket {
          due_date = DateFormater.formatDateToDBFormat( due_date);
         System.out.println( due_date+"/n");
         try{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String now = sdf.format(Calendar.getInstance().getTime());
             sql="INSERT INTO pesan_paket (idp,idc,jumlah_paket,order_date,due_date,pay_status) VALUES "
                    /*+ "('aa','las','add','phon','emil','pla','00-00-0000','asd')";*/
-                    
-                    
-                    
-                    + "("+this.getIdp()+","+this.getIdc()+","+this.getJumlah_paket()+","
-                    + "NOW()" +",'"+ due_date+"',"+0+")";
+                    + "("+this.getIdp()+","+this.getIdc()+","+this.getJumlah_paket()+",'"
+                    + now +"','"+ due_date+"',"+0+")";
             System.out.println(sql);
             db.setConnection();
             db.updatingQuery(sql);
