@@ -36,6 +36,16 @@ public class PesanPaket {
     private  String pay_date;
     private String first_name;
     private int harga_paket;
+    private int uang_terbayar;
+
+    public int getUang_terbayar() {
+        return uang_terbayar;
+    }
+
+    public void setUang_terbayar(int uang_terbayar) {
+        this.uang_terbayar = uang_terbayar;
+    }
+
 
     public int getHarga_paket() {
         return harga_paket;
@@ -348,7 +358,8 @@ public class PesanPaket {
                 c.setDue_date(rs.getDate("due_date"));
                 c.setPaket_name(rs.getString("paket_name"));
                 c.setPay_date(rs.getString("pay_date"));
-                c.setHarga_paket(rs.getInt("price"));
+                c.setHarga_paket(rs.getInt("total_price"));
+                c.setUang_terbayar(rs.getInt("uang_pembayaran"));
                 if (rs.getInt("pay_status")==1)
                     c.setPay_status(true);
                 else c.setPay_status(false);
