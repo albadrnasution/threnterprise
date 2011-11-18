@@ -242,11 +242,12 @@ public class PesanPaket {
                 c.setDue_date(rs.getDate("due_date"));
                 c.setPaket_name(rs.getString("paket_name"));
                 c.setPay_date(rs.getString("pay_date"));
+                c.setHarga_paket(rs.getInt("total_price"));
                 if (rs.getInt("pay_status")==1)
                     c.setPay_status(true);
                 else c.setPay_status(false);
                 temp.add(c);
-                System.out.println(c.getIdc());
+                System.out.println(sql);
             }
         }catch(Exception e){
         }
@@ -395,6 +396,7 @@ public class PesanPaket {
     {
         String sql;
         sql = "UPDATE pesan_paket SET pay_date='"+pay_date+"', no_rekening='"+ no_rekening +"', uang_pembayaran='"+ uang_pembayaran +"' WHERE ido="+ido;
+        System.out.println(sql);
             Database.setConnection();
             Database.updatingQuery(sql);
     }

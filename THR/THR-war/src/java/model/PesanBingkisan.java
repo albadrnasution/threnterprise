@@ -261,6 +261,7 @@ public class PesanBingkisan {
                 c.setPay_date(rs.getString("pay_date"));
                 c.setJumlah_paket(rs.getInt("jumlah_paket"));
                 c.setPaket_name(rs.getString("paket_name"));
+                c.setHarga_paket(rs.getInt("price"));
 //                System.out.println(rs.getString("paket_name"));
 //                System.out.println(rs.getString("pay_date"));
 //                System.out.println(rs.getDate("pay_date"));
@@ -409,8 +410,9 @@ public class PesanBingkisan {
     public void confirmPay(String ido, String pay_date, String no_rekening, String uang_pembayaran)
     {
         String sql;
-        sql = "UPDATE pesan_bingkisan SET pay_date='"+pay_date+"', no_rekening='"+ no_rekening +"', uang_pembayaran='"+ uang_pembayaran +"' WHERE ido="+ido;
-            Database.setConnection();
+        sql = "UPDATE pesan_bingkisan SET pay_date='"+pay_date+"', no_rekening='"+ no_rekening +"', uang_pembayaran="+ uang_pembayaran +" WHERE ido="+ido;
+        System.out.println(sql);    
+        Database.setConnection();
             Database.updatingQuery(sql);
     }
     
