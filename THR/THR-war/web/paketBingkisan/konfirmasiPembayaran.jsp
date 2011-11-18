@@ -113,14 +113,19 @@
                                     out.print(DateFormater.formatDateToCalFormat(bingkisan.getPay_date()));
                                 }%></td>
                             <td><a href="<%= request.getContextPath()%>/PesanController?paket=bingkisan&&ido=<%= Integer.toString(bingkisan.getIdo())%>&&menu=<%
+                                if (bingkisan.isPay_status()) {
+                                    out.print("cancelbayar");
+                                } else {
+                                    out.print("konfirmbayar");
+                                }
                                 // link konfirm/cancel
-                                if (bingkisan.getPay_date() == null) {
+                                /*if (bingkisan.getPay_date() == null) {
                                     out.print("belum bayar");
                                 } else if (bingkisan.isPay_status()) {
                                     out.print(bingkisan.getPay_date());
                                 } else {
                                     out.print("belum dicek");
-                                }
+                                }*/
                                    %>"><%
                                        if (bingkisan.isPay_status()) {
                                            out.print("<input type=\"button\" value=\"Cancel\" name=\"filter\" class=\"thrbutton\"/>");

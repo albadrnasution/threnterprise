@@ -49,6 +49,7 @@
                             <th>Due Date</th>
                             <th>Tagihan</th>
                             <th>Pay Date</th>
+                            <th>Tagihan</th>
                             <th>Aksi</th>
                         </tr>
                         <% for (int i = 0; i < pp.size(); i++) {
@@ -67,8 +68,9 @@
                                 } else {
                                     out.print(paket.getPay_date());
                                 }%></td>
+                            <td>Rp<% out.print(DateFormater.formatCurrency(paket.getHarga_paket()*paket.getJumlah_paket()));%></td>
                             <td><% if (paket.getPay_date() == null) {%>
-                                <a  class="buy" href="konfirmasiPembayaranForm.jsp?ido=<% out.print(paket.getIdo());%>&&jenispaket=perjalanan"><input type="button" value="Konfirm" name="filter" class="thrbutton"/></a>
+                                <a  class="buy" href="konfirmasiPembayaranForm.jsp?tagihan=<%= paket.getHarga_paket()*paket.getJumlah_paket() %>&&ido=<% out.print(paket.getIdo());%>&&jenispaket=perjalanan"><input type="button" value="Konfirm" name="filter" class="thrbutton"/></a>
                                 <%} else {
                                         out.print("sudah kirim konfirmasi");
                                     }
@@ -87,6 +89,7 @@
                             <th>Order Date</th>
                             <th>Due Date</th>
                             <th>Pay Date</th>
+                            <th>Tagihan</th>
                             <th>Aksi</th>
                         </tr>
                         <% for (int i = 0; i < pb.size(); i++) {
@@ -107,8 +110,9 @@
                                 } else {
                                     out.print(bingkisan.getPay_date());
                                 }%></td>
+                            <td>Rp<% out.print(DateFormater.formatCurrency(bingkisan.getHarga_paket()*bingkisan.getJumlah_paket()));%></td>
                             <td><% if (bingkisan.getPay_date() == null) {%>
-                                <a class="buy" href="konfirmasiPembayaranForm.jsp?ido=<% out.print(bingkisan.getIdo());%>&&jenispaket=perjalanan"><input type="button" value="Konfirm" name="filter" class="thrbutton"/></a>
+                                <a class="buy" href="konfirmasiPembayaranForm.jsp?tagihan=<%= bingkisan.getHarga_paket()*bingkisan.getJumlah_paket() %>&&ido=<% out.print(bingkisan.getIdo());%>&&jenispaket=perjalanan"><input type="button" value="Konfirm" name="filter" class="thrbutton"/></a>
                                 <%} else {
                                         out.print("sudah kirim konfirmasi");
                                     }

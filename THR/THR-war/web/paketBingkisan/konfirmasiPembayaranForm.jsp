@@ -4,6 +4,9 @@
     Author     : hyouda
 --%>
 
+<%@page import="java.util.Calendar"%>
+<%@page import="model.DateFormater"%>
+<%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -27,11 +30,12 @@
                 </tr>
                 <tr>
                     <td>besar pembayaran</td>
-                    <td>: <input type="text" name="uang_pembayaran" class="filter"/></td>
+                    <td>: <input type="text" name="uang_pembayaran" class="filter" value="<%= request.getParameter("tagihan") %>"/></td>
                 </tr>
                 <tr>
                     <td>tanggal pembayaran</td>
-                    <td>: <input type="text" name="pay_date" class="filter"/></td>
+                    <td>: <input type="text" name="pay_date" class="filter" value="<% 
+                            out.print(DateFormater.formatDateToCalFormat(Calendar.getInstance().getTime()));%>"/></td>
                 </tr>
                 <tr>
                     <td colspan="2">
