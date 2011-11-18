@@ -121,16 +121,19 @@
                 %>
                 <div class="manager-bucket bucket">
                     <div style="margin-top: 15px;text-align: center;vertical-align: middle;"><img src="images/container.png" alt="Bingkisan"/></div>
-                    <div class="paket-button" style="width: 236px; bottom: 104px;">
+                    <div class="paket-button" style="width: 236px; height: 50px; font-size:12px; bottom: 60px;">
                         <a href="<%= request.getContextPath()%>/paketBingkisan/mengelolaPaket.jsp" style="font-size: 1.3em">Manajemen Paket Bingkisan</a>
                     </div>
-                    <div class="paket-button" style="width: 236px">
+                    <div class="paket-button" style="width: 236px; height: 50px; font-size:12px; bottom: 5px;">
                         <a href="<%= request.getContextPath()%>/paketPerjalanan/mengelolaPaket.jsp" style="font-size: 1.3em">Manajemen Paket Perjalanan</a>
-                    </div>       
-                </div>
-                    <div class="paket-button" style="width: 236px">
+                    </div>  
+                    <div class="paket-button" style="width: 236px; height: 50px; font-size:12px; bottom: 115px;">
                         <a href="<%= request.getContextPath()%>/manageWS/webservicePage.jsp" style="font-size: 1.3em">Manajemen Web Service</a>
                     </div> 
+                    <div class="paket-button" style="width: 236px; height: 50px; font-size:12px; bottom: 170px;">
+                        <a href="<%= request.getContextPath()%>/PesanController?menu=konfirmasipembayaran" style="font-size: 1.3em">Cek Konfirmasi Pembayaran</a>
+                    </div>     
+                </div>
                 <%                }
                 %>
             </div>
