@@ -47,6 +47,7 @@
                             <th>Jumlah Paket</th>
                             <th>Order Date</th>
                             <th>Due Date</th>
+                            <th>Tagihan</th>
                             <th>Pay Date</th>
                             <th>Aksi</th>
                         </tr>
@@ -59,6 +60,7 @@
                             <td><% out.print(paket.getJumlah_paket());%></td>
                             <td><% out.print(paket.getOrder_dateS());%></td>
                             <td><% out.print(DateFormater.formatDateToView(DateFormater.formatDateToDBFormat(DateFormater.formatDateToCalFormat(paket.getDue_date()))));%></td>
+                            <td><% out.print(DateFormater.formatCurrency(paket.getJumlah_paket()*paket.getHarga_paket()));%></td>
                             <td><%
                                 if (paket.getPay_date() == null) {
                                     out.print("belum bayar");

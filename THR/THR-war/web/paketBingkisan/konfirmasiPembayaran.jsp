@@ -33,7 +33,7 @@
                     <h2 style="margin-left: 10px;">List Pemesanan Perjalanan</h2><hr/>
                     <table border="1" class="tutturu">
                         <tr>
-                            <th>First Name</th>
+                            <th>Nama</th>
                             <th>Nama Paket</th>
                             <th>Jumlah</th>
                             <th>Tagihan</th>
@@ -83,14 +83,14 @@
                     <h2 style="margin-left: 10px;">List Pemesanan Bingkisan</h2><hr/>
                     <table border="1" class="tutturu">
                         <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Nama</th>
                             <th>Nama Paket</th>
                             <th>Jumlah</th>
                             <th>Tujuan</th>
-                            <th>Order Date</th>
+                            <th>Tagihan</th>
+                            <th>Transfer</th>
                             <th>Due Date</th>
-                            <th>Keterangan</th>
+                            <th>Tanggal Transfer</th>
                             <th>Aksi</th>
                         </tr>
                         <% 
@@ -99,19 +99,18 @@
                                 PesanKirimBingkisan kirim = pk.get(i);
                         %>
                         <tr>
-                            <td><% out.print(bingkisan.getFirst_name());%></td>
-                            <td><% out.print(bingkisan.getLast_name());%></td>
+                            <td><% out.print(bingkisan.getFirst_name()+" "+bingkisan.getLast_name());%></td>
                             <td><% out.print(bingkisan.getPaket_name());%></td>
                             <td><% out.print(bingkisan.getJumlah_paket());%></td>
                             <td><% out.print(kirim.getAlamat());%></td>
-                            <td><% out.print(bingkisan.getOrder_dateS());%></td>
-                            <td><% out.print(bingkisan.getDue_date2());%></td>
-
+                            <td><% out.print(DateFormater.formatCurrency(bingkisan.getHarga_paket()*bingkisan.getJumlah_paket()));%></td>
+                            <td><% out.print(DateFormater.formatCurrency(bingkisan.getUang_terbayar()));%></td>
+                            <td><% out.print(DateFormater.formatDateToCalFormat(bingkisan.getDue_date2()));%></td>
                             <td><%
                                 if (!bingkisan.isPay_status()) {
                                     out.print("belum bayar");
                                 } else {
-                                    out.print(bingkisan.getPay_date());
+                                    out.print(DateFormater.formatDateToCalFormat(bingkisan.getPay_date()));
                                 }%></td>
                             <td><a href="<%= request.getContextPath()%>/PesanController?paket=bingkisan&&ido=<%= Integer.toString(bingkisan.getIdo())%>&&menu=<%
                                 // link konfirm/cancel
