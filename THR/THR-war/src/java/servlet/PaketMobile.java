@@ -205,11 +205,14 @@ public class PaketMobile extends HttpServlet {
                                 PesanPaket paket = new PesanPaket();
                                 PesanBingkisan bingkisan = new PesanBingkisan();
                                 PesanKirimBingkisan kirim = new PesanKirimBingkisan();
-                                out.print("nasd");
-                                out.println(paket.getPesanPaketbyIdc_asJSON(Integer.toString(cu.getIdc())));
-                                out.println(bingkisan.getPesanBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
-                                out.println(kirim.getPesanKirimBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
-                                out.print("1");
+                                if(request.getParameter("act").equals("bingkisan")){
+                                    out.println(bingkisan.getPesanBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
+                                    out.println(kirim.getPesanKirimBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
+                                }else if(request.getParameter("act").equals("jalan")){
+                                    out.println(paket.getPesanPaketbyIdc_asJSON(Integer.toString(cu.getIdc())));
+                                }else{
+                                    out.print("Not Valid");
+                                }
                             } else {
                                 out.print("Not Valid");
                             }
