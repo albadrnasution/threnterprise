@@ -85,19 +85,15 @@ public class PesanKirimBingkisan {
         try{
             sql="INSERT INTO pesan_kirim_bing (idp,idc,no_paket,alamat,harga,stat_kirim,banyak_paket) VALUES "
                    /*+ "('aa','las','add','phon','emil','pla','00-00-0000','asd')";*/
-                    
-                    
-                    
-                    + "("+this.getIdp()+","+this.getIdc()+","+0+",'"
+                + "("+this.getIdp()+","+this.getIdc()+","+0+",'"
                     + this.getAlamat() +"',"+this.getHarga()+","+"'pending',"+this.banyak_paket+")";
             
-            db.setConnection();
-            db.updatingQuery(sql);
+            Database.setConnection();
+            Database.updatingQuery(sql);
         }catch(Exception e){
-            e.printStackTrace();
         }
         finally{
-            db.unsetConnection();
+            Database.unsetConnection();
         }
         return sql;
     }
