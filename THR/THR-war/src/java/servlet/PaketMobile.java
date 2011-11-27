@@ -185,6 +185,37 @@ public class PaketMobile extends HttpServlet {
                         String idp = request.getParameter("idp");
                         ItemBingkisan ib = new ItemBingkisan();
                         out.print(ib.getItems_asJSON(idp));
+                    } else if (request.getParameter("request").equals("historypemesanan")) {
+                        String user = request.getParameter("un");
+                        String pass = request.getParameter("pw");
+                        Customer cu = new Customer();
+                        int idc = 0;
+                        if (!user.equals("") && !pass.equals("")) {
+                            Customer cust = new Customer();
+                            ArrayList<Customer> listcust = cust.getallCustomer();
+                            boolean found = false;
+                            for (int i = 0; i < listcust.size() && !found; ++i) {
+                                if (listcust.get(i).getPassword().equals(pass) && listcust.get(i).getEmail().equals(user)) {
+                                    found = true;
+                                    idc = listcust.get(i).getIdc();
+                                    cu = listcust.get(i);
+                                }
+                            }
+                            if (idc != 0) {
+                                PesanPaket paket = new PesanPaket();
+                                PesanBingkisan bingkisan = new PesanBingkisan();
+                                PesanKirimBingkisan kirim = new PesanKirimBingkisan();
+                                out.print("nasd");
+                                out.println(paket.getPesanPaketbyIdc_asJSON(Integer.toString(cu.getIdc())));
+                                out.println(bingkisan.getPesanBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
+                                out.println(kirim.getPesanKirimBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
+                                out.print("1");
+                            } else {
+                                out.print("Not Valid");
+                            }
+                        } else {
+                            out.print("Not Valid");
+                        }
                     } else {
                         out.println("Invalid request.");
                     }

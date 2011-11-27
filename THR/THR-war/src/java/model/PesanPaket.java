@@ -1,6 +1,7 @@
 package model;
 
 
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -255,6 +256,13 @@ public class PesanPaket {
             Database.unsetConnection();
         }
         return temp ;
+    }
+    
+    public String getPesanPaketbyIdc_asJSON(String cu) {
+        String json = "";
+        ArrayList<PesanPaket> arrayPesan = getPesanPaketbyIdc(cu);
+        json = new Gson().toJson(arrayPesan);
+        return json;
     }
     
     public ArrayList<PesanPaket> getPesanPaket(String orderby, String s, String end){

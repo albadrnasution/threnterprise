@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import util.Database;
@@ -122,6 +123,13 @@ public class PesanKirimBingkisan {
             Database.unsetConnection();
         }
         return temp ;
+    }
+    
+    public String getPesanKirimBingkisanbyIdc_asJSON(String cu) {
+        String json = "";
+        ArrayList<PesanKirimBingkisan> arrayPesan = getPesanKirimBingkisanbyIdc(cu);
+        json = new Gson().toJson(arrayPesan);
+        return json;
     }
     
     public ArrayList<PesanKirimBingkisan> getAllPesanKirimBingkisan(){
