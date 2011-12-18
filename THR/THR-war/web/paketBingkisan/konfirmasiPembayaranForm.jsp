@@ -29,10 +29,6 @@
                     <td>: <input type="text" name="no_rekening" class="filter"/></td>
                 </tr>
                 <tr>
-                    <td>besar pembayaran</td>
-                    <td>: <input type="text" name="uang_pembayaran" class="filter" value="<%= request.getParameter("tagihan") %>"/></td>
-                </tr>
-                <tr>
                     <td>tanggal pembayaran</td>
                     <td>: <input type="text" name="pay_date" class="filter" value="<% 
                             out.print(DateFormater.formatDateToCalFormat(Calendar.getInstance().getTime()));%>"/></td>
