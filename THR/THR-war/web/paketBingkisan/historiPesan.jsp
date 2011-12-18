@@ -29,6 +29,8 @@
         <script type="text/javascript" src="../script/jquery.colorbox.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
+                var lsh = $(".list-sheet").height() + 100;
+                $(".list-sheet").height(lsh);
                 $('.buy').colorbox();
             });
         </script>
