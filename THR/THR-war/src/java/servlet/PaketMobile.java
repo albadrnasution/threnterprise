@@ -46,7 +46,7 @@ public class PaketMobile extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             if (request.getParameter("mobile") != null) {
-                if (request.getParameter("filter") != null) {
+                if (request.getParameter("do").equals("filter")) {
                     if (request.getParameter("request").equals("bingkisan")) {
 
                         String mark = request.getParameter("mark");
@@ -87,107 +87,51 @@ public class PaketMobile extends HttpServlet {
                     } else {
                         out.println("Invalid request.");
                     }
-                } else {
+                } else if (request.getParameter("do").equals("history")) {
+                    String user = request.getParameter("un");
+                    String pass = request.getParameter("pw");
+                    Customer cu = new Customer();
+                    int idc = 0;
+                    if (!user.equals("") && !pass.equals("")) {
+                        Customer cust = new Customer();
+                        ArrayList<Customer> listcust = cust.getallCustomer();
+                        boolean found = false;
+                        for (int i = 0; i < listcust.size() && !found; ++i) {
+                            if (listcust.get(i).getPassword().equals(pass) && listcust.get(i).getEmail().equals(user)) {
+                                found = true;
+                                idc = listcust.get(i).getIdc();
+                                cu = listcust.get(i);
+                            }
+                        }
+                        if (idc != 0) {
+                            PesanPaket paket = new PesanPaket();
+                            PesanBingkisan bingkisan = new PesanBingkisan();
+                            PesanKirimBingkisan kirim = new PesanKirimBingkisan();
+                            if (request.getParameter("request").equals("bingkisan")) {
+                                out.println(bingkisan.getPesanBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
+//                                    out.println(kirim.getPesanKirimBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
+                            } else if (request.getParameter("request").equals("jalan")) {
+                                out.println(paket.getPesanPaketbyIdc_asJSON(Integer.toString(cu.getIdc())));
+                            } else {
+                                out.print("Not Valid");
+                            }
+                        } else {
+                            out.print("Not Valid");
+                        }
+                    } else {
+                        out.print("Not Valid");
+                    }
+
+                } else if (request.getParameter("do").equals("buy")) {
+                    /*==========================================================================*/
+                    /*===========================   BUY REQUEST   ==============================*/
+                    /*==========================================================================*/
                     if (request.getParameter("request").equals("jalan")) {
-                        if (request.getParameter("act") != null) {
-                            String user = request.getParameter("un");
-                            String pass = request.getParameter("pw");
-                            String idp = request.getParameter("idp");
-                            String n = request.getParameter("n");
-                            Customer cu = new Customer();
-                            int idc = 0;
-                            if (!user.equals("") && !pass.equals("")) {
-                                Customer cust = new Customer();
-                                ArrayList<Customer> listcust = cust.getallCustomer();
-                                boolean found = false;
-                                for (int i = 0; i < listcust.size() && !found; ++i) {
-                                    if (listcust.get(i).getPassword().equals(pass) && listcust.get(i).getEmail().equals(user)) {
-                                        found = true;
-                                        idc = listcust.get(i).getIdc();
-                                        cu = listcust.get(i);
-                                    }
-                                }
-                                if (idc != 0) {
-                                    PesanPaket paket = new PesanPaket();
-                                    PaketJalan pj = new PaketJalan().getPaketbyid(idp);
-                                    paket.setIdc(cu.getIdc());
-                                    paket.setIdp(pj.getIdp());
-                                    paket.setJumlah_paket(Integer.parseInt(n));
-                                    String res = paket.addPesanPaket();
-                                    System.out.println("9999999");
-                                    out.print("1");
-                                } else {
-                                    System.out.println("adadadad");
-                                    out.print("0");
-                                }
-                            } else {
-                                System.out.println("856789876");
-                                out.print("0");
-                            }
-                        } else {
-                            PaketJalan pj = new PaketJalan();
-                            out.print(pj.getPaket_asJSON());
-                        }
-                    } else if (request.getParameter("request").equals("bingkisan")) {
-                        if (request.getParameter("act") != null) {
-                            String user = request.getParameter("un");
-                            String pass = request.getParameter("pw");
-                            String idp = request.getParameter("idp");
-                            String n = request.getParameter("n");
-                            String dest = request.getParameter("dest");
-                            String due_date = request.getParameter("day") + "/" + request.getParameter("month") + "/" + request.getParameter("year");
-                            Customer cu = new Customer();
-                            int idc = 0;
-                            if (!user.equals("") && !pass.equals("")) {
-                                Customer cust = new Customer();
-                                ArrayList<Customer> listcust = cust.getallCustomer();
-                                boolean found = false;
-                                for (int i = 0; i < listcust.size() && !found; ++i) {
-                                    if (listcust.get(i).getPassword().equals(pass) && listcust.get(i).getEmail().equals(user)) {
-                                        found = true;
-                                        idc = listcust.get(i).getIdc();
-                                        cu = listcust.get(i);
-                                    }
-                                }
-                                if (idc != 0) {
-                                    PesanBingkisan bingkisan = new PesanBingkisan();
-                                    PesanKirimBingkisan kirim = new PesanKirimBingkisan();
-                                    PaketBingkisan pbi = new PaketBingkisan().getPaketbyid(idp);
-                                    bingkisan.setIdp(pbi.getIdp());
-                                    bingkisan.setIdc(cu.getIdc());
-                                    bingkisan.setJumlah_paket(Integer.parseInt(n));
-                                    bingkisan.setDue_date2(DateFormater.formatDateToDBFormat(due_date));
-                                    String res = bingkisan.addPesanBingkisan();
-                                    kirim.setIdc(cu.getIdc());
-                                    kirim.setIdp(pbi.getIdp());
-                                    kirim.setBanyak_paket(Integer.parseInt(n));
-                                    kirim.setAlamat(dest);
-                                    kirim.setHarga(bingkisan.getJumlah_paket() * pbi.getPrice());
-                                    res = kirim.addPesanKirimBingkisan();
-                                    out.print("1");
-                                } else {
-                                    System.out.println("masukkkkkkkkkk");
-                                    out.print("0");
-                                }
-                            } else {
-                                System.out.println("kkkkkkkeluar");
-                                out.print("0");
-                            }
-                        } else {
-                            PaketBingkisan pb = new PaketBingkisan();
-                            out.print(pb.getPaket_asJSON());
-                        }
-                    } else if (request.getParameter("request").equals("ijalan") && request.getParameter("idp") != null) {
-                        String idp = request.getParameter("idp");
-                        ItemJalan ij = new ItemJalan();
-                        out.print(ij.getItems_asJSON(idp));
-                    } else if (request.getParameter("request").equals("ibingkisan") && request.getParameter("idp") != null) {
-                        String idp = request.getParameter("idp");
-                        ItemBingkisan ib = new ItemBingkisan();
-                        out.print(ib.getItems_asJSON(idp));
-                    } else if (request.getParameter("request").equals("historypemesanan")) {
+                        /*======================== BUY PERJALANAN =====================*/
                         String user = request.getParameter("un");
                         String pass = request.getParameter("pw");
+                        String idp = request.getParameter("idp");
+                        String n = request.getParameter("n");
                         Customer cu = new Customer();
                         int idc = 0;
                         if (!user.equals("") && !pass.equals("")) {
@@ -203,28 +147,92 @@ public class PaketMobile extends HttpServlet {
                             }
                             if (idc != 0) {
                                 PesanPaket paket = new PesanPaket();
-                                PesanBingkisan bingkisan = new PesanBingkisan();
-                                PesanKirimBingkisan kirim = new PesanKirimBingkisan();
-                                if(request.getParameter("act").equals("bingkisan")){
-                                    out.println(bingkisan.getPesanBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
-                                    out.println(kirim.getPesanKirimBingkisanbyIdc_asJSON(Integer.toString(cu.getIdc())));
-                                }else if(request.getParameter("act").equals("jalan")){
-                                    out.println(paket.getPesanPaketbyIdc_asJSON(Integer.toString(cu.getIdc())));
-                                }else{
-                                    out.print("Not Valid");
-                                }
+                                PaketJalan pj = new PaketJalan().getPaketbyid(idp);
+                                paket.setIdc(cu.getIdc());
+                                paket.setIdp(pj.getIdp());
+                                paket.setJumlah_paket(Integer.parseInt(n));
+                                String res = paket.addPesanPaket();
+                                System.out.println("Success");
+                                out.print("1");
                             } else {
-                                out.print("Not Valid");
+                                System.out.println("Error");
+                                out.print("0");
                             }
                         } else {
-                            out.print("Not Valid");
+                            System.out.println("Invalid User");
+                            out.print("Invalid User");
                         }
+
+                    } else if (request.getParameter("request").equals("bingkisan")) {
+                        /*======================== BUY BINGKISAN =====================*/
+                        String user = request.getParameter("un");
+                        String pass = request.getParameter("pw");
+                        String idp = request.getParameter("idp");
+                        String n = request.getParameter("n");
+                        String dest = request.getParameter("dest");
+                        String due_date = request.getParameter("day") + "/" + request.getParameter("month") + "/" + request.getParameter("year");
+                        Customer cu = new Customer();
+                        int idc = 0;
+                        if (!user.equals("") && !pass.equals("")) {
+                            Customer cust = new Customer();
+                            ArrayList<Customer> listcust = cust.getallCustomer();
+                            boolean found = false;
+                            for (int i = 0; i < listcust.size() && !found; ++i) {
+                                if (listcust.get(i).getPassword().equals(pass) && listcust.get(i).getEmail().equals(user)) {
+                                    found = true;
+                                    idc = listcust.get(i).getIdc();
+                                    cu = listcust.get(i);
+                                }
+                            }
+                            if (idc != 0) {
+                                PesanBingkisan bingkisan = new PesanBingkisan();
+                                PesanKirimBingkisan kirim = new PesanKirimBingkisan();
+                                PaketBingkisan pbi = new PaketBingkisan().getPaketbyid(idp);
+                                bingkisan.setIdp(pbi.getIdp());
+                                bingkisan.setIdc(cu.getIdc());
+                                bingkisan.setJumlah_paket(Integer.parseInt(n));
+                                bingkisan.setDue_date2(DateFormater.formatDateToDBFormat(due_date));
+                                String res = bingkisan.addPesanBingkisan();
+                                kirim.setIdc(cu.getIdc());
+                                kirim.setIdp(pbi.getIdp());
+                                kirim.setBanyak_paket(Integer.parseInt(n));
+                                kirim.setAlamat(dest);
+                                kirim.setHarga(bingkisan.getJumlah_paket() * pbi.getPrice());
+                                res = kirim.addPesanKirimBingkisan();
+                                out.print("1");
+                            } else {
+                                System.out.println("masukkkkkkkkkk");
+                                out.print("0");
+                            }
+                        } else {
+                            System.out.println("kkkkkkkeluar");
+                            out.print("0");
+                        }
+                    }
+                } else if (request.getParameter("do").equals("list")){
+                    /*=================== DEFAULT: LIST =============================*/
+                    if (request.getParameter("request").equals("jalan")) {
+                        PaketJalan pj = new PaketJalan();
+                        out.print(pj.getPaket_asJSON());
+                    } else if (request.getParameter("request").equals("bingkisan")) {
+                        PaketBingkisan pb = new PaketBingkisan();
+                        out.print(pb.getPaket_asJSON());
+                    } else if (request.getParameter("request").equals("ijalan") && request.getParameter("idp") != null) {
+                        String idp = request.getParameter("idp");
+                        ItemJalan ij = new ItemJalan();
+                        out.print(ij.getItems_asJSON(idp));
+                    } else if (request.getParameter("request").equals("ibingkisan") && request.getParameter("idp") != null) {
+                        String idp = request.getParameter("idp");
+                        ItemBingkisan ib = new ItemBingkisan();
+                        out.print(ib.getItems_asJSON(idp));
                     } else {
                         out.println("Invalid request.");
                     }
+                }else {
+                    out.println("Invalid do parameter.");
                 }
             } else {
-                out.println("Invalid request.");
+                out.println("This is mobile request only.");
             };
         } finally {
             out.close();
