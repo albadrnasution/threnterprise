@@ -209,13 +209,13 @@ public class PaketJalan {
                 query = query.concat(" AND dest=" + dests);
             }
             if (!name.equals("")) {
-                query = query.concat(" AND name \"%" + name + "%\"");
+                query = query.concat(" AND paket_name LIKE \"%" + name + "%\"");
             }
             if (!price.equals("") && !mark.equals("")) {
                 query = query.concat(" AND total_price" + mark + price);
             }
             System.out.println(query);
-            ResultSet rs = Database.executingQuery(query);
+            ResultSet rs= Database.executingQuery(query);
             while (rs.next()) {
                 PaketJalan pj = new PaketJalan();
                 pj.setIdp(rs.getInt("idp"));
@@ -266,7 +266,7 @@ public class PaketJalan {
                 query = query.concat(" AND dest=" + dests);
             }
             if (!name.equals("")) {
-                query = query.concat(" AND name \"%" + name + "%\"");
+                query = query.concat(" AND paket_name LIKE \"%" + name + "%\"");
             }
             if (!price.equals("") && !mark.equals("")) {
                 query = query.concat(" AND total_price" + mark + price);
