@@ -167,7 +167,7 @@ public class PesanController extends HttpServlet {
                     else if(request.getParameter("jenispaket").equals("perjalanan"))
                     {
                         PesanPaket paket = new PesanPaket();
-                        paket.confirmPay(request.getParameter("ido"),DateFormater.formatDateToDBFormat(request.getParameter("pay_date")),request.getParameter("no_rekening"),request.getParameter("uang_pembayaran"));
+                        paket.confirmPay(request.getParameter("ido"),DateFormater.formatDateToDBFormat(request.getParameter("pay_date")),request.getParameter("no_rekening"));
                         response.sendRedirect("PesanController?menu=historipemesanan");
                     }
                 }

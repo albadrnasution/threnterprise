@@ -228,6 +228,23 @@ public class PaketMobile extends HttpServlet {
                     } else {
                         out.println("Invalid request.");
                     }
+                }else if (request.getParameter("do").equals("confirm")){
+                    /*=================== DEFAULT: LIST =============================*/
+                    if(request.getParameter("request").equals("bingkisan"))
+                    {
+                        PesanBingkisan bingkisan = new PesanBingkisan();
+                        bingkisan.confirmPay(request.getParameter("ido"),DateFormater.formatDateToDBFormat(request.getParameter("pay_date")),request.getParameter("no_rekening"),request.getParameter("uang_pembayaran"));
+                    }
+                    else if(request.getParameter("request").equals("jalan"))
+                    {
+                        String ido = request.getParameter("ido");
+                        String pay_date = request.getParameter("pay_date");
+                        String norek = request.getParameter("norek");
+                        
+                        PesanPaket paket = new PesanPaket();
+                        paket.confirmPay(ido,DateFormater.formatDateToDBFormat(pay_date),norek);
+                        out.print(1);
+                    }
                 }else {
                     out.println("Invalid do parameter.");
                 }

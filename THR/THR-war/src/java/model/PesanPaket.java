@@ -400,10 +400,10 @@ public class PesanPaket {
         }
     }
     
-    public void confirmPay(String ido, String pay_date, String no_rekening, String uang_pembayaran)
+    public void confirmPay(String ido, String pay_date, String no_rekening)
     {
         String sql;
-        sql = "UPDATE pesan_paket SET pay_date='"+pay_date+"', no_rekening='"+ no_rekening +"', uang_pembayaran='"+ uang_pembayaran +"' WHERE ido="+ido;
+        sql = "UPDATE pesan_paket SET pay_date='"+pay_date+"', no_rekening='"+ no_rekening+"' WHERE ido="+ido;
         System.out.println(sql);
             Database.setConnection();
             Database.updatingQuery(sql);
