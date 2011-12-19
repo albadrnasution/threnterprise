@@ -38,6 +38,15 @@ public class PesanPaket {
     private String first_name;
     private int harga_paket;
     private int uang_terbayar;
+    private String no_rekening;
+
+    public String getNo_rekening() {
+        return no_rekening;
+    }
+
+    public void setNo_rekening(String no_rekening) {
+        this.no_rekening = no_rekening;
+    }
 
     public int getUang_terbayar() {
         return uang_terbayar;
@@ -369,6 +378,7 @@ public class PesanPaket {
                 c.setPay_date(rs.getString("pay_date"));
                 c.setHarga_paket(rs.getInt("total_price"));
                 c.setUang_terbayar(rs.getInt("uang_pembayaran"));
+                c.setNo_rekening(rs.getString("no_rekening"));
                 if (rs.getInt("pay_status")==1)
                     c.setPay_status(true);
                 else c.setPay_status(false);

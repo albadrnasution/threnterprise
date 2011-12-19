@@ -40,6 +40,16 @@ public class PesanBingkisan {
     private String first_name;
     private String last_name;
     private int harga_paket;
+    private int uang_terbayar;
+
+    public String getNo_rekening() {
+        return no_rekening;
+    }
+
+    public void setNo_rekening(String no_rekening) {
+        this.no_rekening = no_rekening;
+    }
+    private String no_rekening;
 
     public int getHarga_paket() {
         return harga_paket;
@@ -56,7 +66,7 @@ public class PesanBingkisan {
     public void setUang_terbayar(int uang_terbayar) {
         this.uang_terbayar = uang_terbayar;
     }
-    private int uang_terbayar;
+    
 
     public String getFirst_name() {
         return first_name;
@@ -313,6 +323,7 @@ public class PesanBingkisan {
                 c.setPaket_name(rs.getString("paket_name"));
                 c.setHarga_paket(rs.getInt("price"));
                 c.setUang_terbayar(rs.getInt("uang_pembayaran"));
+                c.setNo_rekening(rs.getString("no_rekening"));
 //                System.out.println(rs.getString("paket_name"));
 //                System.out.println(rs.getString("pay_date"));
 //                System.out.println(rs.getDate("pay_date"));
