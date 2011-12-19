@@ -39,6 +39,7 @@
                             <th>Tagihan</th>
                             <th>Transfer</th>
                             <th>Due Date</th>
+                            <th>No. Rekening</th>
                             <th>Tanggal Transfer</th>
                             <th>Aksi</th>
                         </tr>
@@ -52,6 +53,7 @@
                             <td><% out.print("Rp"+DateFormater.formatCurrency(paket.getJumlah_paket()*paket.getHarga_paket()));%></td>
                             <td><% out.print("Rp"+DateFormater.formatCurrency(paket.getUang_terbayar()));%></td>
                             <td><% out.print(DateFormater.formatDateToCalFormat(paket.getPay_date()));%></td>
+                            <td><% out.print(paket.getNo_rekening());%></td>
                             <td><%
                                 if (paket.getPay_date() == null) {
                                     out.print("belum bayar");
@@ -90,6 +92,7 @@
                             <th>Tagihan</th>
                             <th>Transfer</th>
                             <th>Due Date</th>
+                            <th>No. Rekening</th>
                             <th>Tanggal Transfer</th>
                             <th>Aksi</th>
                         </tr>
@@ -106,6 +109,7 @@
                             <td><% out.print(DateFormater.formatCurrency(bingkisan.getHarga_paket()*bingkisan.getJumlah_paket()));%></td>
                             <td><% out.print(DateFormater.formatCurrency(bingkisan.getUang_terbayar()));%></td>
                             <td><% out.print(DateFormater.formatDateToCalFormat(bingkisan.getDue_date2()));%></td>
+                            <td><% out.print(bingkisan.getNo_rekening());%></td>
                             <td><%
                                 if (!bingkisan.isPay_status()) {
                                     out.print("belum bayar");
