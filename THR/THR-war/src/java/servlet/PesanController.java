@@ -178,7 +178,10 @@ public class PesanController extends HttpServlet {
                     if(request.getParameter("paket").equals("perjalanan"))
                         paket.changePayStatus("konfirm", request.getParameter("ido"));
                     else
+                    {
                         bingkisan.changePayStatus("konfirm", request.getParameter("ido"));
+                        bingkisan.sendwebservice(request.getParameter("ido"));
+                    }
                     response.sendRedirect(request.getContextPath()+"/PesanController?menu=konfirmasipembayaran");
                 }
                 else if(request.getParameter("menu").equals("cancelbayar"))
