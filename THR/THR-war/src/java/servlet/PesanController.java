@@ -6,6 +6,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -40,7 +41,7 @@ public class PesanController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ParseException {
+            throws ServletException, IOException, ParseException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
@@ -212,7 +213,11 @@ public class PesanController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
+            try {
+                processRequest(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(PesanController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (ParseException ex) {
             Logger.getLogger(PesanController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -229,7 +234,11 @@ public class PesanController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
+            try {
+                processRequest(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(PesanController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (ParseException ex) {
             Logger.getLogger(PesanController.class.getName()).log(Level.SEVERE, null, ex);
         }

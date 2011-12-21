@@ -1,16 +1,38 @@
 package model;
 
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import util.Database;
+
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 /*
  * To change this template, choose Tools | Templates
@@ -41,6 +63,7 @@ public class PesanBingkisan {
     private String last_name;
     private int harga_paket;
     private int uang_terbayar;
+    
 
     public String getNo_rekening() {
         return no_rekening;
@@ -280,7 +303,6 @@ public class PesanBingkisan {
                     c.setPay_status(true);
                 else c.setPay_status(false);
                 temp.add(c);
-                System.out.println(c.getIdc());
             }
         }catch(Exception e){
         }
@@ -308,7 +330,6 @@ public class PesanBingkisan {
             rs = Database.executingQuery(sql) ;
             while (rs.next()) {
                 i++;
-                System.out.println("there: "+i);
                 PesanBingkisan c = new PesanBingkisan();
                 c.setIdo(rs.getInt("ido"));
               c.setIdp(rs.getInt("idp"));
@@ -331,7 +352,6 @@ public class PesanBingkisan {
                     c.setPay_status(true);
                 else c.setPay_status(false);
                 temp.add(c);
-                System.out.println(c.getIdc());
             }
         }catch(Exception e){
         }
@@ -451,6 +471,115 @@ public class PesanBingkisan {
             Database.updatingQuery(sql);
         }
     }
+    
+    class Barang {
+        public int barang_id;
+        public int jumlah;
+
+        @Override
+        public String toString() {
+            return "id : " + barang_id + ", jumlah : " + jumlah;
+        }
+    }
+    
+    GsonBuilder gsonBuilder = new GsonBuilder();
+    Gson gson = gsonBuilder.setExclusionStrategies(new ExclusionStrategy() {
+
+        @Override
+        public boolean shouldSkipClass(Class<?> clazz) {
+            return false;
+        }
+
+        @Override
+		public boolean shouldSkipField(FieldAttributes f) {
+			return f.getName().equals("deskripsi") || f.getName().equals("harga_satuan") || f.getName().equals("kategori_id") || f.getName().equals("nama");
+		}
+    }).create();
+    
+    
+    
+    public void sendwebservice(String ido) throws IOException, SQLException {
+        String sql;
+        int i =0;
+        ResultSet rs;
+        String server = null ;
+        String port = null ;
+        String username = null ;
+        String pass = null ;
+        try{
+            sql="SELECT * FROM `webservice`";
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            rs.next();
+                i++;
+                server = rs.getString("server");
+                port = rs.getString("port");
+                username = rs.getString("username");
+                pass = rs.getString("password");
+//                System.out.println(rs.getString("paket_name"));
+//                System.out.println(rs.getString("pay_date"));
+//                System.out.println(rs.getDate("pay_date"));
+            }
+        catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        
+//        server = "localhost";
+//                port = "8080";
+//                username = "thr";
+//                pass = "thr";
+        String baseUrl = "http://"+ server +":"+port+"/Tempe/service/?operation=";
+        String urlPostfix = "pesanan.add";
+        String userName = "&username="+username;
+        String password = "&password="+pass;
+        String usePoint = "&use_point=0";
+        System.out.println(baseUrl + urlPostfix + userName + password);
+        ArrayList<Barang> itemsCart = new ArrayList<Barang>();     
+        
+        i =0;
+        
+        try{
+            sql="SELECT * FROM `pesan_bingkisan` AS p INNER JOIN ip_bingkisan AS ip ON p.idp=ip.idp WHERE p.ido="+ido;
+            Database.setConnection();
+            rs = Database.executingQuery(sql) ;
+            while (rs.next()) {
+                i++;
+                Barang barang = new Barang();
+                barang.barang_id = rs.getInt("idi");
+                barang.jumlah = rs.getInt("nitem");
+                System.out.println(barang.toString());
+                itemsCart.add(barang);
+//                System.out.println(rs.getString("paket_name"));
+//                System.out.println(rs.getString("pay_date"));
+//                System.out.println(rs.getDate("pay_date"));
+            }
+        }catch(Exception e){
+        }
+        finally{
+            Database.unsetConnection();
+        }
+        String jsonPesanan = gson.toJson(itemsCart);
+        System.out.println(jsonPesanan);
+        StringBuilder builder = new StringBuilder();
+        HttpClient httpclient = new DefaultHttpClient();
+        String responseString = "Gagal ini";
+        HttpPost httppost = new HttpPost(baseUrl + urlPostfix + userName + password);
+        
+        List<NameValuePair> postParameters = new ArrayList<NameValuePair>(1);  
+            postParameters.add(new BasicNameValuePair("data", jsonPesanan)); 
+            httppost.setEntity(new UrlEncodedFormEntity(postParameters));
+            
+            
+            
+	        // Execute HTTP Post Request
+	    	HttpResponse response = httpclient.execute(httppost);  
+	        StatusLine statusLine = response.getStatusLine();
+        
+	}
+    
+    
     
     public static void main(String[] args) {
         PesanBingkisan p = new PesanBingkisan();
